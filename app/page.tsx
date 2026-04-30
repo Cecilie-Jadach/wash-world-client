@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="">
       <main className="flex gap-xs flex-wrap">
-        <Button href="/test" icon={false}>Button</Button>
+        <Button href="/" icon={false}>Button</Button>
         <Button>Button</Button>
         <Button disabled>Button</Button>
         <Button variant="secondary" icon={false}>Button</Button>
