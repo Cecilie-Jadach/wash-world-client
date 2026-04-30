@@ -6,28 +6,27 @@
 }
 
 @font-face {
-  font-family: 'Gilroy';
-  src: url('/fonts/Gilroy-Light.woff2') format('woff2');
+  font-family: "Gilroy";
+  src: url("/fonts/Gilroy-Light.woff2") format("woff2");
   font-weight: 100;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Gilroy';
-  src: url('/fonts/Gilroy-Medium.woff2') format('woff2');
+  font-family: "Gilroy";
+  src: url("/fonts/Gilroy-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Gilroy';
-  src: url('/fonts/Gilroy-ExtraBold.woff2') format('woff2');
+  font-family: "Gilroy";
+  src: url("/fonts/Gilroy-ExtraBold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
 }
 
 @theme inline {
-
   /* COLORS */
   --color-*: initial;
   --color-green-white-background: #06c167;
@@ -43,7 +42,7 @@
   --color-green-border: #198b47;
 
   /* FONT */
-  --font-sans: 'Gilroy', sans-serif;
+  --font-sans: "Gilroy", sans-serif;
 
   /* FONT SIZES */
   --text-*: initial;
@@ -110,6 +109,5 @@
 body {
   background: var(--background);
   color: var(--text);
-  font-family: 'Gilroy', sans-serif;
+  font-family: "Gilroy", sans-serif;
 }
-
