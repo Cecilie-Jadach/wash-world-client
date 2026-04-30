@@ -48,7 +48,7 @@ const Button = ({ children, variant, size, href, icon = true, className, ...prop
     }
 
     return (
-        <button className={buttonStyles({ variant, size, className })} {...props}>
+        <button type="button" className={buttonStyles({ variant, size, className })} {...props}>
             {content}
         </button>
     )
