@@ -2,14 +2,88 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --text: #000000;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-Light.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-ExtraBold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* COLORS */
+  --color-*: initial;
+  --color-green-white-background: #06c167;
+  --color-green-black-background: #0ce578;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-splash: #ff6b06;
+  --color-grey-80: #333333;
+  --color-grey-60: #666666;
+  --color-grey-10: #e5e5e5;
+  --color-grey-5: #f7f7f7;
+  --color-error-red: #d14343;
+  --color-green-border: #198b47;
+
+  /* FONT */
+  --font-sans: 'Gilroy', sans-serif;
+
+  /* FONT SIZES */
+  --text-*: initial;
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-md: 16px;
+  --text-lg: 19px;
+  --text-xl: 23px;
+  --text-2xl: 28px;
+  --text-3xl: 33px;
+  --text-4xl: 40px;
+  --text-5xl: 48px;
+
+  /* FONT WEIGHT */
+  --font-weight-*: initial;
+  --font-weight-light: 100;
+  --font-weight-medium: 500;
+  --font-weight-extrabold: 700;
+
+  /* SPACING */
+  --spacing-*: initial;
+  --spacing-4xs: 4px;
+  --spacing-3xs: 8px;
+  --spacing-2xs: 10px;
+  --spacing-xs: 14px;
+  --spacing-s: 20px;
+  --spacing-sm: 26px;
+  --spacing-m: 32px;
+  --spacing-ml: 40px;
+  --spacing-lg: 48px;
+  --spacing-xl: 64px;
+  --spacing-2xl: 80px;
+  --spacing-3xl: 96px;
+  --spacing-4xl: 112px;
+  --spacing-5xl: 128px;
+  --spacing-6xl: 160px;
+  --spacing-7xl: 191px;
+  --spacing-8xl: 320px;
+  --spacing-9xl: 360px;
+  --spacing-10xl: 424px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +93,23 @@
   }
 }
 
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  button {
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+}
+
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  font-family: 'Gilroy', sans-serif;
 }
+
