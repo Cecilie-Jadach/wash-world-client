@@ -1,10 +1,10 @@
 import React from "react";
-import { cva } from 'class-variance-authority';
 
 type InputProps = {
     label: string
     id: string
     showLicensePlate?: boolean
+    phoneLabel?: string
 } & React.InputHTMLAttributes<HTMLInputElement>
 
 const LicensePlate = () => (
@@ -14,7 +14,7 @@ const LicensePlate = () => (
     </div>
 )
 
-export default function Input({ label, id, showLicensePlate, required, className, ...props }: InputProps) {
+export default function Input({ label, id, showLicensePlate, phoneLabel, required, className, ...props }: InputProps) {
     return (
         <div className="flex flex-col gap-3xs text-md">
             <label htmlFor={id} className="font-extrabold">
@@ -22,6 +22,7 @@ export default function Input({ label, id, showLicensePlate, required, className
             </label>
             <div className="flex items-stretch">
                 {showLicensePlate && <LicensePlate />}
+                {phoneLabel && <span className="border-b border-grey-10 bg-grey-5 pl-2xs py-xs">{phoneLabel}</span>}
                 <input id={id} className="w-full border-b border-grey-10 bg-grey-5 px-2xs py-xs placeholder:text-grey-60 outline-none"
                     {...props}
                 />
