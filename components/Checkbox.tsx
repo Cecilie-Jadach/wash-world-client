@@ -15,7 +15,7 @@ export default function Checkbox({ label, id, required, ...props }: CheckboxProp
                 {...props}
             />
             <svg className="absolute w-s h-s hidden peer-checked:block pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 12" fill="none">
-                <path d="M0.716309 4.39921L5.79323 9.60974L12.7163 0.609741" stroke="white" stroke-width="2" />
+                <path d="M0.716309 4.39921L5.79323 9.60974L12.7163 0.609741" stroke="white" strokeWidth="2" />
             </svg>
             <label htmlFor={id} className="text-md">
                 {label} {required && <span className="font-medium">*</span>}
