@@ -5,11 +5,13 @@ import Input from "@/components/Input";
 import Button from "@/components/Button";
 import Checkbox from "@/components/Checkbox";
 import Card from "@/components/Card";
+import PaymentCard from "@/components/PaymentCard";
 import { useState } from "react";
 
 export default function Signup() {
     const { signUp, isLoading, error, message } = useSignUp()
     const [selectedMembership, setSelectedMembership] = useState("")
+    const [selectedPayment, setSelectedPayment] = useState("")
 
     // Handles form submission by preventing the default page reload,
     // collecting all form input values into a FormData object,
@@ -72,9 +74,11 @@ export default function Signup() {
                     label={<span>Jeg accepterer Wash Worlds <a className="underline" href="https://washworld.dk/vilkaar" target="_blank">vilkår</a></span>}
                     required
                 />
-                <div>
-                    <input type="radio" id="payment" name="payment" value="mobilepay" />
-                    <label htmlFor="payment">Mobilepay</label><br />
+                <div className="flex gap-xs">
+                    <PaymentCard image="mobilepay" selectedCard={selectedPayment === 'mobilepay'} onSelect={setSelectedPayment} />
+                    <PaymentCard image="applepay" selectedCard={selectedPayment === 'applepay'} onSelect={setSelectedPayment} />
+                    {/* Hidden input so FormData picks up the chosen payment */}
+                    <input type="hidden" name="payment" value={selectedPayment} />
                 </div>
                 <Button type="submit">Sign up</Button>
             </form>
