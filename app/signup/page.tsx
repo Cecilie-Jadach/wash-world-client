@@ -4,9 +4,12 @@ import { useSignUp } from "../hooks/useSignup";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import Checkbox from "@/components/Checkbox";
+import Card from "@/components/Card";
+import { useState } from "react";
 
 export default function Signup() {
     const { signUp, isLoading, error, message } = useSignUp()
+    const [selectedMembership, setSelectedMembership] = useState("")
 
     // Handles form submission by preventing the default page reload,
     // collecting all form input values into a FormData object,
@@ -18,11 +21,15 @@ export default function Signup() {
     }
 
     return (
-        <main className="m-4">
+        <main className="m-2xs">
             <form onSubmit={handleSubmit}>
-                <div>
-                    <input type="radio" id="membership" name="membership" value="gold" />
-                    <label htmlFor="membership">Gold</label><br />
+                <div className="flex flex-col gap-xs">
+                    <Card membership="Guld" price={139} description="God og effektiv" selectedCard={selectedMembership === "Guld"} onSelect={setSelectedMembership} />
+                    <Card membership="Premium" price={169} description="Ekstra grundig" selectedCard={selectedMembership === "Premium"} onSelect={setSelectedMembership} showBadge />
+                    <Card membership="Brilliant" price={199} description="Bedste vask året rundt" selectedCard={selectedMembership === "Brilliant"} onSelect={setSelectedMembership} />
+                    <Card membership="Enkeltvask" price={0} description="Køb enkeltvis vask ved vaskehallen fra 59 kr" selectedCard={selectedMembership === "Enkeltvask"} onSelect={setSelectedMembership} />
+                    {/* Hidden input so FormData picks up the chosen membership */}
+                    <input type="hidden" name="membership" value={selectedMembership} />
                 </div>
                 <Input
                     id="email"
