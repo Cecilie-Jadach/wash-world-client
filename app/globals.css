@@ -40,6 +40,9 @@
   --color-grey-5: #f7f7f7;
   --color-error-red: #d14343;
   --color-green-border: #198b47;
+  --color-light-green: #E6F9F0;
+  --color-light-splash: #FFF0E6;
+  --color-light-error-red: #FAECEC;
 
   /* FONT */
   --font-sans: "Gilroy", sans-serif;
