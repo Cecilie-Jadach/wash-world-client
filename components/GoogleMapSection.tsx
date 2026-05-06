@@ -89,7 +89,6 @@ return (
                 {selectedLocation.location_operation_status > 0 ? <div className="grid gap-4xs"><div className="flex gap-4xs items-center"><p>Driftstatus:</p> <Image src="/icons/alert_icon.svg" alt="alert icon" width={20} height={20}/></div><p className="font-extrabold">{selectedLocation.location_operation_status_message}</p></div> : <div className="grid gap-4xs"><div className="flex gap-4xs items-center"><p>Driftstatus:</p> <Image src="/icons/check_green_icon.svg" alt="green check icon" width={20} height={20}/></div><p className="font-extrabold">Alt er som det skal være.</p></div>}
             </div>
             <BusynessLabel status={selectedLocation.busyness_status}></BusynessLabel>
-
         </div>
         </div>
     )}
