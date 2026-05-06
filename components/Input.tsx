@@ -6,6 +6,7 @@ type InputProps = {
     id: string
     showLicensePlate?: boolean
     phoneLabel?: string
+    error?: string
 } & React.InputHTMLAttributes<HTMLInputElement>
 
 const LicensePlate = () => (
@@ -15,11 +16,11 @@ const LicensePlate = () => (
     </div>
 )
 
-export default function Input({ label, id, showLicensePlate, phoneLabel, required, className, ...props }: InputProps) {
+export default function Input({ label, id, showLicensePlate, phoneLabel, error, required, className, ...props }: InputProps) {
     return (
         <div className="flex flex-col gap-3xs text-md">
             <Label htmlFor={id} required={required}>{label}</Label>
-            <div className="flex items-stretch">
+            <div className={`flex items-stretch ${error ? 'border border-error-red' : ''}`}>
                 {showLicensePlate && <LicensePlate />}
                 {phoneLabel && <span className="border-b border-grey-10 bg-grey-5 pl-2xs py-xs">{phoneLabel}</span>}
                 <input id={id} className="w-full border-b border-grey-10 bg-grey-5 px-2xs py-xs placeholder:text-grey-60 outline-none"
