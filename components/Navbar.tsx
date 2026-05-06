@@ -31,7 +31,7 @@ export default function Navbar() {
             </div>
 
             {/* NAVBAR */}
-            <nav className="flex justify-evenly items-center bg-white border-t border-black py-2xs px-s text-sm fixed w-full -bottom-px z-10">
+            <nav className="flex justify-evenly items-center bg-white border-t border-black py-2xs px-s text-sm sticky w-full -bottom-px z-10 mt-m">
                 <Link href="/" className={`flex flex-col gap-3xs ${isActive('/')}`}>
                     <div className="h-sm flex justify-center items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="23" viewBox="0 0 18 23" fill="none">
