@@ -1,4 +1,5 @@
 import React from "react";
+import Label from "@/components/Label"
 
 type InputProps = {
     label: string
@@ -17,9 +18,7 @@ const LicensePlate = () => (
 export default function Input({ label, id, showLicensePlate, phoneLabel, required, className, ...props }: InputProps) {
     return (
         <div className="flex flex-col gap-3xs text-md">
-            <label htmlFor={id} className="font-extrabold">
-                {label} {required && <span className="font-medium">(påkrævet)</span>}
-            </label>
+            <Label htmlFor={id} required={required}>{label}</Label>
             <div className="flex items-stretch">
                 {showLicensePlate && <LicensePlate />}
                 {phoneLabel && <span className="border-b border-grey-10 bg-grey-5 pl-2xs py-xs">{phoneLabel}</span>}

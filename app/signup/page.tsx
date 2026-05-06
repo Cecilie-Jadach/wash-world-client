@@ -1,6 +1,7 @@
 "use client"
 
 import { useSignUp } from "../hooks/useSignup";
+import Label from "@/components/Label";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import Checkbox from "@/components/Checkbox";
@@ -74,6 +75,7 @@ export default function Signup() {
                     label={<span>Jeg accepterer Wash Worlds <a className="underline" href="https://washworld.dk/vilkaar" target="_blank">vilkår</a></span>}
                     required
                 />
+                <Label htmlFor="payment" required>Vælg betalingsmetode</Label>
                 <div className="flex gap-xs">
                     <PaymentCard image="mobilepay" selectedCard={selectedPayment === 'mobilepay'} onSelect={setSelectedPayment} />
                     <PaymentCard image="applepay" selectedCard={selectedPayment === 'applepay'} onSelect={setSelectedPayment} />
