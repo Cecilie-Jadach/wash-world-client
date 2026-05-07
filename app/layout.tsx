@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next"
 import Navbar from "@/components/Navbar"
-import "./globals.css";
+import "./globals.css"
+import QueryProvider from "../components/QueryProvider"
 
 export const metadata: Metadata = {
   title: "Wash World app",
@@ -13,6 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <QueryProvider>
     <html
       lang="da"
       className="h-full antialiased"
@@ -22,5 +24,6 @@ export default function RootLayout({
         <Navbar />
       </body>
     </html>
+    </QueryProvider>
   );
 }
