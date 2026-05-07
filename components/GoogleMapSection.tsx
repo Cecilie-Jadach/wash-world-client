@@ -57,7 +57,7 @@ function GoogleMapSection() {
         <div className="relative">
             <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}>
                 <Map
-                    style={{ width: "100%", height: "596px" }}
+                    style={{ width: "100%", height: "100vh" }}
                     defaultCenter={position}
                     defaultZoom={7}
                     mapId={process.env.NEXT_PUBLIC_GOOGLE_MAP_ID || ""}
