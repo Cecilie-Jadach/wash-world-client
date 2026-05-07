@@ -63,6 +63,7 @@ function GoogleMapSection() {
                     mapId={process.env.NEXT_PUBLIC_GOOGLE_MAP_ID || ""}
                     disableDefaultUI={true}
                 >
+                    {/* Component to handle the zoom function, when clicking on location*/}
                     <MapZoom selectedLocation={selectedLocation} /> 
 
                     {(data ?? []).map((location, index) => (
@@ -103,7 +104,6 @@ function GoogleMapSection() {
                             setSearch(e.target.value);
                             setShowDropdown(e.target.value.length > 0);
                         }}
-                        // onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
                     />
                         </div>
                     <Image src="/icons/location_pen_icon.svg" alt="location pin icon" height={20} width={20}/>
