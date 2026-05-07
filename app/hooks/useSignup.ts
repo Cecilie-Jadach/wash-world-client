@@ -21,11 +21,11 @@ export const useSignUp = () => {
       if (!response.ok) {
         const data = await response.json();
         setError(data.error);
-        return;
+        return data.error;
       }
 
       setMessage("Bruger oprettet! Tjek din email.");
-    } catch (error) {
+    } catch {
       setError("Error connecting to backend");
     } finally {
       setIsLoading(false);

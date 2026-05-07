@@ -8,14 +8,16 @@ import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
     const pathname = usePathname();
-    const isActive = (path: string) => pathname === path ? 'text-black' : 'text-grey-60'
     const [activeMenu, setActiveMenu] = useState(false);
     const [activeSupport, setActiveSupport] = useState(false);
+    const isActive = (path: string) => pathname === path ? 'text-black' : 'text-grey-60'
+
+    if (pathname === "/signup") return null
 
     return (
         <>
             {/* MENU */}
-            <div className={`${activeMenu ? "left-[0px]" : "-left-[400px]"
+            <div className={`${activeMenu ? "left-[0px]" : "left-[-400px]"
                 } fixed top-[0px] px-m pt-2xl flex flex-col gap-xs text-xl font-extrabold text-white bg-black w-max h-screen z-0 duration-500`}>
                 <Link href="/medlemskab">Medlemskab</Link>
                 <div className="flex flex-col gap-s">
@@ -31,7 +33,7 @@ export default function Navbar() {
             </div>
 
             {/* NAVBAR */}
-            <nav className="flex justify-evenly items-center bg-white border-t border-black py-2xs px-s text-sm sticky w-full -bottom-px z-10 mt-m">
+            <nav className="flex justify-evenly items-center bg-white border-t border-black py-2xs px-s text-sm fixed w-full -bottom-px z-10">
                 <Link href="/" className={`flex flex-col gap-3xs ${isActive('/')}`}>
                     <div className="h-sm flex justify-center items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="23" viewBox="0 0 18 23" fill="none">

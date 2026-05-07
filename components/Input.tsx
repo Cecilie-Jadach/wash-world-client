@@ -1,5 +1,6 @@
 import React from "react";
-import Label from "@/components/Label"
+import Label from "@/components/Label";
+import Error from "@/components/Error";
 
 type InputProps = {
     label: string
@@ -7,6 +8,7 @@ type InputProps = {
     showLicensePlate?: boolean
     phoneLabel?: string
     error?: string
+    showRequired?: boolean
 } & React.InputHTMLAttributes<HTMLInputElement>
 
 const LicensePlate = () => (
@@ -16,10 +18,10 @@ const LicensePlate = () => (
     </div>
 )
 
-export default function Input({ label, id, showLicensePlate, phoneLabel, error, required, className, ...props }: InputProps) {
+export default function Input({ label, id, showLicensePlate, phoneLabel, error, showRequired, className, ...props }: InputProps) {
     return (
         <div className="flex flex-col gap-3xs text-md">
-            <Label htmlFor={id} required={required}>{label}</Label>
+            <Label htmlFor={id} required={showRequired}>{label}</Label>
             <div className={`flex items-stretch ${error ? 'border border-error-red' : ''}`}>
                 {showLicensePlate && <LicensePlate />}
                 {phoneLabel && <span className="border-b border-grey-10 bg-grey-5 pl-2xs py-xs">{phoneLabel}</span>}
@@ -27,6 +29,7 @@ export default function Input({ label, id, showLicensePlate, phoneLabel, error, 
                     {...props}
                 />
             </div>
+            {error && <Error>{error}</Error>}
         </div>
     )
 
