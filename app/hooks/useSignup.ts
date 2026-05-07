@@ -25,7 +25,7 @@ export const useSignUp = () => {
       }
 
       setMessage("Bruger oprettet! Tjek din email.");
-    } catch (error) {
+    } catch (_error) {
       setError("Error connecting to backend");
     } finally {
       setIsLoading(false);

@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
     const pathname = usePathname();
+    if (pathname === "/signup") return null
     const isActive = (path: string) => pathname === path ? 'text-black' : 'text-grey-60'
     const [activeMenu, setActiveMenu] = useState(false);
     const [activeSupport, setActiveSupport] = useState(false);
