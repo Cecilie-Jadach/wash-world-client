@@ -40,14 +40,14 @@ export default function Signup() {
         formState: { errors }
     } = useForm<SignupFormData>({ mode: "onTouched" })
 
-    const [watchEmail, watchPassword, watchPhone, watchLicensePlate, watchLocation, watchTerms] =
-        watch(["email", "password", "phone", "license_plate", "primary_location", "terms_accepted"])
+    const [watchEmail, watchConfirmEmail, watchPassword, watchConfirmPassword, watchPhone, watchLicensePlate, watchLocation, watchTerms] =
+        watch(["email", "confirm_email", "password", "confirm_password", "phone", "license_plate", "primary_location", "terms_accepted"])
 
     const canProceed = (): boolean => {
         switch (step) {
             case 1: return !!selectedMembership
-            case 2: return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(watchEmail ?? "")
-            case 3: return (watchPassword?.length ?? 0) >= 8
+            case 2: return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(watchEmail ?? "") && watchConfirmEmail === watchEmail
+            case 3: return (watchPassword?.length ?? 0) >= 8 && watchConfirmPassword === watchPassword
             case 4: return (watchPhone?.length ?? 0) === 8 && /^[0-9]*$/.test(watchPhone ?? "")
             case 5: return /^[A-Z]{2}\d{5}$/.test(watchLicensePlate ?? "")
             case 6: return !!watchLocation
@@ -58,10 +58,18 @@ export default function Signup() {
     }
 
     const handleNext = async () => {
-        const field = stepField[step]
-        if (field) {
-            const valid = await trigger(field)
-            if (!valid) return
+        if (step === 2) {
+            const [validEmail, validConfirm] = await Promise.all([trigger("email"), trigger("confirm_email")])
+            if (!validEmail || !validConfirm) return
+        } else if (step === 3) {
+            const [validPassword, validConfirm] = await Promise.all([trigger("password"), trigger("confirm_password")])
+            if (!validPassword || !validConfirm) return
+        } else {
+            const field = stepField[step]
+            if (field) {
+                const valid = await trigger(field)
+                if (!valid) return
+            }
         }
         setStep(s => s + 1)
     }
@@ -71,7 +79,9 @@ export default function Signup() {
         formData.append("membership", selectedMembership)
         formData.append("payment", selectedPayment)
         formData.append("email", data.email)
+        formData.append("confirm_email", data.confirm_email)
         formData.append("password", data.password)
+        formData.append("confirm_password", data.confirm_password)
         formData.append("phone", data.phone)
         formData.append("license_plate", data.license_plate)
         formData.append("primary_location", data.primary_location)
@@ -123,18 +133,33 @@ export default function Signup() {
                 {step === 2 && (
                     <div>
                         <MembershipIndicator value={selectedMembership} />
-                        <Input
-                            id="email"
-                            label="E-mail"
-                            placeholder="Din e-mail"
-                            type="email"
-                            showRequired
-                            error={errors.email?.message}
-                            {...register("email", {
-                                required: "E-mail er påkrævet",
-                                pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Ugyldig e-mail" }
-                            })}
-                        />
+                        <div className="flex flex-col gap-s">
+                            <Input
+                                id="email"
+                                label="E-mail"
+                                placeholder="Din e-mail"
+                                type="email"
+                                showRequired
+                                error={errors.email?.message}
+                                {...register("email", {
+                                    required: "E-mail er påkrævet",
+                                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Ugyldig e-mail" }
+                                })}
+                            />
+                            <Input
+                                id="confirm_email"
+                                label="Gentag e-mail"
+                                placeholder="Gentag din e-mail"
+                                type="email"
+                                showRequired
+                                error={errors.confirm_email?.message}
+                                {...register("confirm_email", {
+                                    required: "Gentag e-mail er påkrævet",
+                                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Ugyldig e-mail" },
+                                    validate: value => value === watchEmail || "E-mails matcher ikke"
+                                })}
+                            />
+                        </div>
                     </div>
                 )}
 
@@ -142,18 +167,33 @@ export default function Signup() {
                 {step === 3 && (
                     <div>
                         <MembershipIndicator value={selectedMembership} />
-                        <Input
-                            id="password"
-                            label="Adgangskode"
-                            placeholder="Din adgangskode"
-                            type="password"
-                            showRequired
-                            error={errors.password?.message}
-                            {...register("password", {
-                                required: "Adgangskode er påkrævet",
-                                minLength: { value: 8, message: "Adgangskode skal være mindst 8 tegn" }
-                            })}
-                        />
+                        <div className="flex flex-col gap-s">
+                            <Input
+                                id="password"
+                                label="Adgangskode"
+                                placeholder="Din adgangskode"
+                                type="password"
+                                showRequired
+                                error={errors.password?.message}
+                                {...register("password", {
+                                    required: "Adgangskode er påkrævet",
+                                    minLength: { value: 8, message: "Adgangskode skal være mindst 8 tegn" }
+                                })}
+                            />
+                            <Input
+                                id="confirm_password"
+                                label="Gentag adgangskode"
+                                placeholder="Gentag din adgangskode"
+                                type="password"
+                                showRequired
+                                error={errors.confirm_password?.message}
+                                {...register("confirm_password", {
+                                    required: "Adgangskode er påkrævet",
+                                    minLength: { value: 8, message: "Adgangskode skal være mindst 8 tegn" },
+                                    validate: value => value === watchPassword || "Adgangskoder matcher ikke"
+                                })}
+                            />
+                        </div>
                     </div>
 
                 )}
