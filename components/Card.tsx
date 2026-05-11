@@ -51,7 +51,7 @@ export default function Card({ membership, price, description, selectedCard, onS
 
     return (
         <div onClick={() => onSelect(membership)}
-            className={`relative flex flex-col gap-sm p-s bg-grey-5 drop-shadow-xs drop-shadow-grey-10 ${selectedCard ? 'border border-green-white-background' : 'border border-transparent'}`}
+            className={`relative flex flex-col gap-sm p-s bg-grey-5 drop-shadow-xs drop-shadow-grey-10 cursor-pointer ${selectedCard ? 'border border-green-white-background' : 'border border-transparent'}`}
         >
             <div className='flex flex-col gap-3xs'>
                 {showBadge && <Badge />}
@@ -66,7 +66,7 @@ export default function Card({ membership, price, description, selectedCard, onS
             </div>
 
             {/* READ MORE */}
-            <div onClick={() => setActiveReadMore(!activeReadMore)} className='flex gap-3xs text-green-white-background text-sm items-center'>
+            <div onClick={() => setActiveReadMore(!activeReadMore)} className='flex gap-3xs text-green-white-background text-sm items-center w-fit'>
                 <p>Læs mere</p>
                 <svg className={activeReadMore ? 'rotate-180' : ''} xmlns="http://www.w3.org/2000/svg" width="11" height="7" viewBox="0 0 11 7" fill="none">
                     <path d="M4.89729 6.27398L0.17096 1.54763C-0.0569867 1.31969 -0.0569867 0.950127 0.17096 0.722205L0.72221 0.170955C0.949768 -0.0566031 1.31857 -0.0570411 1.54667 0.169982L5.31001 3.9157L9.07333 0.169982C9.30143 -0.0570411 9.67023 -0.0566031 9.89779 0.170955L10.449 0.722205C10.677 0.950151 10.677 1.31971 10.449 1.54763L5.72274 6.27398C5.49479 6.50191 5.12523 6.50191 4.89729 6.27398Z" fill="#06C167" />
