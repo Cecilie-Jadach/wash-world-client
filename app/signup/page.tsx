@@ -1,8 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSignUp } from "../hooks/useSignup";
+import { useQuery } from '@tanstack/react-query';
+import { fetchLocationsQuery } from "../hooks/useLocations";
 import { Location } from "@/types/location";
 import { SignupFormData } from "@/types/signup"
 import Label from "@/components/Label";
@@ -16,20 +18,31 @@ import MembershipIndicator from "@/components/MembershipIndicatior";
 
 const TOTAL_STEPS = 8;
 
-const stepField: Partial<Record<number, keyof SignupFormData>> = {
-    2: "email",
-    3: "password",
-    4: "phone",
-    5: "license_plate",
-    6: "primary_location",
-    7: "terms_accepted",
+// Fields to validate on each step before allowing the user to proceed
+const stepFields: Partial<Record<number, (keyof SignupFormData)[]>> = {
+    2: ["email", "confirm_email"],
+    3: ["password", "confirm_password"],
+    4: ["phone"],
+    5: ["license_plate"],
+    6: ["primary_location"],
+    7: ["terms_accepted"],
+}
+
+// The 4 visual stages shown in the progress indicator
+const progressStages = ["Medlemskab", "Oplysninger", "Betaling", "Bekræftelse"]
+
+// Converts the current step (1-8) to a stage index (0-3) for the progress indicator
+const getStageIndex = (step: number) => {
+    if (step <= 1) return 0
+    if (step <= 6) return 1
+    if (step <= 7) return 2
+    return 3
 }
 
 export default function Signup() {
     const { signUp, isLoading, error, message } = useSignUp()
     const [selectedMembership, setSelectedMembership] = useState("")
     const [selectedPayment, setSelectedPayment] = useState("")
-    const [locations, setLocations] = useState<Location[]>([]);
     const [step, setStep] = useState(1);
 
     const {
@@ -40,9 +53,20 @@ export default function Signup() {
         formState: { errors }
     } = useForm<SignupFormData>({ mode: "onTouched" })
 
+    // Fetch locations from the backend using TanStack Query
+    const { data } = useQuery<Location[]>({
+        queryKey: ['locations'],
+        queryFn: fetchLocationsQuery
+    });
+
+    // Watch field values in real time to enable/disable the next button
     const [watchEmail, watchConfirmEmail, watchPassword, watchConfirmPassword, watchPhone, watchLicensePlate, watchLocation, watchTerms] =
         watch(["email", "confirm_email", "password", "confirm_password", "phone", "license_plate", "primary_location", "terms_accepted"])
 
+    // Converts step (1-8) to stage index (0-3) for the progress indicator
+    const currentStage = getStageIndex(step)
+
+    // Returns true if the current step's requirements are met
     const canProceed = (): boolean => {
         switch (step) {
             case 1: return !!selectedMembership
@@ -57,23 +81,17 @@ export default function Signup() {
         }
     }
 
+    // Validates the current step's fields before moving to the next step
     const handleNext = async () => {
-        if (step === 2) {
-            const [validEmail, validConfirm] = await Promise.all([trigger("email"), trigger("confirm_email")])
-            if (!validEmail || !validConfirm) return
-        } else if (step === 3) {
-            const [validPassword, validConfirm] = await Promise.all([trigger("password"), trigger("confirm_password")])
-            if (!validPassword || !validConfirm) return
-        } else {
-            const field = stepField[step]
-            if (field) {
-                const valid = await trigger(field)
-                if (!valid) return
-            }
+        const fields = stepFields[step]
+        if (fields) {
+            const results = await Promise.all(fields.map(f => trigger(f)))
+            if (results.some(r => !r)) return
         }
         setStep(s => s + 1)
     }
 
+    // Builds the form data and sends it to the backend on final submission
     const onSubmit = async (data: SignupFormData) => {
         const formData = new FormData()
         formData.append("membership", selectedMembership)
@@ -91,28 +109,25 @@ export default function Signup() {
         await signUp(formData)
     }
 
-    useEffect(() => {
-        const fetchLocations = async () => {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/locations`);
-            const data = await res.json();
-            setLocations(data.locations);
-        };
-        fetchLocations();
-    }, []);
-
     return (
         <main className="m-2xs pb-xl">
             {/* Progress indicator */}
-            <div className="flex items-center gap-2xs mb-s">
-                {Array.from({ length: TOTAL_STEPS }, (_, i) => (
-                    <div
-                        key={i}
-                        className={`h-1 flex-1 rounded-full transition-colors ${i < step ? "bg-green-white-background" : "bg-grey-10"}`}
-                    />
+            <div className="flex items-baseline gap-2xs mb-s">
+                {progressStages.map((label, i) => (
+                    <span key={label} className="flex items-center gap-2xs">
+                        <span className={`text-xs uppercase ${i === currentStage ? "font-extrabold text-black" : "font-medium text-grey-40"}`}>
+                            {label}
+                        </span>
+                        {i < progressStages.length - 1 && (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="7" height="13" viewBox="0 0 9 13" fill="none">
+                                <path d="M7.85015 6.61186L1.93643 12.0725C1.65122 12.3359 1.18882 12.3359 0.903639 12.0725L0.213902 11.4356C-0.0708231 11.1727 -0.0713711 10.7466 0.212685 10.4831L4.89941 6.13501L0.212685 1.78699C-0.0713711 1.52346 -0.0708231 1.09735 0.213902 0.834437L0.903639 0.197541C1.18885 -0.0658207 1.65125 -0.0658207 1.93643 0.197541L7.85015 5.65815C8.13533 5.92152 8.13533 6.34849 7.85015 6.61186Z" fill="#E5E5E5" />
+                            </svg>
+                        )}
+                    </span>
                 ))}
             </div>
-            <p className="text-sm text-grey-40 mb-xs">Trin {step} af {TOTAL_STEPS}</p>
 
+            {/* Signup form */}
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-xs">
 
                 {/* Step 1: Membership */}
@@ -259,7 +274,7 @@ export default function Signup() {
                                     })}
                                 >
                                     <option value="">Vælg primær vaskehal</option>
-                                    {locations.map((location) => (
+                                    {(data ?? []).map((location) => (
                                         <option key={location.location_name} value={location.location_name}>
                                             {location.location_name}
                                         </option>
@@ -324,7 +339,7 @@ export default function Signup() {
 
                 )}
 
-                {/* Navigation */}
+                {/* Button navigation */}
                 <div className="flex gap-xs mt-s">
                     {step > 1 && (
                         <Button variant="secondary" icon={false} onClick={() => setStep(s => s - 1)}>Tilbage</Button>
