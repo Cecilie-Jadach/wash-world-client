@@ -2,14 +2,30 @@
 import { useState } from 'react'
 import { MembershipStatus, MembershipStatusCardProps } from "../types/membership"
 import { useMembership } from "../app/hooks/useMembership"
+import { useQuery } from '@tanstack/react-query'
+import { fetchUserQuery  } from "../app/hooks/useUser"
+import { User } from "../types/user"
 
-export default function MembershipStatusCard({ membership, price, washes, status, token }: MembershipStatusCardProps) {
+
+export default function MembershipStatusCard({ price, washes, status, token }: MembershipStatusCardProps) {
     // State til at holde styr på om medlemskabet er aktivt eller pauseret
     const [membershipStatus, setMembershipStatus] = useState<MembershipStatus>(status)
     // State til antal måneder brugeren vil pausere
     const [pauseMonths, setPauseMonths] = useState<number>(1)
     // Hent pause og reactivate mutations fra custom hook useMembership.ts
     const { pauseMutation, reactivateMutation } = useMembership(token)
+
+    //https://medium.com/@emiklad/a-beginners-guide-to-react-query-tanstack-v5-part-3-the-usequery-hook-af6af5abea07
+    const { data } = useQuery<User>({
+    queryKey: ['user'],
+    queryFn: () => fetchUserQuery(token),
+    enabled: !!token})
+
+    // Håndter at data ikke er loadet endnu
+    if (!data) return <p>Loader...</p>
+
+    // console.log('user data:', data)
+    console.log('token:', token)
 
     // Kaldes når brugeren klikker på "Pausér medlemskab"
     const handlePause = async () => {
@@ -28,16 +44,18 @@ export default function MembershipStatusCard({ membership, price, washes, status
     }
 
     return (
-        <div>
-            <div>   
-                <p>{membership}</p>
+        <div className="bg-grey-5 p-s">
+            <div>
+                <div className="flex justify-between">
+                <p className="text-xl">{data.user_membership}</p>
+                {/* Status label skifter farve og tekst afhængigt af membershipStatus */}
+                <span className={membershipStatus === 'active' 
+                    ? 'bg-light-green px-3xs py-4xs border border-green-white-background' 
+                    : 'bg-grey-10 text-black px-xs py-4xs rounded-full'}>
+                    {membershipStatus === 'active' ? 'Aktivt' : 'På pause'}
+                </span>
+                </div>
                 <div>
-                    {/* Status label skifter farve og tekst afhængigt af membershipStatus */}
-                    <span className={membershipStatus === 'active' 
-                        ? 'bg-green-white-background text-white px-xs py-4xs rounded-full' 
-                        : 'bg-grey-10 text-black px-xs py-4xs rounded-full'}>
-                        {membershipStatus === 'active' ? 'Aktivt' : 'På pause'}
-                    </span>
 
                     {membershipStatus === 'active' ? (
                         <div>
