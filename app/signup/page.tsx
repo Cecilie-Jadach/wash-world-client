@@ -35,12 +35,12 @@ const progressStages = ["Medlemskab", "Oplysninger", "Betaling", "Bekræftelse"]
 const getStageIndex = (step: number) => {
     if (step <= 1) return 0
     if (step <= 6) return 1
-    if (step <= 7) return 2
+    if (step <= 8) return 2
     return 3
 }
 
 export default function Signup() {
-    const { signUp, isLoading, error, message } = useSignUp()
+    const { signUp, isLoading, error } = useSignUp()
     const [selectedMembership, setSelectedMembership] = useState("")
     const [selectedPayment, setSelectedPayment] = useState("")
     const [step, setStep] = useState(1);
@@ -106,7 +106,12 @@ export default function Signup() {
         formData.append("terms_accepted", data.terms_accepted ? "1" : "0")
         formData.append("access_to_all_washes", data.access_to_all_washes ? "1" : "0")
         formData.append("offers_accepted", data.offers_accepted ? "1" : "0")
-        await signUp(formData)
+        try {
+            await signUp(formData)
+            setStep(9)
+        } catch {
+            // error state handled by useMutation
+        }
     }
 
     return (
@@ -133,7 +138,7 @@ export default function Signup() {
                 {/* Step 1: Membership */}
                 {step === 1 && (
                     <div>
-                        <h1 className="font-extrabold text-3xl mb-s">Medlemskaber</h1>
+                        <h2 className="font-extrabold text-3xl mb-s">Medlemskaber</h2>
                         <div className="flex flex-col gap-s">
                             <Card membership="Guld" price={139} description="God og effektiv" selectedCard={selectedMembership === "Guld"} onSelect={setSelectedMembership} />
                             <Card membership="Premium" price={169} description="Ekstra grundig" selectedCard={selectedMembership === "Premium"} onSelect={setSelectedMembership} showBadge />
@@ -339,21 +344,34 @@ export default function Signup() {
 
                 )}
 
+                {/* Step 9: Confirmation */}
+                {step === 9 && (
+                    <div>
+                        <div>
+                            <h2 className="text-xl mb-s">Bekræft din e-mail</h2>
+                            <div className="flex flex-col gap-xs">
+                                <p>Vi har sendt en bekræftelsesmail til <strong>{watchEmail}</strong>.</p>
+                                <p>Klik på linket i mailen for at aktivere din konto.</p>
+                                <p>Tjek eventuelt din spam-mappe, hvis du ikke kan finde den.</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Button navigation */}
                 <div className="flex gap-xs mt-s">
-                    {step > 1 && (
+                    {step > 1 && step < 9 && (
                         <Button variant="secondary" icon={false} onClick={() => setStep(s => s - 1)}>Tilbage</Button>
                     )}
                     {step < TOTAL_STEPS ? (
                         <Button onClick={handleNext} disabled={!canProceed()}>Næste</Button>
-                    ) : (
+                    ) : step === TOTAL_STEPS ? (
                         <Button type="submit" disabled={isLoading || !canProceed()}>Start nu</Button>
-                    )}
+                    ) : null}
                 </div>
             </form>
 
-            {error && <Error>{error}</Error>}
-            {message && <p>{message}</p>}
+            {error && <Error>{error.message}</Error>}
         </main>
     )
 }
