@@ -4,4 +4,5 @@ export type User = {
     license_plate: string
     primary_location: string
     user_membership: string
+    membership_paused_at: number
 }

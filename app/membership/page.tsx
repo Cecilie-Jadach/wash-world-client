@@ -1,29 +1,45 @@
 "use client"
+import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { fetchUserQuery } from '../hooks/useUser'
+import { User } from '../../types/user'
+import MembershipCard from "../../components/MembershipStatusCard"
+import Button from '../../components/Button'
+import ReturnArrow from '../../components/ReturnArrow'
+import { useMembership } from "../hooks/useMembership"
+import toast from 'react-hot-toast'
 
-import { useState, useEffect } from 'react'
-import ReturnArrow from "../../components/ReturnArrow"
-import MembershipStatusCard from "../../components/MembershipStatusCard"
-import Button from "../../components/Button"
-
-export default function page() {
-    const status = "active"
+export default function MembershipPage() {
     const [token, setToken] = useState<string>('')
+    const { reactivateMutation } = useMembership(token)
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
         if (storedToken) setToken(storedToken)
     }, [])
-    
-return (
-    <main className="m-2xs pb-xl">
-        <ReturnArrow/>
-        <h1 className="font-extrabold text-xl">Dit medlemsskab</h1>
-        <MembershipStatusCard membership="Premium" price={169} washes={3} status={status} token={token}/>
-        <h2 className="font-extrabold text-xl">Handlinger</h2>
-        <div className="grid">
-        <Button>Skift medlemsskab</Button>
-        <Button variant="secondary" icon={false}>Sæt på pause</Button>
-        </div>
-    </main>
-)
+
+    const { data: user } = useQuery<User>({
+        queryKey: ['user'],
+        queryFn: () => fetchUserQuery(token),
+        enabled: !!token
+    })
+
+    if (!user) return <p>Loader...</p>
+
+    const membershipStatus = user.membership_paused_at > 0 ? 'paused' : 'active'
+
+    const handleReactivate = async () => {
+        await reactivateMutation.mutateAsync()
+        toast.success('Dit medlemskab er genoptaget')}
+
+    return (
+        <main className="m-2xs pb-xl">
+            <ReturnArrow />
+            <h1 className="font-extrabold text-xl">Dit medlemskab</h1>
+            <MembershipCard user={user} membershipStatus={membershipStatus}/>
+            {membershipStatus === 'active' ? (
+                <Button href="/pause-membership">Sæt på pause</Button>
+            ): (<Button variant="secondary" icon={false} onClick={handleReactivate} disabled={reactivateMutation.isPending}>{reactivateMutation.isPending ? 'Venter...' : 'Genoptag medlemskab'}</Button>)}
+        </main>
+    )
 }

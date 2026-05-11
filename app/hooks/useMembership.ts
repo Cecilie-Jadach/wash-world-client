@@ -34,7 +34,7 @@ export function useMembership(token: string) {
 
     const reactivateMutation = useMutation({
         mutationFn: () => reactivateMembershipFetch(token),
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['membership'] })
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['user'] })
     })
 
     return { pauseMutation, reactivateMutation }
