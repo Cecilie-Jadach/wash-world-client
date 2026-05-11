@@ -16,12 +16,15 @@ export default function Navbar() {
 
     return (
         <>
+            {/* BACKDROP */}
+            {activeMenu && <div className="fixed inset-0 z-9999 bg-black top-[0] w-full h-full opacity-30" onClick={() => setActiveMenu(false)} />}
+
             {/* MENU */}
             <div className={`${activeMenu ? "left-[0px]" : "left-[-400px]"
-                } fixed top-[0px] px-m pt-2xl flex flex-col gap-xs text-xl font-extrabold text-white bg-black w-max h-screen z-0 duration-500`}>
+                } fixed top-[0px] px-m pt-2xl flex flex-col gap-xs text-xl font-extrabold text-white bg-black w-max h-screen z-99999 duration-500`}>
                 <Link href="/membership">Medlemskab</Link>
                 <div className="flex flex-col gap-s">
-                    <p onClick={() => setActiveSupport(!activeSupport)}>Kontakt support</p>
+                    <p className="cursor-pointer" onClick={() => setActiveSupport(!activeSupport)}>Kontakt support</p>
                     <div className={`flex flex-col gap-3xs overflow-hidden transition-all duration-300 ease-in-out ${activeSupport ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'
                         }`}>
                         <Button icon={false} className="w-fit">Ring til: +45 30 96 81 73</Button>
@@ -33,7 +36,7 @@ export default function Navbar() {
             </div>
 
             {/* NAVBAR */}
-            <nav className="flex justify-evenly items-center bg-white border-t border-black py-2xs px-s text-sm fixed w-full -bottom-px z-10">
+            <nav className="flex justify-evenly items-center bg-white border-t border-black py-2xs px-s text-sm fixed w-full -bottom-px z-999991">
                 <Link href="/" className={`flex flex-col gap-3xs ${isActive('/')}`}>
                     <div className="h-sm flex justify-center items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="23" viewBox="0 0 18 23" fill="none">
@@ -61,7 +64,7 @@ export default function Navbar() {
                     Medlemskab
                 </Link>
 
-                <div className={`flex flex-col gap-3xs ${activeMenu ? 'text-black' : 'text-grey-60'}`}
+                <div className={`flex flex-col gap-3xs cursor-pointer ${activeMenu ? 'text-black' : 'text-grey-60'}`}
                     onClick={() => setActiveMenu(!activeMenu)}>
                     <div className="flex flex-col gap-[6px] h-sm justify-center items-center relative w-full">
                         <span
