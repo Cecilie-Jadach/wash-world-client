@@ -1,36 +1,25 @@
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 
 export const useSignUp = () => {
-  const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const signUp = async (formData: FormData) => {
-    setIsLoading(true);
-    setError("");
-    setMessage("");
-    try {
+  // useMutation is used for actions that change data (like POST requests).
+  // It automatically tracks loading and error state, so we don't have to use useState for those.
+  // mutateAsync is the function we call to trigger the request — we rename it to signUp.
+  // isPending is true while the request is in progress — we rename it to isLoading.
+  // error holds any error that was thrown during the request.
+  const { mutateAsync: signUp, isPending: isLoading, error } = useMutation({
+    // mutationFn is the function that runs when we call signUp()
+    mutationFn: async (formData: FormData) => {
       const response = await fetch(
         process.env.NEXT_PUBLIC_BASE_URL + "/sign-up",
-        {
-          method: "POST",
-          body: formData,
-        },
+        { method: "POST", body: formData },
       );
-
+      // If the server returns an error, we throw so useMutation catches it and updates the error field
       if (!response.ok) {
         const data = await response.json();
-        setError(data.error);
-        return data.error;
+        throw new Error(data.error);
       }
+    },
+  });
 
-      setMessage("Bruger oprettet! Tjek din email.");
-    } catch {
-      setError("Error connecting to backend");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return { signUp, message, isLoading, error };
+  return { signUp, isLoading, error };
 };

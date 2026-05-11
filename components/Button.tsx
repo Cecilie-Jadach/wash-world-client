@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { cva } from 'class-variance-authority';
 import { VariantProps } from 'class-variance-authority';
 
@@ -14,7 +15,7 @@ type ArrowIconProps = {
 }
 
 const buttonStyles = cva(
-    'h-fit font-extrabold text-md border-b disabled:opacity-70 disabled:cursor-not-allowed',
+    'inline-flex items-center gap-3xs h-fit font-extrabold text-md border-b disabled:opacity-70 disabled:cursor-not-allowed',
     {
         variants: {
             variant: {
@@ -45,17 +46,17 @@ const ArrowIcon = ({ variant }: ArrowIconProps) => (
 
 const Button = ({ children, variant, size, href, icon = true, className, ...props }: ButtonProps) => {
     const content = (
-        <div className="flex items-center gap-3xs">
+        <>
             {children}
             {icon && <ArrowIcon variant={variant} />}
-        </div>
+        </>
     )
 
     if (href) {
         return (
-            <a href={href} className={buttonStyles({ variant, size, className })}>
+            <Link href={href} className={buttonStyles({ variant, size, className })}>
                 {content}
-            </a>
+            </Link>
         )
     }
 
