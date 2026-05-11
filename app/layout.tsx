@@ -29,7 +29,7 @@ export default function RootLayout({
     position="bottom-center"
     toastOptions={{
         success: {
-          icon: <Image src="/icons/check_green_icon.svg" alt="green check icon" width={16} height={16}/>,
+          icon: <Image src="/icons/check_green_icon.svg" alt="green check icon" width={20} height={20}/>,
             style: {
                 background: '#E6F9F0',
                 color: '#000000',
