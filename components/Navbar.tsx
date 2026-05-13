@@ -21,18 +21,21 @@ export default function Navbar() {
 
             {/* MENU */}
             <div className={`${activeMenu ? "left-[0px]" : "left-[-400px]"
-                } fixed top-[0px] px-m pt-2xl flex flex-col gap-xs text-xl font-extrabold text-white bg-black w-max h-screen z-99999 duration-500`}>
-                <Link href="/membership">Medlemskab</Link>
-                <div className="flex flex-col gap-s">
-                    <p className="cursor-pointer" onClick={() => setActiveSupport(!activeSupport)}>Kontakt support</p>
-                    <div className={`flex flex-col gap-3xs overflow-hidden transition-all duration-300 ease-in-out ${activeSupport ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'
-                        }`}>
-                        <Button icon={false} className="w-fit">Ring til: +45 30 96 81 73</Button>
-                        <p className="text-md font-medium flex gap-4xs">
-                            E-mail: <a href="mailto:kundeservice@washworld.dk">kundeservice@washworld.dk</a>
-                        </p>
+                } fixed top-[0px] px-m pb-m pt-2xl w-max h-[calc(100%-73px)] z-99999 duration-500 bg-black flex flex-col justify-between font-extrabold text-white`}>
+                <div className="flex flex-col gap-xs text-xl">
+                    <Link href="/membership">Medlemskab</Link>
+                    <div className="flex flex-col gap-s">
+                        <p className="cursor-pointer" onClick={() => setActiveSupport(!activeSupport)}>Kontakt support</p>
+                        <div className={`flex flex-col gap-3xs overflow-hidden transition-all duration-300 ease-in-out ${activeSupport ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'
+                            }`}>
+                            <Button icon={false} className="w-fit">Ring til: +45 30 96 81 73</Button>
+                            <p className="text-md font-medium flex gap-4xs">
+                                E-mail: <a href="mailto:kundeservice@washworld.dk">kundeservice@washworld.dk</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
+                <Link href="/login">Log ud</Link>
             </div>
 
             {/* NAVBAR */}
