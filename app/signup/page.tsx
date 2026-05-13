@@ -15,6 +15,7 @@ import MembershipCard from "@/components/MembershipCard";
 import PaymentCard from "@/components/PaymentCard";
 import Error from "@/components/Error";
 import MembershipIndicator from "@/components/MembershipIndicatior";
+import Image from "next/image";
 
 const TOTAL_STEPS = 8;
 
@@ -124,9 +125,7 @@ export default function Signup() {
                             {label}
                         </span>
                         {i < progressStages.length - 1 && (
-                            <svg xmlns="http://www.w3.org/2000/svg" width="7" height="13" viewBox="0 0 9 13" fill="none">
-                                <path d="M7.85015 6.61186L1.93643 12.0725C1.65122 12.3359 1.18882 12.3359 0.903639 12.0725L0.213902 11.4356C-0.0708231 11.1727 -0.0713711 10.7466 0.212685 10.4831L4.89941 6.13501L0.212685 1.78699C-0.0713711 1.52346 -0.0708231 1.09735 0.213902 0.834437L0.903639 0.197541C1.18885 -0.0658207 1.65125 -0.0658207 1.93643 0.197541L7.85015 5.65815C8.13533 5.92152 8.13533 6.34849 7.85015 6.61186Z" fill="#E5E5E5" />
-                            </svg>
+                            <Image src="/icons/chevron_grey_icon.svg" alt="Grey chevron" height={7} width={7} />
                         )}
                     </span>
                 ))}
@@ -286,9 +285,7 @@ export default function Signup() {
                                     ))}
                                 </select>
                                 <div className="absolute right-2xs top-[50%] translate-y-[-50%] pointer-events-none">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="8" viewBox="0 0 13 8" fill="none">
-                                        <path d="M5.81956 7.45552L0.203156 1.83909C-0.0677186 1.56822 -0.0677186 1.12906 0.203156 0.858213L0.85822 0.203149C1.12863 -0.0672629 1.56689 -0.0677833 1.83794 0.201993L6.31001 4.65312L10.7821 0.201993C11.0531 -0.0677833 11.4914 -0.0672629 11.7618 0.203149L12.4168 0.858213C12.6877 1.12909 12.6877 1.56824 12.4168 1.83909L6.80047 7.45552C6.52959 7.72637 6.09044 7.72637 5.81956 7.45552Z" fill="#06C167" />
-                                    </svg>
+                                    <Image src="/icons/chevron_green_icon.svg" alt="Green chevron" height={13} width={13} />
                                 </div>
                             </div>
                             {errors.primary_location && <Error>{errors.primary_location.message}</Error>}
