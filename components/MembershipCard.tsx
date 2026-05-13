@@ -2,17 +2,9 @@
 
 import React from 'react';
 import { useState } from 'react';
+import { MembershipCardProps } from '@/types/membershipCard';
 
-type CardProps = {
-    membership: string
-    price: number
-    description: string
-    selectedCard: boolean
-    onSelect: (membership: string) => void
-    showBadge?: boolean
-}
-
-const Badge = () => (
+const MembershipBadge = () => (
     <div className='bg-splash px-3xs py-4xs text-white font-extrabold text-sm w-fit absolute right-xs top-xs'>
         <p>POPULÆR</p>
     </div>
@@ -46,7 +38,7 @@ const NotIncludedIcon = () => (
     </svg>
 )
 
-export default function Card({ membership, price, description, selectedCard, onSelect, showBadge }: CardProps) {
+export default function MembershipCard({ membership, price, description, selectedCard, onSelect, showMembershipBadge }: MembershipCardProps) {
     const [activeReadMore, setActiveReadMore] = useState(false);
 
     return (
@@ -54,7 +46,7 @@ export default function Card({ membership, price, description, selectedCard, onS
             className={`relative flex flex-col gap-sm p-s bg-grey-5 drop-shadow-xs drop-shadow-grey-10 cursor-pointer ${selectedCard ? 'border border-green-white-background' : 'border border-transparent'}`}
         >
             <div className='flex flex-col gap-3xs'>
-                {showBadge && <Badge />}
+                {showMembershipBadge && <MembershipBadge />}
                 <div>
                     <p className='text-lg font-extrabold'>{membership}</p>
                     <div className='flex gap-4xs items-baseline'>

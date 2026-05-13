@@ -1,15 +1,7 @@
 import React from "react";
 import Label from "@/components/Label";
 import Error from "@/components/Error";
-
-type InputProps = {
-    label: string
-    id: string
-    showLicensePlate?: boolean
-    phoneLabel?: string
-    error?: string
-    showRequired?: boolean
-} & React.InputHTMLAttributes<HTMLInputElement>
+import { InputProps } from "@/types/input";
 
 const LicensePlate = () => (
     <div className="flex flex-col items-center justify-center gap-[2px] bg-[#335ab3] px-4xs border-b border-[#21418B]">

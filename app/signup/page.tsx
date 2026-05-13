@@ -11,7 +11,7 @@ import Label from "@/components/Label";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import Checkbox from "@/components/Checkbox";
-import Card from "@/components/Card";
+import MembershipCard from "@/components/MembershipCard";
 import PaymentCard from "@/components/PaymentCard";
 import Error from "@/components/Error";
 import MembershipIndicator from "@/components/MembershipIndicatior";
@@ -140,10 +140,10 @@ export default function Signup() {
                     <div>
                         <h2 className="font-extrabold text-3xl mb-s">Medlemskaber</h2>
                         <div className="flex flex-col gap-s">
-                            <Card membership="Guld" price={139} description="God og effektiv" selectedCard={selectedMembership === "Guld"} onSelect={setSelectedMembership} />
-                            <Card membership="Premium" price={169} description="Ekstra grundig" selectedCard={selectedMembership === "Premium"} onSelect={setSelectedMembership} showBadge />
-                            <Card membership="Brilliant" price={199} description="Bedste vask året rundt" selectedCard={selectedMembership === "Brilliant"} onSelect={setSelectedMembership} />
-                            <Card membership="Enkeltvask" price={0} description="Køb enkeltvis vask ved vaskehallen fra 59 kr" selectedCard={selectedMembership === "Enkeltvask"} onSelect={setSelectedMembership} />
+                            <MembershipCard membership="Guld" price={139} description="God og effektiv" selectedCard={selectedMembership === "Guld"} onSelect={setSelectedMembership} />
+                            <MembershipCard membership="Premium" price={169} description="Ekstra grundig" selectedCard={selectedMembership === "Premium"} onSelect={setSelectedMembership} showMembershipBadge />
+                            <MembershipCard membership="Brilliant" price={199} description="Bedste vask året rundt" selectedCard={selectedMembership === "Brilliant"} onSelect={setSelectedMembership} />
+                            <MembershipCard membership="Enkeltvask" price={0} description="Køb enkeltvis vask ved vaskehallen fra 59 kr" selectedCard={selectedMembership === "Enkeltvask"} onSelect={setSelectedMembership} />
                         </div>
                     </div>
 
@@ -315,10 +315,9 @@ export default function Signup() {
                                 error={errors.terms_accepted?.message}
                                 label={<span>Jeg accepterer Wash Worlds <a className="underline" href="https://washworld.dk/vilkaar" target="_blank">vilkår</a></span>}
                                 {...register("terms_accepted", {
-                                    required: "Accepteret vilkår er påkrævet"
+                                    pattern: { message: "Accepteret vilkår er påkrævet" }
                                 })}
                             />
-                            {errors.terms_accepted && <Error>{errors.terms_accepted.message}</Error>}
                             <Checkbox
                                 id="offers_accepted"
                                 label={<span>Jeg accepterer, at Wash World må sende mig tilbud.</span>}
