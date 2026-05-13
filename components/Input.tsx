@@ -11,13 +11,18 @@ const LicensePlate = () => (
 )
 
 export default function Input({ label, id, showLicensePlate, phoneLabel, error, showRequired, className, ...props }: InputProps) {
+    const isReadOnly = props.readOnly
+
     return (
         <div className="flex flex-col gap-3xs text-md">
             <Label htmlFor={id} required={showRequired}>{label}</Label>
             <div className={`flex items-stretch ${error ? 'border border-error-red' : ''}`}>
                 {showLicensePlate && <LicensePlate />}
-                {phoneLabel && <span className="border-b border-grey-10 bg-grey-5 pl-2xs py-xs">{phoneLabel}</span>}
-                <input id={id} className="w-full border-b border-grey-10 bg-grey-5 px-2xs py-xs placeholder:text-grey-60 outline-none"
+                {phoneLabel && <span className={`${isReadOnly ? "border-none bg-transparent pl-[0] py-[0] pr-4xs" : "border-b border-grey-10 bg-grey-5 pl-2xs py-xs"}`}>{phoneLabel}</span>}
+                <input id={id}
+                    className={`w-full outline-none 
+                        ${isReadOnly ? 'bg-transparent text-grey-60 placeholder:text-black border-none cursor-default' : 'bg-grey-5 placeholder:text-grey-60 border-b border-grey-10'} 
+                        ${isReadOnly && !showLicensePlate ? "px-[0] py-[0]" : "px-2xs py-xs"}`}
                     {...props}
                 />
             </div>
