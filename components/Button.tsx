@@ -15,7 +15,7 @@ type ArrowIconProps = {
 }
 
 const buttonStyles = cva(
-    'inline-flex items-center gap-3xs h-fit font-extrabold text-md border-b disabled:opacity-70 disabled:cursor-not-allowed',
+    'inline-flex items-center justify-center gap-3xs h-fit font-extrabold text-md border-b disabled:opacity-70 disabled:cursor-not-allowed',
     {
         variants: {
             variant: {
