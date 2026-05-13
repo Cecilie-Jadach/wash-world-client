@@ -312,7 +312,7 @@ export default function Signup() {
                                 error={errors.terms_accepted?.message}
                                 label={<span>Jeg accepterer Wash Worlds <a className="underline" href="https://washworld.dk/vilkaar" target="_blank">vilkår</a></span>}
                                 {...register("terms_accepted", {
-                                    pattern: { message: "Accepteret vilkår er påkrævet" }
+                                    required: "Accepteret vilkår er påkrævet"
                                 })}
                             />
                             <Checkbox
