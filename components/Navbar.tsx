@@ -17,7 +17,7 @@ export default function Navbar() {
     return (
         <>
             {/* BACKDROP */}
-            {activeMenu && <div className="fixed inset-0 z-9999 bg-black top-[0] w-full h-full opacity-30" onClick={() => setActiveMenu(false)} />}
+            <div className={`fixed inset-0 z-9999 bg-black top-[0] w-full h-full transition-opacity duration-500 ${activeMenu ? 'opacity-30 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setActiveMenu(false)} />
 
             {/* MENU */}
             <div className={`${activeMenu ? "left-[0px]" : "left-[-400px]"
