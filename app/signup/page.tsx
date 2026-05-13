@@ -41,9 +41,9 @@ const getStageIndex = (step: number) => {
 }
 
 export default function Signup() {
-    const { signUp, isLoading, error } = useSignUp()
-    const [selectedMembership, setSelectedMembership] = useState("")
-    const [selectedPayment, setSelectedPayment] = useState("")
+    const { signUp, isLoading, error } = useSignUp();
+    const [selectedMembership, setSelectedMembership] = useState("");
+    const [selectedPayment, setSelectedPayment] = useState("");
     const [step, setStep] = useState(1);
 
     const {
