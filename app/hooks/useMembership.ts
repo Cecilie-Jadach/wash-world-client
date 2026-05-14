@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 const pauseMembershipFetch = async (token: string, pauseMonths: number) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/membership/pause`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api-membership-pause`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -14,7 +14,7 @@ const pauseMembershipFetch = async (token: string, pauseMonths: number) => {
 }
 
 const reactivateMembershipFetch = async (token: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/membership/reactivate`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api-membership-reactivate`, {
         method: 'PATCH',
         headers: {
             'Authorization': `Bearer ${token}`
