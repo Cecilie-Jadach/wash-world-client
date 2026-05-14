@@ -13,7 +13,7 @@ export default function MembershipPage() {
     const { data: user } = useUser()
     const { reactivateMutation } = useMembership()
 
-    if (!user) return <p>Loader...</p>
+    if (!user) return <p>Dit session er udløbet. Login igen.</p>
 
     const membershipStatus = user.membership_paused_at > 0 ? 'paused' : 'active'
 
@@ -36,7 +36,7 @@ export default function MembershipPage() {
                 <div className="grid gap-xs">
                     <h2 className="font-extrabold text-xl">Handlinger</h2>
                     <div className="grid gap-2xs">
-                        <Button className="justify-center" href="/edit-membership">Skift medlemsskab</Button>
+                        <Button className="justify-center" href="/update-membership">Skift medlemsskab</Button>
                         {membershipStatus === 'active' ? (
                             <Button className="justify-center" variant="secondary" icon={false} href="/pause-membership">Sæt på pause</Button>
                         ) : (

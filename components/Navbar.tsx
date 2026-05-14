@@ -12,7 +12,7 @@ export default function Navbar() {
     const [activeSupport, setActiveSupport] = useState(false);
     const isActive = (path: string) => pathname === path ? 'text-black' : 'text-grey-60'
 
-    if (["/signup", "/login"].includes(pathname) || pathname.startsWith("/verify")) return null
+    if (["/signup", "/login", "/"].includes(pathname) || pathname.startsWith("/verify")) return null
 
     return (
         <>
@@ -35,7 +35,7 @@ export default function Navbar() {
                         </div>
                     </div>
                 </div>
-                <Link href="/login">Log ud</Link>
+                <Link href="/">Log ud</Link>
             </div>
 
             {/* NAVBAR */}

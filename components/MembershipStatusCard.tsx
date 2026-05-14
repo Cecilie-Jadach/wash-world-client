@@ -1,4 +1,3 @@
-"use client"
 import { User } from '../types/user'
 import { MembershipStatus } from '../types/membership'
 
