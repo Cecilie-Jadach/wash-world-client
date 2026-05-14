@@ -79,7 +79,7 @@ export default function Profile() {
 
                 <div className="flex flex-col gap-sm">
                     <Button variant="dark" icon={false} onClick={handleLogout}>Log ud</Button>
-                    <p onClick={() => setActiveDeleteBox(true)} className="text-error-red font-extrabold">Slet profil</p>
+                    <p onClick={() => setActiveDeleteBox(true)} className="text-error-red font-extrabold cursor-pointer">Slet profil</p>
                 </div>
 
             </div>
