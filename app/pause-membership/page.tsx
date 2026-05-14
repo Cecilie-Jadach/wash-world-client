@@ -1,7 +1,7 @@
 "use client"
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useMembership } from '../hooks/useMembership'
+import { useMembership } from "@/app/hooks/useMembership"
 import ReturnArrow from '../../components/ReturnArrow'
 import Button from '../../components/Button'
 import toast from 'react-hot-toast'
