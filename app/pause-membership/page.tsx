@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useMembership } from '../hooks/useMembership'
 import ReturnArrow from '../../components/ReturnArrow'
@@ -9,14 +9,13 @@ import Image from 'next/image'
 
 export default function PauseMembershipPage() {
     const router = useRouter()
-    const [token, setToken] = useState<string>('')
     const [pauseMonths, setPauseMonths] = useState<number>(1)
-    const { pauseMutation } = useMembership(token)
 
-    useEffect(() => {
-        const storedToken = localStorage.getItem('token')
-        if (storedToken) setToken(storedToken)
-    }, [])
+    const [token] = useState<string>(() => {
+    if (typeof window === 'undefined') return ''
+    return localStorage.getItem('token') || ''})
+
+    const { pauseMutation } = useMembership(token)
 
     const handlePause = async () => {
         await pauseMutation.mutateAsync(pauseMonths)

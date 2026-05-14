@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchUserQuery } from '../hooks/useUser'
 import { User } from '../../types/user'
@@ -13,13 +13,11 @@ import InfoLabel from "../../components/InfoLabel"
 import LicensePlates from "../../components/LicensePlates"
 
 export default function MembershipPage() {
-    const [token, setToken] = useState<string>('')
+    const [token] = useState<string>(() => {
+        if (typeof window === 'undefined') return ''
+        return localStorage.getItem('token') || ''})
+    
     const { reactivateMutation } = useMembership(token)
-
-    useEffect(() => {
-        const storedToken = localStorage.getItem('token')
-        if (storedToken) setToken(storedToken)
-    }, [])
 
     const { data: user } = useQuery<User>({
         queryKey: ['user'],
