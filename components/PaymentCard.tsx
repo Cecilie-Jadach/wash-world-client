@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 
 type PaymentCardProps = {
-    image: 'mobilepay' | 'applepay'
+    image: 'Mobilepay' | 'Applepay'
     selectedCard: boolean
     onSelect: (image: string) => void
 }
@@ -10,11 +10,11 @@ type PaymentCardProps = {
 export default function PaymentCard({ image, selectedCard, onSelect }: PaymentCardProps) {
     return (
         <div
-            onClick={() => onSelect(image)} // When clicked, calls onSelect with the image name ('mobilepay' or 'applepay') so the parent knows which one was selected
+            onClick={() => onSelect(image)} // When clicked, calls onSelect with the image name ('Mobilepay' or 'Applepay') so the parent knows which one was selected
             className={`border p-3xs w-fit h-xl cursor-pointer ${selectedCard ? 'border-green-white-background' : 'border-black'}`}
         >
             <Image
-                className={`w-xl ${image === 'applepay' ? 'translate-y-[50%]' : ''}`}
+                className={`w-xl ${image === 'Applepay' ? 'translate-y-[50%]' : ''}`}
                 src={`/images/${image}.png`}
                 alt={image}
                 width={100}
