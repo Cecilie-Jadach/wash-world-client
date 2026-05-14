@@ -17,16 +17,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <QueryProvider>
     <html
-      lang="da"
-      className="h-full antialiased"
+    lang="da"
+    className="h-full antialiased"
     >
       <body className="h-full">
+      <QueryProvider>
         {children}
         <Navbar />
         <Toaster 
-    position="bottom-center"
+    position="top-center"
     toastOptions={{
         success: {
           icon: <Image src="/icons/check_green_icon.svg" alt="green check icon" width={20} height={20}/>,
@@ -52,8 +52,8 @@ export default function RootLayout({
         }
     }}
 />
+    </QueryProvider>
       </body>
     </html>
-    </QueryProvider>
   );
 }
