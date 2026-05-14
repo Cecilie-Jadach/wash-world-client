@@ -12,25 +12,17 @@ import MapZoom from "./MapZoom"
 import { Location } from "../types/location";
 
 //hooks
-import { fetchLocationsQuery } from "../app/hooks/useLocations"
+import { useLocations } from "@/app/hooks/useLocations";
 import { useFilterLocations } from "../app/hooks/useFilterLocations"
-import { useQuery } from '@tanstack/react-query'
 import { useState } from "react";
 
 function GoogleMapSection() {
+    const { data } = useLocations();
     //react state variabel. selectedLocation = the chosen location, setSelectedLocation = the function we call when the value in selectedLocation change
     //<Location | null> = typescript type that says that it is either a location object or null
     //(null) = the startvalue (no location chosen on the offical load)
     const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
     const [showDropdown, setShowDropdown] = useState(false);
-
-    //useQuery hook that returns {data}
-    const { data } = useQuery<Location[]>({
-        //queryKey that needs to be uniqe
-        queryKey: ['locations'],
-        //pass in the fetchLocationsQuery function to the queryFn (query function)
-        queryFn: fetchLocationsQuery
-    });
 
     //custom hook that returns a object with three things: search, setSearch, filteredLocations
     //search = what is being written in the searchfield 
@@ -64,7 +56,7 @@ function GoogleMapSection() {
                     disableDefaultUI={true}
                 >
                     {/* Component to handle the zoom function, when clicking on location*/}
-                    <MapZoom selectedLocation={selectedLocation} /> 
+                    <MapZoom selectedLocation={selectedLocation} />
 
                     {(data ?? []).map((location, index) => (
                         <AdvancedMarker
@@ -80,33 +72,34 @@ function GoogleMapSection() {
 
             {/* Søgefelt — pointer-events: none på wrapper så klik går igennem til kortet */}
             <div
-                style={{ 
-                pointerEvents: "none", 
-                position: "absolute", 
-                top: "0.5rem", 
-                left: "0", 
-                width: "100%", 
-                display: "flex", 
-                justifyContent: "center", 
-                zIndex: 9999}}>
+                style={{
+                    pointerEvents: "none",
+                    position: "absolute",
+                    top: "0.5rem",
+                    left: "0",
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    zIndex: 9999
+                }}>
                 <div
                     className="relative w-[95%]"
                     style={{ pointerEvents: "auto" }}  // genaktiver kun på selve søgefeltet
                 >
                     <div className="flex justify-between w-full border-b border-grey-10 bg-white px-2xs py-xs placeholder:text-grey-60 focus:outline-1 focus:outline-green-border">
                         <div className="flex gap-2xs grow">
-                        <Image src="/icons/search_icon.svg" alt="search icon" height={20} width={20}/>
-                        <input
-                        className="grow focus:outline-0"
-                        placeholder="Søg på by eller postnummer..."
-                        value={search}
-                        onChange={(e) => {
-                            setSearch(e.target.value);
-                            setShowDropdown(e.target.value.length > 0);
-                        }}
-                    />
+                            <Image src="/icons/search_icon.svg" alt="search icon" height={20} width={20} />
+                            <input
+                                className="grow focus:outline-0"
+                                placeholder="Søg på by eller postnummer..."
+                                value={search}
+                                onChange={(e) => {
+                                    setSearch(e.target.value);
+                                    setShowDropdown(e.target.value.length > 0);
+                                }}
+                            />
                         </div>
-                    <Image src="/icons/location_pen_icon.svg" alt="location pin icon" height={20} width={20}/>
+                        <Image src="/icons/location_pen_icon.svg" alt="location pin icon" height={20} width={20} />
                     </div>
 
                     {/* Dropdown */}
@@ -148,10 +141,10 @@ function GoogleMapSection() {
                                 <p>{selectedLocation.location_address} {selectedLocation.location_address_number}, {selectedLocation.location_postal_code} {selectedLocation.location_city}</p>
                             </div>
                             <div>
-                                <a  href={`https://www.google.com/maps/dir/?api=1&destination=${selectedLocation.location_address}+${selectedLocation.location_address_number},+${selectedLocation.location_postal_code}+${selectedLocation.location_city}`}
-                                    // target="_blank"
-                                    >
-                                <Button icon={false}>Rutevejledning</Button>
+                                <a href={`https://www.google.com/maps/dir/?api=1&destination=${selectedLocation.location_address}+${selectedLocation.location_address_number},+${selectedLocation.location_postal_code}+${selectedLocation.location_city}`}
+                                // target="_blank"
+                                >
+                                    <Button icon={false}>Rutevejledning</Button>
                                 </a>
                             </div>
                         </div>

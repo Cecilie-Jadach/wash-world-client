@@ -3,10 +3,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSignUp } from "../hooks/useSignup";
-import { useQuery } from '@tanstack/react-query';
-import { fetchLocationsQuery } from "../hooks/useLocations";
-import { Location } from "@/types/location";
-import { SignupFormData } from "@/types/signup"
+import { SignupFormData } from "@/types/signup";
+import { useLocations } from "../hooks/useLocations";
 import Label from "@/components/Label";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
@@ -45,6 +43,7 @@ export default function Signup() {
     const [selectedMembership, setSelectedMembership] = useState("");
     const [selectedPayment, setSelectedPayment] = useState("");
     const [step, setStep] = useState(1);
+    const { data } = useLocations();
 
     const {
         register,
@@ -53,12 +52,6 @@ export default function Signup() {
         watch,
         formState: { errors }
     } = useForm<SignupFormData>({ mode: "onTouched" })
-
-    // Fetch locations from the backend using TanStack Query
-    const { data } = useQuery<Location[]>({
-        queryKey: ['locations'],
-        queryFn: fetchLocationsQuery
-    });
 
     // Watch field values in real time to enable/disable the next button
     const [watchEmail, watchConfirmEmail, watchPassword, watchConfirmPassword, watchPhone, watchLicensePlate, watchLocation, watchTerms] =
