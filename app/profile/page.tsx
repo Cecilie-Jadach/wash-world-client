@@ -47,7 +47,7 @@ export default function Profile() {
                             readOnly
                         />
                     </div>
-                    <Button>Rediger dine oplysninger</Button>
+                    <Button href="/profile-edit-information">Rediger dine oplysninger</Button>
                 </div>
 
                 {/* Dit medlemskab */}

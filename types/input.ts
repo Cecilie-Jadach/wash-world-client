@@ -5,4 +5,5 @@ export type InputProps = {
   phoneLabel?: string;
   error?: string;
   showRequired?: boolean;
+  bgWhite?: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement>;
