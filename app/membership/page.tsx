@@ -10,6 +10,7 @@ import { useMembership } from "../hooks/useMembership"
 import toast from 'react-hot-toast'
 import MembershipFeatures from "../../components/MembershipFeatures"
 import InfoLabel from "../../components/InfoLabel"
+import LicensePlates from "../../components/LicensePlates"
 
 export default function MembershipPage() {
     const [token, setToken] = useState<string>('')
@@ -35,7 +36,7 @@ export default function MembershipPage() {
         toast.success('Dit medlemskab er genoptaget')}
 
     return (
-        <main className="m-2xs pb-xl">
+        <main className="mt-xl mx-xs pb-3xl">
             <ReturnArrow />
             <div className="grid gap-lg">
                 <div className="grid gap-s">
@@ -48,18 +49,17 @@ export default function MembershipPage() {
                 <div className="grid gap-xs">
                     <h2 className="font-extrabold text-xl">Handlinger</h2>
                     <div className="grid gap-2xs">
-                        <Button className="justify-center" href="/">Skift medlemsskab</Button>
+                        <Button className="justify-center" href="/edit-membership">Skift medlemsskab</Button>
                         {membershipStatus === 'active' ? (
                         <Button className="justify-center" variant="secondary" icon={false} href="/pause-membership">Sæt på pause</Button>
                         ): (<Button className="justify-center" variant="secondary" icon={false} onClick={handleReactivate} disabled={reactivateMutation.isPending}>{reactivateMutation.isPending ? 'Venter...' : 'Genoptag medlemskab'}</Button>)}
                     </div>
                     <InfoLabel message="Opsigelse af medlemskab sker automatisk ved sletning af profil"/>
                 </div>
-                <div>
+                <div className="grid gap-xs">
                     <h2 className="font-extrabold text-xl">Dine biler</h2>
-                    <div>
-                        
-                    </div>
+                        <LicensePlates token={token}/>
+                    <Button className="justify-center" href="/edit-cars">Rediger biler</Button>
                 </div>
             </div>
         </main>
