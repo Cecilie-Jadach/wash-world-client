@@ -5,12 +5,13 @@ import Image from "next/image";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import DeleteModal from "@/components/DeleteModal";
-import { useProfile } from "@/app/hooks/useProfile";
+import { useUser } from "@/app/hooks/useUser";
 import { useAuth } from "@/app/hooks/useAuth";
+import LicensePlates from "@/components/LicensePlates";
 
 export default function Profile() {
     const [activeDeleteBox, setActiveDeleteBox] = useState(false);
-    const { data: user } = useProfile();
+    const { data: user } = useUser();
     const { handleLogout, deleteUserMutation } = useAuth();
 
     return (
@@ -58,19 +59,10 @@ export default function Profile() {
                     <Button>Rediger medlemskab</Button>
                 </div>
 
-
                 {/* Dine biler */}
                 <div className="flex flex-col gap-s">
                     <h2 className="text-xl font-extrabold">Dine biler</h2>
-                    <div className="flex flex-col gap-s bg-grey-5 border-b border-b-grey-10 p-s">
-                        <Input
-                            id="license_plate"
-                            label="Nummerplade"
-                            placeholder={user?.user_license_plate}
-                            showLicensePlate
-                            readOnly
-                        />
-                    </div>
+                    <LicensePlates />
                     <Button>Rediger biler</Button>
                 </div>
 
