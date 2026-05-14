@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import Button from "@/components/Button";
-import Link from "next/link";
 import MembershipStatusCard from "@/components/MembershipStatusCard";
 import Input from "@/components/Input";
 import DeleteModal from "@/components/DeleteModal";
