@@ -1,8 +1,5 @@
 "use client"
-import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { fetchUserQuery } from '../hooks/useUser'
-import { User } from '../../types/user'
+import { useUser } from '../hooks/useUser'
 import MembershipCard from "../../components/MembershipStatusCard"
 import Button from '../../components/Button'
 import ReturnArrow from '../../components/ReturnArrow'
@@ -13,17 +10,8 @@ import InfoLabel from "../../components/InfoLabel"
 import LicensePlates from "../../components/LicensePlates"
 
 export default function MembershipPage() {
-    const [token] = useState<string>(() => {
-        if (typeof window === 'undefined') return ''
-        return localStorage.getItem('token') || ''})
-    
-    const { reactivateMutation } = useMembership(token)
-
-    const { data: user } = useQuery<User>({
-        queryKey: ['user'],
-        queryFn: () => fetchUserQuery(token),
-        enabled: !!token
-    })
+    const { data: user } = useUser()
+    const { reactivateMutation } = useMembership()
 
     if (!user) return <p>Loader...</p>
 
@@ -31,7 +19,8 @@ export default function MembershipPage() {
 
     const handleReactivate = async () => {
         await reactivateMutation.mutateAsync()
-        toast.success('Dit medlemskab er genoptaget')}
+        toast.success('Dit medlemskab er genoptaget')
+    }
 
     return (
         <main className="mt-xl mx-xs pb-3xl">
@@ -40,23 +29,27 @@ export default function MembershipPage() {
                 <div className="grid gap-s">
                     <div className="grid gap-xs">
                         <h1 className="font-extrabold text-xl">Dit medlemskab</h1>
-                        <MembershipCard user={user} membershipStatus={membershipStatus}/>
+                        <MembershipCard user={user} membershipStatus={membershipStatus} />
                     </div>
-                    <MembershipFeatures user={user}/>
+                    <MembershipFeatures user={user} />
                 </div>
                 <div className="grid gap-xs">
                     <h2 className="font-extrabold text-xl">Handlinger</h2>
                     <div className="grid gap-2xs">
                         <Button className="justify-center" href="/update-membership">Skift medlemsskab</Button>
                         {membershipStatus === 'active' ? (
-                        <Button className="justify-center" variant="secondary" icon={false} href="/pause-membership">Sæt på pause</Button>
-                        ): (<Button className="justify-center" variant="secondary" icon={false} onClick={handleReactivate} disabled={reactivateMutation.isPending}>{reactivateMutation.isPending ? 'Venter...' : 'Genoptag medlemskab'}</Button>)}
+                            <Button className="justify-center" variant="secondary" icon={false} href="/pause-membership">Sæt på pause</Button>
+                        ) : (
+                            <Button className="justify-center" variant="secondary" icon={false} onClick={handleReactivate} disabled={reactivateMutation.isPending}>
+                                {reactivateMutation.isPending ? 'Venter...' : 'Genoptag medlemskab'}
+                            </Button>
+                        )}
                     </div>
-                    <InfoLabel message="Opsigelse af medlemskab sker automatisk ved sletning af profil"/>
+                    <InfoLabel message="Opsigelse af medlemskab sker automatisk ved sletning af profil" />
                 </div>
                 <div className="grid gap-xs">
                     <h2 className="font-extrabold text-xl">Dine biler</h2>
-                        <LicensePlates token={token}/>
+                    <LicensePlates />
                     <Button className="justify-center" href="/edit-cars">Rediger biler</Button>
                 </div>
             </div>

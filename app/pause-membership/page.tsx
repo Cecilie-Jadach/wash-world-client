@@ -10,12 +10,7 @@ import Image from 'next/image'
 export default function PauseMembershipPage() {
     const router = useRouter()
     const [pauseMonths, setPauseMonths] = useState<number>(1)
-
-    const [token] = useState<string>(() => {
-    if (typeof window === 'undefined') return ''
-    return localStorage.getItem('token') || ''})
-
-    const { pauseMutation } = useMembership(token)
+    const { pauseMutation } = useMembership()
 
     const handlePause = async () => {
         await pauseMutation.mutateAsync(pauseMonths)
