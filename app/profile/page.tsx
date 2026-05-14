@@ -14,6 +14,8 @@ export default function Profile() {
     const { data: user } = useUser();
     const { handleLogout, deleteUserMutation } = useAuth();
 
+    if (!user) return null;
+
     return (
         <>
             <div className="mx-2xs mt-xl pb-4xl flex flex-col gap-lg">
@@ -30,20 +32,20 @@ export default function Profile() {
                         <Input
                             id="email"
                             label="E-mail"
-                            placeholder={user?.user_email}
+                            placeholder={user.user_email}
                             readOnly
                         />
                         <Input
                             id="phone"
                             label="Mobilnummer"
                             phoneLabel="+45"
-                            placeholder={user?.user_phone}
+                            placeholder={user.user_phone}
                             readOnly
                         />
                         <Input
                             id="primary_location"
                             label="Primær vaskehal"
-                            placeholder={user?.user_primary_location}
+                            placeholder={user.user_primary_location}
                             readOnly
                         />
                     </div>
@@ -70,8 +72,8 @@ export default function Profile() {
                 <div className="flex flex-col gap-s">
                     <h2 className="text-xl font-extrabold">Betalingsoplysninger</h2>
                     <div className="flex flex-col gap-2xs">
-                        <p>Dine kortoplysninger er tilknyttet {user?.user_payment_method}.</p>
-                        <p>Ønsker du at ændre dine oplysninger, skal dette gøres direkte i {user?.user_payment_method}.</p>
+                        <p>Dine kortoplysninger er tilknyttet {user.user_payment_method}.</p>
+                        <p>Ønsker du at ændre dine oplysninger, skal dette gøres direkte i {user.user_payment_method}.</p>
                     </div>
                 </div>
 
