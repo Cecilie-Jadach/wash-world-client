@@ -1,23 +1,65 @@
 "use client"
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { fetchUserQuery } from '../hooks/useUser'
+import { User } from '../../types/user'
+import MembershipCard from "../../components/MembershipStatusCard"
+import Button from '../../components/Button'
+import ReturnArrow from '../../components/ReturnArrow'
+import { useMembership } from "../hooks/useMembership"
+import toast from 'react-hot-toast'
+import MembershipFeatures from "../../components/MembershipFeatures"
+import InfoLabel from "../../components/InfoLabel"
+import LicensePlates from "../../components/LicensePlates"
 
-import { useState, useEffect } from 'react'
-import ReturnArrow from "../../components/ReturnArrow"
-import MembershipStatusCard from "../../components/MembershipStatusCard"
-
-export default function page() {
-    const status = "active"
-    const [token, setToken] = useState<string>('')
-
-    useEffect(() => {
-        const storedToken = localStorage.getItem('token')
-        if (storedToken) setToken(storedToken)
-    }, [])
+export default function MembershipPage() {
+    const [token] = useState<string>(() => {
+        if (typeof window === 'undefined') return ''
+        return localStorage.getItem('token') || ''})
     
-return (
-    <main className="m-2xs pb-xl">
-        <ReturnArrow/>
-        <h1 className="font-extrabold text-xl">Dit medlemsskab</h1>
-        <MembershipStatusCard membership="Premium" price={169} washes={3} status={status} token={token}/>
-    </main>
-)
+    const { reactivateMutation } = useMembership(token)
+
+    const { data: user } = useQuery<User>({
+        queryKey: ['user'],
+        queryFn: () => fetchUserQuery(token),
+        enabled: !!token
+    })
+
+    if (!user) return <p>Loader...</p>
+
+    const membershipStatus = user.membership_paused_at > 0 ? 'paused' : 'active'
+
+    const handleReactivate = async () => {
+        await reactivateMutation.mutateAsync()
+        toast.success('Dit medlemskab er genoptaget')}
+
+    return (
+        <main className="mt-xl mx-xs pb-3xl">
+            <ReturnArrow />
+            <div className="grid gap-lg">
+                <div className="grid gap-s">
+                    <div className="grid gap-xs">
+                        <h1 className="font-extrabold text-xl">Dit medlemskab</h1>
+                        <MembershipCard user={user} membershipStatus={membershipStatus}/>
+                    </div>
+                    <MembershipFeatures user={user}/>
+                </div>
+                <div className="grid gap-xs">
+                    <h2 className="font-extrabold text-xl">Handlinger</h2>
+                    <div className="grid gap-2xs">
+                        <Button className="justify-center" href="/edit-membership">Skift medlemsskab</Button>
+                        {membershipStatus === 'active' ? (
+                        <Button className="justify-center" variant="secondary" icon={false} href="/pause-membership">Sæt på pause</Button>
+                        ): (<Button className="justify-center" variant="secondary" icon={false} onClick={handleReactivate} disabled={reactivateMutation.isPending}>{reactivateMutation.isPending ? 'Venter...' : 'Genoptag medlemskab'}</Button>)}
+                    </div>
+                    <InfoLabel message="Opsigelse af medlemskab sker automatisk ved sletning af profil"/>
+                </div>
+                <div className="grid gap-xs">
+                    <h2 className="font-extrabold text-xl">Dine biler</h2>
+                        <LicensePlates token={token}/>
+                    <Button className="justify-center" href="/edit-cars">Rediger biler</Button>
+                </div>
+            </div>
+        </main>
+    )
 }
