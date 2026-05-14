@@ -10,18 +10,19 @@ const LicensePlate = () => (
     </div>
 )
 
-export default function Input({ label, id, showLicensePlate, phoneLabel, error, showRequired, className, ...props }: InputProps) {
+export default function Input({ label, id, showLicensePlate, phoneLabel, error, showRequired, bgWhite, className, ...props }: InputProps) {
     const isReadOnly = props.readOnly
+    const bg = bgWhite ? 'bg-white' : 'bg-grey-5'
 
     return (
         <div className="flex flex-col gap-3xs text-md">
             <Label htmlFor={id} required={showRequired}>{label}</Label>
             <div className={`flex items-stretch ${error ? 'border border-error-red' : ''}`}>
                 {showLicensePlate && <LicensePlate />}
-                {phoneLabel && <span className={`${isReadOnly ? "border-none bg-transparent pl-[0] py-[0]" : "border-b border-grey-10 bg-grey-5 pl-2xs py-xs"}`}>{phoneLabel}</span>}
+                {phoneLabel && <span className={`${isReadOnly ? "border-none bg-transparent pl-[0] py-[0]" : `border-b border-grey-10 ${bg} pl-2xs py-xs`}`}>{phoneLabel}</span>}
                 <input id={id}
-                    className={`w-full outline-none 
-                        ${isReadOnly ? 'bg-transparent text-grey-60 placeholder:text-black border-none cursor-default' : 'bg-grey-5 placeholder:text-grey-60 border-b border-grey-10'} 
+                    className={`w-full outline-none
+                        ${isReadOnly ? 'bg-transparent text-grey-60 placeholder:text-black border-none cursor-default' : `${bg} placeholder:text-grey-60 border-b border-grey-10`}
                         ${isReadOnly && !showLicensePlate ? "px-[0] py-[0]" : "px-2xs py-xs"}`}
                     {...props}
                 />
