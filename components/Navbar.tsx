@@ -5,12 +5,14 @@ import Link from "next/link";
 import Button from "@/components/Button";
 import { useState } from "react";
 import { usePathname } from 'next/navigation';
+import { useAuth } from "@/app/hooks/useAuth";
 
 export default function Navbar() {
     const pathname = usePathname();
     const [activeMenu, setActiveMenu] = useState(false);
     const [activeSupport, setActiveSupport] = useState(false);
     const isActive = (path: string) => pathname === path ? 'text-black' : 'text-grey-60'
+    const { handleLogout } = useAuth();
 
     if (["/signup", "/login"].includes(pathname) || pathname.startsWith("/verify")) return null
 
@@ -35,7 +37,7 @@ export default function Navbar() {
                         </div>
                     </div>
                 </div>
-                <Link href="/login">Log ud</Link>
+                <p onClick={handleLogout}>Log ud</p>
             </div>
 
             {/* NAVBAR */}
