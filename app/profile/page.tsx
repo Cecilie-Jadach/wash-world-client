@@ -7,9 +7,13 @@ import Link from "next/link";
 import MembershipStatusCard from "@/components/MembershipStatusCard";
 import Input from "@/components/Input";
 import DeleteModal from "@/components/DeleteModal";
+import { useProfile } from "@/app/hooks/useProfile";
+import { useAuth } from "@/app/hooks/useAuth";
 
 export default function Profile() {
     const [activeDeleteBox, setActiveDeleteBox] = useState(false);
+    const { data: user } = useProfile();
+    const { handleLogout, deleteUserMutation } = useAuth();
 
     return (
         <>
@@ -27,20 +31,20 @@ export default function Profile() {
                         <Input
                             id="email"
                             label="E-mail"
-                            placeholder="a@a.com"
+                            placeholder={user?.user_email}
                             readOnly
                         />
                         <Input
                             id="phone"
                             label="Mobilnummer"
                             phoneLabel="+45"
-                            placeholder="30 69 10 24"
+                            placeholder={user?.user_phone}
                             readOnly
                         />
                         <Input
                             id="primary_location"
                             label="Primær vaskehal"
-                            placeholder="Søborg"
+                            placeholder={user?.user_primary_location}
                             readOnly
                         />
                     </div>
@@ -64,7 +68,7 @@ export default function Profile() {
                         <Input
                             id="license_plate"
                             label="Nummerplade"
-                            placeholder="AB12345"
+                            placeholder={user?.user_license_plate}
                             showLicensePlate
                             readOnly
                         />
@@ -76,13 +80,13 @@ export default function Profile() {
                 <div className="flex flex-col gap-s">
                     <h2 className="text-xl font-extrabold">Betalingsoplysninger</h2>
                     <div className="flex flex-col gap-2xs">
-                        <p>Dine kortoplysninger er tilknyttet MobilePay.</p>
-                        <p>Ønsker du at ændre dine oplysninger, skal dette gøres direkte i MobilePay.</p>
+                        <p>Dine kortoplysninger er tilknyttet {user?.user_payment_method}.</p>
+                        <p>Ønsker du at ændre dine oplysninger, skal dette gøres direkte i {user?.user_payment_method}.</p>
                     </div>
                 </div>
 
                 <div className="flex flex-col gap-sm">
-                    <Button variant="dark" icon={false} href="/login">Log ud</Button>
+                    <Button variant="dark" icon={false} onClick={handleLogout}>Log ud</Button>
                     <p onClick={() => setActiveDeleteBox(true)} className="text-error-red font-extrabold">Slet profil</p>
                 </div>
 
@@ -96,7 +100,7 @@ export default function Profile() {
                     deleteMessage="Er du sikker på, at du vil slette din profil?"
                     buttonText="Slet profil"
                     onCancel={() => setActiveDeleteBox(false)}
-                    onConfirm={() => { /* delete logic */ setActiveDeleteBox(false); }}
+                    onConfirm={() => deleteUserMutation.mutate()}
                 />
             )}
         </>
