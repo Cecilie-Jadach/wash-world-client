@@ -8,7 +8,7 @@ export function useAuth() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     queryClient.clear();
-    router.push("/login");
+    router.push("/");
   };
 
   const deleteUserMutation = useMutation({

@@ -1,31 +1,45 @@
 "use client"
 
+//hooks
 import { useRouter } from 'next/navigation'
 import { useForm } from "react-hook-form"
+
+//types
 import { LoginFormData } from "@/types/login"
+
+//components
 import Input from "@/components/Input"
 import Error from "@/components/Error"
 import Button from "@/components/Button"
+
+//next
 import Link from "next/link"
 
 export default function LoginPage() {
     const router = useRouter()
 
+    //useForm håndterer al form logik
+    //mode: onTouched betyder at validering kører efter brugeren forlader et felt
     const {
-        register,
-        handleSubmit,
-        watch,
-        setError,
-        formState: { errors }
+        register, // forbinder inputs til react-hook-form
+        handleSubmit, // wrapper der validerer formen før onSubmit kaldes
+        watch, // lytter på feltværdier i realtid
+        setError, // bruges til at sætte fejlbeskeder manuelt (fx fra API)
+        formState: { errors } // indeholder alle aktive fejlbeskeder
     } = useForm<LoginFormData>({ mode: "onTouched" })
 
+    // watch lytter på email og password i realtid
+    // bruges til at disable login knappen hvis felterne er tomme
     const [watchEmail, watchPassword] = watch(["email", "password"])
 
+    // onSubmit kaldes kun hvis react-hook-form validering er bestået
     const onSubmit = async (formData: LoginFormData) => {
+        // FormData bruges fordi Flask forventer form data og ikke JSON
         const data = new FormData()
         data.append('email', formData.email)
         data.append('password', formData.password)
 
+        // Send login request til Flask backend
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/login`, {
             method: 'POST',
             body: data
@@ -33,13 +47,16 @@ export default function LoginPage() {
 
         const json = await response.json()
 
+        // Hvis Flask returnerer en fejl (fx forkert adgangskode)
+        // sættes fejlen på 'root' så den vises under password feltet
         if (!response.ok) {
-            // Sæt fejl direkte på feltet i stedet for en separat state
             setError('root', { message: json.error })
             return
         }
-
+        
+        // Gem JWT token i localStorage så det kan bruges i efterfølgende requests
         localStorage.setItem('token', json.access_token)
+        // Send brugeren videre til kortsiden efter succesfuldt login
         router.push('/map')
     }
 
@@ -76,7 +93,7 @@ export default function LoginPage() {
                         <div className="pt-3xs">
                         {errors.root && <Error>{errors.root.message}</Error>}
                         </div>
-                <Link className="font-extrabold text-green-white-background text-sm self-end" href="">Glemt adgangskode?</Link>
+                <Link className="font-extrabold text-green-white-background text-sm self-end" href="/forgot-password">Glemt adgangskode?</Link>
                 </div>
                 </div>
                 <div className="flex gap-s">
