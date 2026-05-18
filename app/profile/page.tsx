@@ -55,7 +55,7 @@ export default function Profile() {
                 <div className="flex flex-col gap-s">
                     <h2 className="text-xl font-extrabold">Dit medlemskab</h2>
                     <MembershipStatusCard user={user} membershipStatus={membershipStatus} />
-                    <Button href="/update-membership">Rediger medlemskab</Button>
+                    <Button href="/membership">Rediger medlemskab</Button>
                 </div>
 
                 {/* Dine biler */}
