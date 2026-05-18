@@ -28,7 +28,7 @@ export default function MembershipPage() {
             <div className="grid gap-lg">
                 <div className="grid gap-s">
                     <div className="grid gap-xs">
-                        <h1 className="font-extrabold text-xl">Dit medlemskab</h1>
+                        <h1 data-testid="membership-title" className="font-extrabold text-xl">Dit medlemskab</h1>
                         <MembershipCard user={user} membershipStatus={membershipStatus} />
                     </div>
                     <MembershipFeatures user={user} />

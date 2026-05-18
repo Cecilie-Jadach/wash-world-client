@@ -42,7 +42,7 @@ export default function VerifyPage({ params }: { params: Promise<{ key: string }
         // Verified succesfully result
         <div className="flex flex-col gap-3xl items-center top-[50%] translate-y-[50%]">
             <Image src="/icons/check_green_outline_icon.svg" alt="Green outlined check" height={151} width={151} />
-            <p className="text-xl text-center">Du er nu medlem! <br />Kør direkte til vaskehallen og kom i gang.</p>
+            <p className="text-xl text-center">Du er nu medlem! <br />Du kan nu logge ind.</p>
         </div>
     )
 }

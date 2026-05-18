@@ -121,7 +121,7 @@ function GoogleMapSection() {
             </div>
 
            {/* Filter toggle knap */}
-            <button 
+            <button data-cy="filter-button"
             className="pointer-events-auto absolute top-3xl right-[0.7rem] z-999 bg-white shadow-md p-3xs w-[36px] h-[36px] flex items-center justify-center"
             onClick={() => setShowFilter(!showFilter)}>
             {showFilter ? 
