@@ -10,7 +10,7 @@ export default function MapZoom({ selectedLocation }: { selectedLocation: Locati
     useEffect(() => {
         if (!map || !selectedLocation) return;
         map.panTo({ lat: selectedLocation.latitude, lng: selectedLocation.longitude });
-        map.setZoom(14);
+        map.setZoom(10);
     }, [map, selectedLocation]);
 
     return null;

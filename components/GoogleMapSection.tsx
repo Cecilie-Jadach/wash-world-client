@@ -4,16 +4,16 @@ import { APIProvider, Map, AdvancedMarker } from "@vis.gl/react-google-maps";
 import Image from 'next/image'
 
 //components
-import Button from "../components/Button"
-import BusynessLabel from "../components/BusynessLabel"
+import Button from "@/components/Button"
+import BusynessLabel from "@/components/BusynessLabel"
 import MapZoom from "./MapZoom"
 
 //type
-import { Location } from "../types/location";
+import { Location } from "@/types/location";
 
 //hooks
 import { useLocations } from "@/app/hooks/useLocations";
-import { useFilterLocations } from "../app/hooks/useFilterLocations"
+import { useFilterLocations } from "@/app/hooks/useFilterLocations"
 import { useState } from "react";
 
 function GoogleMapSection() {
@@ -23,13 +23,14 @@ function GoogleMapSection() {
     //(null) = the startvalue (no location chosen on the offical load)
     const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [showFilter, setShowFilter] = useState(false);
 
     //custom hook that returns a object with three things: search, setSearch, filteredLocations
     //search = what is being written in the searchfield 
     //setSearch = the function for updating the search text
     //filteredLocations = the list of locations that match the search text
     //data ?? [] = if the data exist use data otherwise use an empty array
-    const { search, setSearch, filteredLocations } = useFilterLocations(data ?? [])
+    const { search, setSearch, filteredLocations, filterSelfWash, setFilterSelfWash } = useFilterLocations(data ?? [])
 
 
     //function that runs when you choose a location
@@ -58,7 +59,7 @@ function GoogleMapSection() {
                     {/* Component to handle the zoom function, when clicking on location*/}
                     <MapZoom selectedLocation={selectedLocation} />
 
-                    {(data ?? []).map((location, index) => (
+                    {(filteredLocations).map((location, index) => (
                         <AdvancedMarker
                             key={index}
                             position={{ lat: location.latitude, lng: location.longitude }}
@@ -104,11 +105,11 @@ function GoogleMapSection() {
 
                     {/* Dropdown */}
                     {showDropdown && filteredLocations.length > 0 && (
-                        <ul className="absolute top-7 left-0 w-full bg-white rounded-[5px] max-h-60 overflow-y-auto">
+                        <ul className="absolute top-7 left-0 w-full bg-white mt-4xs max-h-60 overflow-y-auto px-3xs">
                             {filteredLocations.map((location, index) => (
                                 <li
                                     key={index}
-                                    className="p-2xs cursor-pointer"
+                                    className="p-2xs cursor-pointer border-b border-grey-10"
                                     onMouseDown={() => handleSelectLocation(location)}  // onMouseDown før onBlur
                                 >
                                     <p>{location.location_name}, {location.location_postal_code}</p>
@@ -118,6 +119,37 @@ function GoogleMapSection() {
                     )}
                 </div>
             </div>
+
+           {/* Filter toggle knap */}
+            <button 
+            className="pointer-events-auto absolute top-3xl right-[0.7rem] z-999 bg-white shadow-md p-3xs w-[36px] h-[36px] flex items-center justify-center"
+            onClick={() => setShowFilter(!showFilter)}>
+            {showFilter ? 
+            <Image src="/icons/cross_icon.svg" alt="close filter" width={12} height={12}/> : 
+            <Image src="/icons/filter_icon.svg" alt="filter" width={20} height={20}/>}
+            </button>
+
+            {/* Show filter */}
+            {showFilter && (
+            <div className="pointer-events-auto absolute top-[8.5rem] right-2xs z-999 bg-white shadow-md flex overflow-hidden">
+                <button 
+                    onClick={() => setFilterSelfWash(false)} 
+                    style={{clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)', marginRight: '-8px'}}
+                    className={`px-xs py-4xs text-sm transition-colors ${!filterSelfWash 
+                        ? 'bg-green-white-background text-white font-extrabold' 
+                        : 'bg-white'}`}>
+                    Vaskehaller
+                </button>
+                <button 
+                    onClick={() => setFilterSelfWash(true)} 
+                    style={{clipPath: 'polygon(10% 0, 100% 0, 100% 100%, 0 100%)'}}
+                    className={`px-xs py-4xs text-sm transition-colors ${filterSelfWash 
+                        ? 'bg-green-white-background text-white font-extrabold' 
+                        : 'bg-white'}`}>
+                    Vask selv
+                </button>
+            </div>)}
+
 
             {/* Modal */}
             {selectedLocation && (
@@ -130,7 +162,7 @@ function GoogleMapSection() {
                     <div
                         //onClick={(e) => e.stopPropagation()} = to stop event bubbling
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white w-[97%] p-3xs grid gap-s border border-black"
+                        className="bg-white w-[97%] p-3xs grid gap-s border border-grey-10 shadow-md"
                     >
                         <div className="grid gap-xs">
                             <div className="grid gap-4xs">
