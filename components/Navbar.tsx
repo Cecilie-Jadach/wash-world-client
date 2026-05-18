@@ -3,15 +3,19 @@
 import React from "react";
 import Link from "next/link";
 import Button from "@/components/Button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
     const pathname = usePathname();
     const [activeMenu, setActiveMenu] = useState(false);
     const [activeSupport, setActiveSupport] = useState(false);
+    const [prevPathname, setPrevPathname] = useState(pathname);
 
-    useEffect(() => { setActiveMenu(false); }, [pathname]);
+    if (prevPathname !== pathname) {
+        setPrevPathname(pathname);
+        setActiveMenu(false);
+    }
     const isActive = (path: string) => pathname === path ? 'text-black' : 'text-grey-60'
 
     if (["/signup", "/login", "/", "/forgot-password"].includes(pathname) || pathname.startsWith("/verify") || pathname.startsWith("/reset-password")) return null
