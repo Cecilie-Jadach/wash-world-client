@@ -6,14 +6,19 @@ import Input from "@/components/Input";
 import DeleteModal from "@/components/DeleteModal";
 import { useUser } from "@/app/hooks/useUser";
 import { useAuth } from "@/app/hooks/useAuth";
+import { useMembership } from "../hooks/useMembership";
 import LicensePlates from "@/components/LicensePlates";
+import MembershipStatusCard from "@/components/MembershipStatusCard";
 
 export default function Profile() {
-    const [activeDeleteBox, setActiveDeleteBox] = useState(false);
     const { data: user } = useUser();
+    const { reactivateMutation } = useMembership()
     const { handleLogout, deleteUserMutation } = useAuth();
+    const [activeDeleteBox, setActiveDeleteBox] = useState(false);
 
     if (!user) return null;
+
+    const membershipStatus = user.membership_paused_at > 0 ? 'paused' : 'active'
 
     return (
         <>
@@ -49,10 +54,8 @@ export default function Profile() {
                 {/* Dit medlemskab */}
                 <div className="flex flex-col gap-s">
                     <h2 className="text-xl font-extrabold">Dit medlemskab</h2>
-                    <div className="bg-grey-5 border-b border-b-grey-10 p-s">
-                        <p>MembershipStatusCard</p>
-                    </div>
-                    <Button>Rediger medlemskab</Button>
+                    <MembershipStatusCard user={user} membershipStatus={membershipStatus} />
+                    <Button href="/update-membership">Rediger medlemskab</Button>
                 </div>
 
                 {/* Dine biler */}
