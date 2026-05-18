@@ -1,6 +1,6 @@
 "use client"
 import { useUser } from '../hooks/useUser'
-import MembershipCard from "../../components/MembershipStatusCard"
+import MembershipStatusCard from "../../components/MembershipStatusCard"
 import Button from '../../components/Button'
 import ReturnArrow from '../../components/ReturnArrow'
 import { useMembership } from "../hooks/useMembership"
@@ -29,7 +29,7 @@ export default function MembershipPage() {
                 <div className="grid gap-s">
                     <div className="grid gap-xs">
                         <h1 className="font-extrabold text-xl">Dit medlemskab</h1>
-                        <MembershipCard user={user} membershipStatus={membershipStatus} />
+                        <MembershipStatusCard user={user} membershipStatus={membershipStatus} />
                     </div>
                     <MembershipFeatures user={user} />
                 </div>
@@ -50,7 +50,7 @@ export default function MembershipPage() {
                 <div className="grid gap-xs">
                     <h2 className="font-extrabold text-xl">Dine biler</h2>
                     <LicensePlates />
-                    <Button className="justify-center" href="/edit-cars">Rediger biler</Button>
+                    <Button className="justify-center" href="/edit-license-plates">Rediger biler</Button>
                 </div>
             </div>
         </main>
