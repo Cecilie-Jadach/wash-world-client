@@ -1,26 +1,67 @@
 "use client"
 
+import { useState } from "react"
 import { useLicensePlates } from "../app/hooks/useLicensePlates"
+import DeleteModal from "@/components/DeleteModal";
+import Image from "next/image"
 
-export default function LicensePlates() {
+const TrashIcon = () => (
+    <Image src="/icons/trash_icon.svg" alt="Trashcan icon" height={22} width={22} />
+)
+
+interface LicensePlatesProps {
+    showTrashIcon?: boolean
+    onDelete?: (plate: string) => void
+}
+
+export default function LicensePlates({ showTrashIcon, onDelete }: LicensePlatesProps) {
     const { data } = useLicensePlates()
+    const [plateToDelete, setPlateToDelete] = useState<string | null>(null);
+
+    const canDelete = (data ?? []).length > 1;
 
     return (
-        <div className="bg-grey-5 p-s">
+        <div className="flex flex-col gap-s">
             {(data ?? []).map((licenseplate, index) => (
-                <div key={index} className="grid gap-3xs">
+                <div key={index} className="grid gap-3xs bg-grey-5 p-s border-b border-b-grey-10">
                     <p className="font-extrabold">Nummerplade</p>
-                    <div className="flex items-center gap-2xs">
-                        <div className="flex flex-col items-center justify-center gap-[2px] bg-[#335ab3] px-4xs border-b border-[#21418B] pt-[1.8px]">
-                            <svg width="18" height="18" viewBox="0 0 19 19" fill="none"><path d="M9.598.7l.29.9h.945l-.76.557.286.901-.761-.557-.761.557.29-.9-.76-.557h.94L9.597.7zM5.714 1.743l.291.9h.945l-.761.557.286.9-.76-.556-.761.557.29-.9-.76-.558h.94l.29-.9zM2.867 4.61l.29.9h.945l-.76.557.286.901-.761-.556-.761.556.29-.9-.76-.557h.94l.29-.9zM1.83 8.52l.29.901h.945l-.76.557.286.901-.76-.557-.762.557.29-.9-.76-.557h.94l.291-.901zm1.036 3.911l.29.9h.945l-.76.557.286.901-.761-.556-.761.556.29-.9-.76-.557h.94l.29-.9zM5.714 15.3l.291.9h.945l-.761.557.286.901-.76-.556-.761.556.29-.9-.76-.557h.94l.29-.9zm7.767-13.556l.29.9h.946l-.761.557.286.9-.76-.556-.762.557.291-.9-.76-.558h.94l.29-.9zM16.33 4.61l.29.9h.945l-.76.557.286.901-.76-.556-.762.556.29-.9-.76-.557h.94l.291-.9zm1.036 3.91l.29.901h.945l-.76.557.286.901-.761-.557-.761.557.29-.9-.76-.557h.94l.29-.901zm-1.036 3.911l.29.9h.945l-.76.557.286.901-.76-.556-.762.556.29-.9-.76-.557h.94l.291-.9zm-6.731 3.91l.29.901h.945l-.76.557.286.9-.761-.556-.761.557.29-.9-.76-.557h.94l.29-.901zM13.48 15.3l.29.9h.946l-.761.557.286.901-.76-.556-.762.556.291-.9-.76-.557h.94l.29-.9z" fill="#FC0"></path></svg>
-                            <p className="font-extrabold text-[8px] text-white">DK</p>
+                    <div className="flex justify-between">
+                        <div className="flex items-stretch gap-2xs">
+                            <div className="flex flex-col items-center justify-center gap-[2px] bg-[#335ab3] px-4xs border-b border-[#21418B] pt-[1.8px]">
+                                <svg width="18" height="18" viewBox="0 0 19 19" fill="none"><path d="M9.598.7l.29.9h.945l-.76.557.286.901-.761-.557-.761.557.29-.9-.76-.557h.94L9.597.7zM5.714 1.743l.291.9h.945l-.761.557.286.9-.76-.556-.761.557.29-.9-.76-.558h.94l.29-.9zM2.867 4.61l.29.9h.945l-.76.557.286.901-.761-.556-.761.556.29-.9-.76-.557h.94l.29-.9zM1.83 8.52l.29.901h.945l-.76.557.286.901-.76-.557-.762.557.29-.9-.76-.557h.94l.291-.901zm1.036 3.911l.29.9h.945l-.76.557.286.901-.761-.556-.761.556.29-.9-.76-.557h.94l.29-.9zM5.714 15.3l.291.9h.945l-.761.557.286.901-.76-.556-.761.556.29-.9-.76-.557h.94l.29-.9zm7.767-13.556l.29.9h.946l-.761.557.286.9-.76-.556-.762.557.291-.9-.76-.558h.94l.29-.9zM16.33 4.61l.29.9h.945l-.76.557.286.901-.76-.556-.762.556.29-.9-.76-.557h.94l.291-.9zm1.036 3.91l.29.901h.945l-.76.557.286.901-.761-.557-.761.557.29-.9-.76-.557h.94l.29-.901zm-1.036 3.911l.29.9h.945l-.76.557.286.901-.76-.556-.762.556.29-.9-.76-.557h.94l.291-.9zm-6.731 3.91l.29.901h.945l-.76.557.286.9-.761-.556-.761.557.29-.9-.76-.557h.94l.29-.901zM13.48 15.3l.29.9h.946l-.761.557.286.901-.76-.556-.762.556.291-.9-.76-.557h.94l.29-.9z" fill="#FC0"></path></svg>
+                                <p className="font-extrabold text-[8px] text-white">DK</p>
+                            </div>
+                            <div className="py-xs">
+                                <p>{licenseplate.user_license_plate}</p>
+                            </div>
                         </div>
-                        <div>
-                            <p>{licenseplate.user_license_plate}</p>
-                        </div>
+                        {showTrashIcon && (
+                            <button
+                                onClick={() => canDelete && setPlateToDelete(licenseplate.user_license_plate)}
+                                disabled={!canDelete}
+                                className={!canDelete ? "opacity-30 cursor-not-allowed" : ""}
+                            >
+                                <TrashIcon />
+                            </button>
+                        )}
                     </div>
                 </div>
             ))}
+
+            {/* Backdrop */}
+            <div className={`fixed inset-0 bg-black top-[0] left-[0] w-full h-full transition-opacity duration-500 ${plateToDelete ? 'opacity-30' : 'opacity-0 pointer-events-none'}`} />
+
+            {plateToDelete && (
+                <DeleteModal
+                    deleteMessage={`Er du sikker på, at du vil slette denne nummerplade ${plateToDelete}?`}
+                    buttonText="Slet nummerplade"
+                    onConfirm={() => {
+                        onDelete?.(plateToDelete);
+                        setPlateToDelete(null);
+                    }}
+                    onCancel={() => setPlateToDelete(null)}
+                />
+            )}
         </div>
     )
 }
