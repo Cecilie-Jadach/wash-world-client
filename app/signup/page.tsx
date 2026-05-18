@@ -296,7 +296,9 @@ export default function Signup() {
                             <Checkbox
                                 id="access_to_all_washes"
                                 label={<span>Fri adgang til alle vaskehaller 10 kr/mdr.</span>}
-                                {...register("access_to_all_washes")}
+                                {...register("access_to_all_washes", {
+                                    onChange: () => trigger("terms_accepted")
+                                })}
                             />
                             <Checkbox
                                 id="terms_accepted"
@@ -304,13 +306,16 @@ export default function Signup() {
                                 error={errors.terms_accepted?.message}
                                 label={<span>Jeg accepterer Wash Worlds <a className="underline" href="https://washworld.dk/vilkaar" target="_blank">vilkår</a></span>}
                                 {...register("terms_accepted", {
-                                    required: "Accepteret vilkår er påkrævet"
+                                    required: "Accepteret vilkår er påkrævet",
+                                    onChange: () => trigger("terms_accepted")
                                 })}
                             />
                             <Checkbox
                                 id="offers_accepted"
                                 label={<span>Jeg accepterer, at Wash World må sende mig tilbud.</span>}
-                                {...register("offers_accepted")}
+                                {...register("offers_accepted", {
+                                    onChange: () => trigger("terms_accepted")
+                                })}
                             />
                         </div>
                     </div>
