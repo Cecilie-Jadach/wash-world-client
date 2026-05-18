@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Navbar from "@/components/Navbar"
+import ScrollToTop from "@/components/ScrollToTop"
 import "./globals.css"
 import QueryProvider from "../components/QueryProvider"
 import { Toaster } from 'react-hot-toast'
@@ -23,6 +24,7 @@ export default function RootLayout({
     >
       <body className="h-full">
       <QueryProvider>
+        <ScrollToTop />
         {children}
         <Navbar />
         <Toaster 

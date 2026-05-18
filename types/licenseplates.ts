@@ -1,3 +1,3 @@
 export type UserLicensePlates = {
-    user_license_plate: string
-}
+  user_license_plate: string;
+};

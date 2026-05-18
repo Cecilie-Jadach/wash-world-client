@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react";
-import Image from "next/image";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import DeleteModal from "@/components/DeleteModal";
@@ -19,11 +18,6 @@ export default function Profile() {
     return (
         <>
             <div className="mx-2xs mt-xl pb-4xl flex flex-col gap-lg">
-                {/* Top section */}
-                <div className="flex gap-m">
-                    <Image src="/icons/user_icon.svg" alt="User icon" height={60} width={60} />
-                    <h1 className="text-3xl font-extrabold">Profil</h1>
-                </div>
 
                 {/* Dine oplysninger */}
                 <div className="flex flex-col gap-s">
@@ -49,7 +43,7 @@ export default function Profile() {
                             readOnly
                         />
                     </div>
-                    <Button href="/profile-edit-information">Rediger dine oplysninger</Button>
+                    <Button href="/edit-profile-information">Rediger dine oplysninger</Button>
                 </div>
 
                 {/* Dit medlemskab */}
@@ -65,7 +59,7 @@ export default function Profile() {
                 <div className="flex flex-col gap-s">
                     <h2 className="text-xl font-extrabold">Dine biler</h2>
                     <LicensePlates />
-                    <Button>Rediger biler</Button>
+                    <Button href="/edit-license-plates">Rediger biler</Button>
                 </div>
 
                 {/* Betalingsoplysninger */}
@@ -85,7 +79,7 @@ export default function Profile() {
             </div>
             {/* Confirm delete box */}
             {/* Backdrop */}
-            <div className={`fixed inset-0 bg-black top-[0] w-full h-full transition-opacity duration-500 ${activeDeleteBox ? 'opacity-30' : 'opacity-0 pointer-events-none'}`} />
+            <div className={`fixed inset-0 bg-black top-[0] left-[0] w-full h-full transition-opacity duration-500 ${activeDeleteBox ? 'opacity-30' : 'opacity-0 pointer-events-none'}`} />
 
             {activeDeleteBox && (
                 <DeleteModal
