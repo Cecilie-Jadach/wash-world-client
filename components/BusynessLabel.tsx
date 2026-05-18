@@ -21,11 +21,10 @@ const label = cva(
 
 export default function BusynessLabel({ status }: BusynessLabelProps) {
     return (
-        <div className="flex gap-3xs items-center pt-s border-t border-grey-10">
+        <div className="flex gap-3xs items-center pt-s">
             <div className={label({ status })}>
             {status}
             </div>
-            <p className="text-xs">Mindst travlt før kl. 8 og efter kl. 18</p>
         </div>
     )
 }

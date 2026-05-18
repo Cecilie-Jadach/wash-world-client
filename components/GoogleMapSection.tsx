@@ -130,53 +130,63 @@ function GoogleMapSection() {
                     <div
                         //onClick={(e) => e.stopPropagation()} = to stop event bubbling
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white w-[97%] p-sm grid gap-s border border-black"
+                        className="bg-white w-[97%] p-3xs grid gap-s border border-black"
                     >
                         <div className="grid gap-xs">
-                            <div className="grid gap-3xs">
+                            <div className="grid gap-4xs">
                                 <button className="justify-self-end" onClick={() => setSelectedLocation(null)}>
-                                    <Image src="/icons/cross_icon.svg" alt="cross icon" width={18} height={18} />
+                                    <Image src="/icons/cross_icon.svg" alt="cross icon" width={12} height={12} />
                                 </button>
                                 <h2 className="font-extrabold text-lg">{selectedLocation.location_name}</h2>
                                 <p>{selectedLocation.location_address} {selectedLocation.location_address_number}, {selectedLocation.location_postal_code} {selectedLocation.location_city}</p>
                             </div>
+                        </div>
+
+                        <div className="flex gap-xs">
+                            <div className="flex flex-col bg-grey-10 p-3xs">
+                                <p className="text-sm">Åbningstider</p>
+                                <div className="flex gap-3xs items-center">
+                                <Image src="/icons/clock_icon.svg" alt="clock icon" width={18} height={18} />
+                                <p className="text-sm font-extrabold">7-22</p>
+                            </div>
+                            </div>
+                            <div className="flex flex-col bg-grey-10 p-3xs">
+                                <p className="text-sm">Faciliteter</p>
+                                <div className="flex gap-4xs">
+                                <div className="flex gap-4xs grow">
+                                    <p className="font-extrabold text-sm">{selectedLocation.location_washrooms}</p>
+                                    <p className="text-sm">vaskehaller</p>
+                                </div>
+                                <div>
+                                    {selectedLocation.location_self_washing > 0 && (
+                                        <div className="flex gap-4xs">
+                                            <span>&#x2022;</span>
+                                            <p className="font-extrabold text-sm">{selectedLocation.location_self_washing}</p>
+                                            <p className="text-sm">vask selv</p>
+                                        </div>
+                                    )}
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="grid gap-4xs border-t border-grey-10 p-2xs">
+                            <p className="text-sm">Driftstatus</p>
+                            {selectedLocation.location_operation_status > 0
+                                ? <div className="flex gap-4xs"><div className="flex gap-4xs items-center"> <Image src="/icons/alert_icon.svg" alt="alert icon" width={20} height={20} /></div><p className="font-extrabold">{selectedLocation.location_operation_status_message}</p></div>
+                                : <div className="flex gap-4xs"><div className="flex gap-4xs items-center"> <Image src="/icons/check_green_icon.svg" alt="green check icon" width={20} height={20} /></div><p className="font-extrabold">Alt er som det skal være.</p></div>
+                            }
+                        </div>
+                        <div className="flex w-full justify-between items-end border-t border-grey-10">
+                            <BusynessLabel status={selectedLocation.busyness_status} />
                             <div>
                                 <a href={`https://www.google.com/maps/dir/?api=1&destination=${selectedLocation.location_address}+${selectedLocation.location_address_number},+${selectedLocation.location_postal_code}+${selectedLocation.location_city}`}
                                 // target="_blank"
                                 >
-                                    <Button icon={false}>Rutevejledning</Button>
+                                    <Button icon={false}>Rute</Button>
                                 </a>
                             </div>
                         </div>
-
-                        <div className="grid gap-xs">
-                            <div className="flex gap-3xs items-center">
-                                <Image src="/icons/clock_icon.svg" alt="clock icon" width={24} height={24} />
-                                <p className="text-lg font-extrabold">7-22</p>
-                            </div>
-                            <div className="grid gap-4xs">
-                                <div className="flex gap-3xs">
-                                    <p>Vaskehaller:</p>
-                                    <p className="font-extrabold">{selectedLocation.location_washrooms}</p>
-                                </div>
-                                <div>
-                                    {selectedLocation.location_self_washing > 0 && (
-                                        <div className="flex gap-3xs">
-                                            <p>Vask selv:</p>
-                                            <p className="font-extrabold">{selectedLocation.location_self_washing}</p>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="grid gap-4xs pt-s border-t border-grey-10">
-                            {selectedLocation.location_operation_status > 0
-                                ? <div className="grid gap-4xs"><div className="flex gap-4xs items-center"><p>Driftstatus:</p> <Image src="/icons/alert_icon.svg" alt="alert icon" width={20} height={20} /></div><p className="font-extrabold">{selectedLocation.location_operation_status_message}</p></div>
-                                : <div className="grid gap-4xs"><div className="flex gap-4xs items-center"><p>Driftstatus:</p> <Image src="/icons/check_green_icon.svg" alt="green check icon" width={20} height={20} /></div><p className="font-extrabold">Alt er som det skal være.</p></div>
-                            }
-                        </div>
-                        <BusynessLabel status={selectedLocation.busyness_status} />
                     </div>
                 </div>
             )}
