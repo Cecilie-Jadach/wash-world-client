@@ -167,8 +167,8 @@ export default function Signup() {
                                 error={errors.confirm_email?.message}
                                 {...register("confirm_email", {
                                     required: "Gentag e-mail er påkrævet",
-                                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Ugyldig e-mail" },
-                                    validate: value => value === watchEmail || "E-mails matcher ikke"
+                                    validate: value => value === watchEmail || "E-mails stemmer ikke overens"
+
                                 })}
                             />
                         </div>
@@ -200,9 +200,8 @@ export default function Signup() {
                                 showRequired
                                 error={errors.confirm_password?.message}
                                 {...register("confirm_password", {
-                                    required: "Adgangskode er påkrævet",
-                                    minLength: { value: 8, message: "Adgangskode skal være mindst 8 tegn" },
-                                    validate: value => value === watchPassword || "Adgangskoder matcher ikke"
+                                    required: "Gentag adgangskode er påkrævet",
+                                    validate: value => value === watchPassword || "Adgangskoder stemmer ikke overens"
                                 })}
                             />
                         </div>
