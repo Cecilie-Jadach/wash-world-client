@@ -1,14 +1,17 @@
 "use client"
 
-import { useState } from "react";
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import DeleteModal from "@/components/DeleteModal";
-import { useUser } from "@/app/hooks/useUser";
-import { useAuth } from "@/app/hooks/useAuth";
-import { useMembership } from "../hooks/useMembership";
-import LicensePlates from "@/components/LicensePlates";
-import MembershipStatusCard from "@/components/MembershipStatusCard";
+// Hooks
+import { useState } from "react"
+import { useUser } from "@/app/hooks/useUser"
+import { useAuth } from "@/app/hooks/useAuth"
+import { useMembership } from "@/app/hooks/useMembership"
+
+// Components
+import Button from "@/components/Button"
+import Input from "@/components/Input"
+import DeleteModal from "@/components/DeleteModal"
+import LicensePlates from "@/components/LicensePlates"
+import MembershipStatusCard from "@/components/MembershipStatusCard"
 
 export default function Profile() {
     const { data: user } = useUser();
@@ -16,7 +19,7 @@ export default function Profile() {
     const { handleLogout, deleteUserMutation } = useAuth();
     const [activeDeleteBox, setActiveDeleteBox] = useState(false);
 
-    if (!user) return null;
+    if (!user) return <p>Dit session er udløbet. Login igen.</p>
 
     const membershipStatus = user.membership_paused_at > 0 ? 'paused' : 'active'
 

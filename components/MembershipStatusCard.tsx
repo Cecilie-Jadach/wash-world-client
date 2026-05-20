@@ -23,10 +23,6 @@ export default function MembershipStatusCard({ user, membershipStatus }: Members
                     user.user_membership === 'Brilliant' && <p>199 kr/md.</p> ||
                     user.user_membership === 'Enkeltvask' && <p>0 kr/md.</p>}
             </div>
-            <div className="flex justify-between">
-                <p>Vaske denne måned</p>
-                <p>3 gange</p>
-            </div>
         </div>
     )
 }

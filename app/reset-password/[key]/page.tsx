@@ -1,10 +1,15 @@
 "use client"
 
+// Hooks
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
+
+// Components
 import Input from "@/components/Input"
 import Button from "@/components/Button"
+
+// Next
 import Image from "next/image"
 import Link from "next/link"
 
@@ -31,11 +36,8 @@ export default function ResetPassword() {
 
     useEffect(() => {
         const validateKey = async () => {
-            console.log('key:', key)
             const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reset-password/${key}`)
-            console.log('status:', response.status)
             const data = await response.json()
-            console.log('data:', data)
             if (!response.ok) {
                 setResetError('Link til nulstilling af adgangskode er udløbet')
                 return
@@ -93,7 +95,8 @@ export default function ResetPassword() {
                         error={errors.password?.message}
                         {...register("password", {
                             required: "Adgangskode er påkrævet",
-                            minLength: { value: 8, message: "Adgangskode skal være mindst 8 tegn" }
+                            minLength: { value: 8, message: "Adgangskode skal være mindst 8 tegn" },
+                            maxLength: { value: 50, message: "Adgangskode må maksimum være 50 tegn" }
                         })}
                     />
                     <Input
@@ -105,7 +108,7 @@ export default function ResetPassword() {
                         error={errors.confirm_password?.message}
                         {...register("confirm_password", {
                             required: "Gentag ny adgangskode er påkrævet",
-                            validate: (value) => value === watchPassword || "Adgangskoderne stemmer ikke overens"
+                            validate: (value) => value === watchPassword || "Adgangskoderne matcher ikke"
                         })}
                     />
                 </legend>

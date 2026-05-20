@@ -1,19 +1,26 @@
 "use client"
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useSignUp } from "../hooks/useSignup";
-import { SignupFormData } from "@/types/signup";
-import { useLocations } from "../hooks/useLocations";
-import Label from "@/components/Label";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
-import Checkbox from "@/components/Checkbox";
-import MembershipCard from "@/components/MembershipCard";
-import PaymentCard from "@/components/PaymentCard";
-import Error from "@/components/Error";
-import MembershipIndicator from "@/components/MembershipIndicatior";
-import Image from "next/image";
+// Next
+import Image from "next/image"
+
+// Hooks
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { useSignUp } from "../hooks/useSignup"
+import { useLocations } from "../hooks/useLocations"
+
+// Types
+import { SignupFormData } from "@/types/signup"
+
+// Components
+import Label from "@/components/Label"
+import Input from "@/components/Input"
+import Button from "@/components/Button"
+import Checkbox from "@/components/Checkbox"
+import MembershipCard from "@/components/MembershipCard"
+import PaymentCard from "@/components/PaymentCard"
+import Error from "@/components/Error"
+import MembershipIndicator from "@/components/MembershipIndicatior"
 
 const TOTAL_STEPS = 8;
 
@@ -57,7 +64,7 @@ export default function Signup() {
     const [watchEmail, watchConfirmEmail, watchPassword, watchConfirmPassword, watchPhone, watchLicensePlate, watchLocation, watchTerms] =
         watch(["email", "confirm_email", "password", "confirm_password", "phone", "license_plate", "primary_location", "terms_accepted"])
 
-    // Converts step (1-8) to stage index (0-3) for the progress indicator
+    // Set the currentStage
     const currentStage = getStageIndex(step)
 
     // Returns true if the current step's requirements are met
@@ -167,7 +174,7 @@ export default function Signup() {
                                 error={errors.confirm_email?.message}
                                 {...register("confirm_email", {
                                     required: "Gentag e-mail er påkrævet",
-                                    validate: value => value === watchEmail || "E-mails stemmer ikke overens"
+                                    validate: value => value === watchEmail || "E-mails matcher ikke"
 
                                 })}
                             />
@@ -189,7 +196,8 @@ export default function Signup() {
                                 error={errors.password?.message}
                                 {...register("password", {
                                     required: "Adgangskode er påkrævet",
-                                    minLength: { value: 8, message: "Adgangskode skal være mindst 8 tegn" }
+                                    minLength: { value: 8, message: "Adgangskode skal være mindst 8 tegn" },
+                                    maxLength: { value: 50, message: "Adgangskode må maksimum være 50 tegn" }
                                 })}
                             />
                             <Input
@@ -201,7 +209,7 @@ export default function Signup() {
                                 error={errors.confirm_password?.message}
                                 {...register("confirm_password", {
                                     required: "Gentag adgangskode er påkrævet",
-                                    validate: value => value === watchPassword || "Adgangskoder stemmer ikke overens"
+                                    validate: value => value === watchPassword || "Adgangskoder matcher ikke"
                                 })}
                             />
                         </div>

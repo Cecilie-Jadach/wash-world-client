@@ -2,10 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Location } from "@/types/location";
 
 const fetchLocations = async (): Promise<Location[]> => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/locations`,
-    { method: "GET" },
-  );
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/locations`);
   const data = await response.json();
   return data.locations;
 };
@@ -19,6 +16,3 @@ export function useLocations() {
     queryFn: fetchLocations,
   });
 }
-
-// Keep for backward compatibility with GoogleMapSection
-export const fetchLocationsQuery = fetchLocations;

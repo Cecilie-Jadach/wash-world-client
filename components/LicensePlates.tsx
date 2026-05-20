@@ -5,10 +5,6 @@ import { useLicensePlates } from "../app/hooks/useLicensePlates"
 import DeleteModal from "@/components/DeleteModal";
 import Image from "next/image"
 
-const TrashIcon = () => (
-    <Image src="/icons/trash_icon.svg" alt="Trashcan icon" height={22} width={22} />
-)
-
 interface LicensePlatesProps {
     showTrashIcon?: boolean
     onDelete?: (plate: string) => void
@@ -41,7 +37,7 @@ export default function LicensePlates({ showTrashIcon, onDelete }: LicensePlates
                                 disabled={!canDelete}
                                 className={!canDelete ? "opacity-30 cursor-not-allowed" : ""}
                             >
-                                <TrashIcon />
+                                <Image src="/icons/trash_icon.svg" alt="Trashcan icon" height={22} width={22} />
                             </button>
                         )}
                     </div>

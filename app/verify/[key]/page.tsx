@@ -1,23 +1,34 @@
 "use client"
 
-import { use } from "react";
+// Hooks
+import { useParams } from "next/navigation"
 import { useRouter } from "next/navigation";
+
+// Tanstack
 import { useQuery } from "@tanstack/react-query";
+
+// Components
 import Button from "@/components/Button";
+
+// Next
 import Image from "next/image";
 
-export default function VerifyPage({ params }: { params: Promise<{ key: string }> }) {
-    const { key } = use(params)
+export default function VerifyPage() {
+    const { key } = useParams()
     const router = useRouter()
 
-    const { isError, error, isSuccess } = useQuery({
+    const { isError, error, isSuccess, isPending } = useQuery({
         queryKey: ["verify", key],
         retry: false,
         queryFn: async () => {
             const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/verify/${key}`)
+
             if (!res.ok) throw new Error("invalid")
+
             const data = await res.json()
-            if (data.message === "User already verified") throw new Error("already_verified")
+
+            if (data.message === "User is already verified") throw new Error("already_verified")
+
             setTimeout(() => router.push("/login"), 3000)
             return data
         }
@@ -35,10 +46,10 @@ export default function VerifyPage({ params }: { params: Promise<{ key: string }
         return <p className="text-xl text-center">Verificering fejlede. Linket er ugyldigt eller udløbet.</p>
     }
 
-    if (!isSuccess) return null
+    if (isPending) return (<p>Loader...</p>)
 
 
-    return (
+    if (isSuccess) return (
         // Verified succesfully result
         <div className="flex flex-col gap-3xl items-center top-[50%] translate-y-[50%]">
             <Image src="/icons/check_green_outline_icon.svg" alt="Green outlined check" height={151} width={151} />

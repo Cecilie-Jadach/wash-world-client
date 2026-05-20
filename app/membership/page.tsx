@@ -1,13 +1,19 @@
 "use client"
+
+// Hooks
 import { useUser } from '../hooks/useUser'
-import MembershipStatusCard from "../../components/MembershipStatusCard"
-import Button from '../../components/Button'
-import ReturnArrow from '../../components/ReturnArrow'
 import { useMembership } from "../hooks/useMembership"
+
+// Components
+import MembershipStatusCard from "@/components/MembershipStatusCard"
+import Button from '@/components/Button'
+import ReturnArrow from '@/components/ReturnArrow'
+import MembershipFeatures from "@/components/MembershipFeatures"
+import InfoLabel from "@/components/InfoLabel"
+import LicensePlates from "@/components/LicensePlates"
+
+// React
 import toast from 'react-hot-toast'
-import MembershipFeatures from "../../components/MembershipFeatures"
-import InfoLabel from "../../components/InfoLabel"
-import LicensePlates from "../../components/LicensePlates"
 
 export default function MembershipPage() {
     const { data: user } = useUser()
@@ -18,8 +24,12 @@ export default function MembershipPage() {
     const membershipStatus = user.membership_paused_at > 0 ? 'paused' : 'active'
 
     const handleReactivate = async () => {
-        await reactivateMutation.mutateAsync()
-        toast.success('Dit medlemskab er genoptaget')
+        try {
+            await reactivateMutation.mutateAsync()
+            toast.success('Dit medlemskab er genoptaget')
+        } catch {
+            toast.error("Medlemskab kunne ikke genoptages. Kontakt support.");
+        }
     }
 
     return (
@@ -40,8 +50,8 @@ export default function MembershipPage() {
                         {membershipStatus === 'active' ? (
                             <Button className="justify-center" variant="secondary" icon={false} href="/pause-membership">Sæt på pause</Button>
                         ) : (
-                            <Button className="justify-center" variant="secondary" icon={false} onClick={handleReactivate} disabled={reactivateMutation.isPending}>
-                                {reactivateMutation.isPending ? 'Venter...' : 'Genoptag medlemskab'}
+                            <Button className="justify-center" variant="secondary" icon={false} onClick={handleReactivate}>
+                                Genoptag medlemskab
                             </Button>
                         )}
                     </div>

@@ -53,7 +53,7 @@ export default function LoginPage() {
             setError('root', { message: json.error })
             return
         }
-        
+
         // Gem JWT token i localStorage så det kan bruges i efterfølgende requests
         localStorage.setItem('token', json.access_token)
         // Send brugeren videre til kortsiden efter succesfuldt login
@@ -72,35 +72,36 @@ export default function LoginPage() {
                         type="email"
                         showRequired
                         error={errors.email?.message}
-                            {...register("email", {
+                        {...register("email", {
                             required: "E-mail er påkrævet",
                             pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Ugyldig e-mail" }
-                            })}
+                        })}
                     />
                     <div className="flex flex-col">
-                    <Input
-                        id="password"
-                        label="Adgangskode"
-                        placeholder="Din adgangskode"
-                        type="password"
-                        showRequired
-                        error={errors.password?.message}
+                        <Input
+                            id="password"
+                            label="Adgangskode"
+                            placeholder="Din adgangskode"
+                            type="password"
+                            showRequired
+                            error={errors.password?.message}
                             {...register("password", {
-                            required: "Adgangskode er påkrævet",
-                            minLength: { value: 8, message: "Adgangskode skal være mindst 8 tegn" }
+                                required: "Adgangskode er påkrævet",
+                                minLength: { value: 8, message: "Adgangskode skal være mindst 8 tegn" },
+                                maxLength: { value: 50, message: "Adgangskode må maksimum være 50 tegn" }
                             })}
                         />
                         <div className="pt-3xs">
-                        {errors.root && <Error>{errors.root.message}</Error>}
+                            {errors.root && <Error>{errors.root.message}</Error>}
                         </div>
-                <Link className="font-extrabold text-green-white-background text-sm self-end" href="/forgot-password">Glemt adgangskode?</Link>
-                </div>
+                        <Link className="font-extrabold text-green-white-background text-sm self-end" href="/forgot-password">Glemt adgangskode?</Link>
+                    </div>
                 </div>
                 <div className="flex gap-s">
-                <Button href="/" variant="secondary" icon={false}>Tilbage</Button>
-                <Button className="grow" type="submit" disabled={!watchEmail || !watchPassword}>
-                    Log ind
-                </Button>
+                    <Button href="/" variant="secondary" icon={false}>Tilbage</Button>
+                    <Button className="grow" type="submit" disabled={!watchEmail || !watchPassword}>
+                        Log ind
+                    </Button>
                 </div>
             </form>
         </main>

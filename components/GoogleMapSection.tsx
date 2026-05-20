@@ -1,6 +1,6 @@
 "use client";
 
-import { APIProvider, Map, AdvancedMarker } from "@vis.gl/react-google-maps";
+import { APIProvider, Map, AdvancedMarker } from "@vis.gl/react-google-maps"
 import Image from 'next/image'
 
 //components
@@ -9,14 +9,16 @@ import BusynessLabel from "@/components/BusynessLabel"
 import MapZoom from "./MapZoom"
 
 //type
-import { Location } from "@/types/location";
+import { Location } from "@/types/location"
 
 //hooks
-import { useLocations } from "@/app/hooks/useLocations";
+import { useLocations } from "@/app/hooks/useLocations"
 import { useFilterLocations } from "@/app/hooks/useFilterLocations"
-import { useState } from "react";
+import { useState } from "react"
+import { useUser } from "@/app/hooks/useUser"
 
 function GoogleMapSection() {
+    const { data: user } = useUser();
     const { data } = useLocations();
     //react state variabel. selectedLocation = the chosen location, setSelectedLocation = the function we call when the value in selectedLocation change
     //<Location | null> = typescript type that says that it is either a location object or null
@@ -45,6 +47,8 @@ function GoogleMapSection() {
 
     //start position for the map
     const position = { lat: 56.2639, lng: 9.5018 }
+
+    if (!user) return <p>Dit session er udløbet. Login igen.</p>
 
     return (
         <div className="relative">
@@ -120,35 +124,35 @@ function GoogleMapSection() {
                 </div>
             </div>
 
-           {/* Filter toggle knap */}
+            {/* Filter toggle knap */}
             <button data-cy="filter-button"
-            className="pointer-events-auto absolute top-3xl right-[0.7rem] z-999 bg-white shadow-md p-3xs w-[36px] h-[36px] flex items-center justify-center"
-            onClick={() => setShowFilter(!showFilter)}>
-            {showFilter ? 
-            <Image src="/icons/cross_icon.svg" alt="close filter" width={12} height={12}/> : 
-            <Image src="/icons/filter_icon.svg" alt="filter" width={20} height={20}/>}
+                className="pointer-events-auto absolute top-3xl right-[0.7rem] z-999 bg-white shadow-md p-3xs w-[36px] h-[36px] flex items-center justify-center"
+                onClick={() => setShowFilter(!showFilter)}>
+                {showFilter ?
+                    <Image src="/icons/cross_icon.svg" alt="close filter" width={12} height={12} /> :
+                    <Image src="/icons/filter_icon.svg" alt="filter" width={20} height={20} />}
             </button>
 
             {/* Show filter */}
             {showFilter && (
-            <div className="pointer-events-auto absolute top-[8.5rem] right-2xs z-999 bg-white shadow-md flex overflow-hidden">
-                <button 
-                    onClick={() => setFilterSelfWash(false)} 
-                    style={{clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)', marginRight: '-8px'}}
-                    className={`px-xs py-4xs text-sm transition-colors ${!filterSelfWash 
-                        ? 'bg-green-white-background text-white font-extrabold' 
-                        : 'bg-white'}`}>
-                    Vaskehaller
-                </button>
-                <button 
-                    onClick={() => setFilterSelfWash(true)} 
-                    style={{clipPath: 'polygon(10% 0, 100% 0, 100% 100%, 0 100%)'}}
-                    className={`px-xs py-4xs text-sm transition-colors ${filterSelfWash 
-                        ? 'bg-green-white-background text-white font-extrabold' 
-                        : 'bg-white'}`}>
-                    Vask selv
-                </button>
-            </div>)}
+                <div className="pointer-events-auto absolute top-[8.5rem] right-2xs z-999 bg-white shadow-md flex overflow-hidden">
+                    <button
+                        onClick={() => setFilterSelfWash(false)}
+                        style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)', marginRight: '-8px' }}
+                        className={`px-xs py-4xs text-sm transition-colors ${!filterSelfWash
+                            ? 'bg-green-white-background text-white font-extrabold'
+                            : 'bg-white'}`}>
+                        Vaskehaller
+                    </button>
+                    <button
+                        onClick={() => setFilterSelfWash(true)}
+                        style={{ clipPath: 'polygon(10% 0, 100% 0, 100% 100%, 0 100%)' }}
+                        className={`px-xs py-4xs text-sm transition-colors ${filterSelfWash
+                            ? 'bg-green-white-background text-white font-extrabold'
+                            : 'bg-white'}`}>
+                        Vask selv
+                    </button>
+                </div>)}
 
 
             {/* Modal */}
@@ -178,26 +182,26 @@ function GoogleMapSection() {
                             <div className="flex flex-col bg-grey-10 p-3xs">
                                 <p className="text-sm">Åbningstider</p>
                                 <div className="flex gap-3xs items-center">
-                                <Image src="/icons/clock_icon.svg" alt="clock icon" width={18} height={18} />
-                                <p className="text-sm font-extrabold">7-22</p>
-                            </div>
+                                    <Image src="/icons/clock_icon.svg" alt="clock icon" width={18} height={18} />
+                                    <p className="text-sm font-extrabold">7-22</p>
+                                </div>
                             </div>
                             <div className="flex flex-col bg-grey-10 p-3xs">
                                 <p className="text-sm">Faciliteter</p>
                                 <div className="flex gap-4xs">
-                                <div className="flex gap-4xs grow">
-                                    <p className="font-extrabold text-sm">{selectedLocation.location_washrooms}</p>
-                                    <p className="text-sm">vaskehaller</p>
-                                </div>
-                                <div>
-                                    {selectedLocation.location_self_washing > 0 && (
-                                        <div className="flex gap-4xs">
-                                            <span>&#x2022;</span>
-                                            <p className="font-extrabold text-sm">{selectedLocation.location_self_washing}</p>
-                                            <p className="text-sm">vask selv</p>
-                                        </div>
-                                    )}
-                                </div>
+                                    <div className="flex gap-4xs grow">
+                                        <p className="font-extrabold text-sm">{selectedLocation.location_washrooms}</p>
+                                        <p className="text-sm">vaskehaller</p>
+                                    </div>
+                                    <div>
+                                        {selectedLocation.location_self_washing > 0 && (
+                                            <div className="flex gap-4xs">
+                                                <span>&#x2022;</span>
+                                                <p className="font-extrabold text-sm">{selectedLocation.location_self_washing}</p>
+                                                <p className="text-sm">vask selv</p>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
