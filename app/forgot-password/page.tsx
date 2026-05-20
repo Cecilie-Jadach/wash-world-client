@@ -40,7 +40,7 @@ export default function ForgotPassword() {
         data.append('email', formData.email)
 
         // Send request til Flask backend
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/forgot-password`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api-forgot-password`, {
             method: 'POST',
             body: data
         })

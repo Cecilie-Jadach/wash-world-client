@@ -37,7 +37,7 @@ export default function ResetPassword() {
             const data = await response.json()
             console.log('data:', data)
             if (!response.ok) {
-                setResetError('Linket er ugyldigt eller udløbet')
+                setResetError('Link til nulstilling af adgangskode er udløbet')
                 return
             }
             setValid(true)
@@ -51,7 +51,7 @@ export default function ResetPassword() {
         data.append('confirm-password', formData.confirm_password)
         data.append('key', key as string)
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/reset-password`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api-reset-password`, {
             method: 'POST',
             body: data
         })

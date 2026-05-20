@@ -10,7 +10,7 @@ export const useSignUp = () => {
     // mutationFn is the function that runs when we call signUp()
     mutationFn: async (formData: FormData) => {
       const response = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/sign-up",
+        process.env.NEXT_PUBLIC_BASE_URL + "/api-sign-up",
         { method: "POST", body: formData },
       );
       // If the server returns an error, we throw so useMutation catches it and updates the error field

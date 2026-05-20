@@ -40,7 +40,7 @@ export default function LoginPage() {
         data.append('password', formData.password)
 
         // Send login request til Flask backend
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/login`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api-login`, {
             method: 'POST',
             body: data
         })

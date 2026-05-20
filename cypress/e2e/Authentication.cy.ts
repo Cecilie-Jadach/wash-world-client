@@ -2,7 +2,7 @@ describe('Authentication', () => {
   it('should successfully log in and redirect to homepage', () => {
 
     //1. Visit the login page
-    cy.visit('http://localhost:3000/login');
+    cy.visit('http://localhost:3000/api-login');
 
     //2. Enter credentials
     cy.get('input[name="email"]').type('a@a.com');
@@ -20,7 +20,7 @@ describe('Authentication', () => {
 
   it('should show error message "Forkert e-mail eller adgangskode" when user is not found', () => {
     //1. Visit the login page
-    cy.visit('http://localhost:3000/login');
+    cy.visit('http://localhost:3000/api-login');
 
     //2. Enter credentials
     cy.get('input[name="email"]').type('f@f.com');
