@@ -1,7 +1,7 @@
 import Image from "next/image"
 
 type ErrorProps = {
-    children: string
+    children: React.ReactNode
 }
 
 export default function Error({ children }: ErrorProps) {
