@@ -1,12 +1,13 @@
 import { User } from '../types/user'
-import { MembershipStatus } from '../types/membership'
 
-type MembershipCardProps = {
+type MembershipStatus = 'active' | 'paused'
+
+type MembershipStatusCardProps = {
     user: User
     membershipStatus: MembershipStatus
 }
 
-export default function MembershipStatusCard({ user, membershipStatus }: MembershipCardProps) {
+export default function MembershipStatusCard({ user, membershipStatus }: MembershipStatusCardProps) {
     return (
         <div className="bg-grey-5 p-s grid gap-s">
             <div>

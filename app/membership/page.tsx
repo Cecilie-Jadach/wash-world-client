@@ -19,7 +19,7 @@ export default function MembershipPage() {
     const { data: user } = useUser()
     const { reactivateMutation } = useMembership()
 
-    if (!user) return <p>Dit session er udløbet. Login igen.</p>
+    if(!user) return <main><h1>Session udløbet.</h1><Button href="/login">Gå til log ind</Button></main>
 
     const membershipStatus = user.membership_paused_at > 0 ? 'paused' : 'active'
 

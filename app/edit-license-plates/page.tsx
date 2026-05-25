@@ -1,32 +1,42 @@
 "use client"
 
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import toast from "react-hot-toast";
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import Error from "@/components/Error";
-import LicensePlates from "@/components/LicensePlates";
-import { useAddLicensePlate } from "../hooks/useAddLicensePlate";
-import { useDeleteLicensePlate } from "../hooks/useDeleteLicensePlate";
-import { useLicensePlates } from "../hooks/useLicensePlates";
+//Hooks
+import { useForm } from "react-hook-form"
+import { useAddLicensePlate } from "@/app/hooks/useAddLicensePlate"
+import { useDeleteLicensePlate } from "@/app/hooks/useDeleteLicensePlate"
+import { useLicensePlates } from "@/app/hooks/useLicensePlates"
 
-interface AddPlateForm {
+//Next
+import Image from "next/image"
+
+//Components
+import Button from "@/components/Button"
+import Input from "@/components/Input"
+import Error from "@/components/Error"
+import LicensePlates from "@/components/LicensePlates"
+import ReturnArrow from "@/components/ReturnArrow"
+
+//React
+import toast from "react-hot-toast"
+
+type AddPlateForm = {
     license_plate: string;
 }
 
 export default function EditCars() {
-    const router = useRouter();
-    const { addLicensePlate, isPending: isAdding, error: addError } = useAddLicensePlate();
+    const { addLicensePlate, isPending, error } = useAddLicensePlate();
     const { deleteLicensePlate } = useDeleteLicensePlate();
     const { data: licensePlates } = useLicensePlates();
 
+    //React Hook form 
     const {
-        register,
-        handleSubmit,
-        reset,
+        register, //En der sættes på inputs, så React Hook Form kan holde styr på deres værdier og validering.
+        handleSubmit, //Funktion der håndterer form-submit. Den sørger for at validering kører først, og kalder kun din onSubmit-funktion hvis alt er gyldigt.
+        reset, //Nulstiller formularen tilbage til defaultValues. Bruges typisk efter et succesfuldt submit.
         formState: { errors, isDirty }
+        //Initialiserer formularen. AddPlateForm fortæller TypeScript hvilke felter formularen har. 
+        //mode: "onTouched" betyder at validering først kører når brugeren har rørt ved et felt. 
+        //defaultValues sætter startværdien for felterne.
     } = useForm<AddPlateForm>({ mode: "onTouched", defaultValues: { license_plate: "" } });
 
     const onAdd = async (data: AddPlateForm) => {
@@ -35,7 +45,7 @@ export default function EditCars() {
             toast.success("Nummerplade tilføjet");
             reset();
         } catch {
-            // error shown below the form via addError
+            toast.error("Kunne ikke tilføje nummerpladen");
         }
     };
 
@@ -50,15 +60,14 @@ export default function EditCars() {
 
     return (
         <div className="mx-2xs mt-xl pb-4xl flex flex-col gap-ml">
-            <button onClick={() => router.back()} className="w-fit">
-                <Image src="/icons/arrow_left_icon.svg" alt="Arrow left icon" height={20} width={20} />
-            </button>
+            <ReturnArrow/>
 
             {/* Dine biler */}
             <div className="flex flex-col gap-s">
                 <h2 className="text-xl font-extrabold">Dine biler</h2>
                 <div className="flex flex-col gap-xs">
                     <LicensePlates showTrashIcon onDelete={handleDelete} />
+                    {/* ??: Hvis værdien til venstre er null er undefined, så brug værdien til højre */}
                     {(licensePlates ?? []).length <= 1 && (
                         <div className="flex gap-2xs">
                             <Image src="/icons/information_icon.svg" alt="Grey information icon" height={16} width={16} />
@@ -86,9 +95,9 @@ export default function EditCars() {
                         })}
                     />
                 </div>
-                {addError && <Error>{addError.message}</Error>}
-                <Button type="submit" icon={false} variant="dark" disabled={!isDirty || isAdding}>
-                    {isAdding ? "Tilføjer..." : "Tilføj bil"}
+                {error && <Error>{error.message}</Error>}
+                <Button type="submit" icon={false} variant="dark" disabled={!isDirty}>
+                    Tilføj bil
                 </Button>
             </form>
         </div>

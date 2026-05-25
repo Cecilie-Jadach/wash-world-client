@@ -1,11 +1,15 @@
 "use client"
-
+//Hooks
 import { useState } from "react"
 import { useLicensePlates } from "../app/hooks/useLicensePlates"
-import DeleteModal from "@/components/DeleteModal";
+
+//Components
+import DeleteModal from "@/components/DeleteModal"
+
+//Next
 import Image from "next/image"
 
-interface LicensePlatesProps {
+type LicensePlatesProps = {
     showTrashIcon?: boolean
     onDelete?: (plate: string) => void
 }
@@ -37,7 +41,7 @@ export default function LicensePlates({ showTrashIcon, onDelete }: LicensePlates
                                 disabled={!canDelete}
                                 className={!canDelete ? "opacity-30 cursor-not-allowed" : ""}
                             >
-                                <Image src="/icons/trash_icon.svg" alt="Trashcan icon" height={22} width={22} />
+                                <Image src="/icons/trash_icon.svg" alt="delete licenseplate" height={22} width={22} />
                             </button>
                         )}
                     </div>

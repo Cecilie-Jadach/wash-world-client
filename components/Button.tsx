@@ -1,7 +1,5 @@
-import React from 'react';
-import Link from 'next/link';
-import { cva } from 'class-variance-authority';
-import { VariantProps } from 'class-variance-authority';
+import Link from 'next/link'
+import { cva, VariantProps } from 'class-variance-authority'
 
 type ButtonProps = VariantProps<typeof buttonStyles> & {
     children: React.ReactNode
@@ -14,6 +12,7 @@ type ArrowIconProps = {
     variant?: VariantProps<typeof buttonStyles>['variant']
 }
 
+//https://cva.style/docs/getting-started/typescript
 const buttonStyles = cva(
     'inline-flex items-center justify-center gap-3xs h-fit font-extrabold text-md border-b disabled:opacity-70 disabled:cursor-not-allowed',
     {

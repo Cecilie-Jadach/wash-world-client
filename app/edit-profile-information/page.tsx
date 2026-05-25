@@ -1,20 +1,27 @@
 "use client"
+//Hooks 
+import { useEffect } from "react"
+import { useForm } from "react-hook-form"
+import { useUser } from "@/app/hooks/useUser"
+import { useLocations } from "@/app/hooks/useLocations"
+import { useUpdateUser } from "@/app/hooks/useUpdateUser"
 
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import Image from "next/image";
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import Label from "@/components/Label";
-import Error from "@/components/Error";
-import { useUser } from "@/app/hooks/useUser";
-import { useLocations } from "../hooks/useLocations";
-import { useUpdateUser } from "../hooks/useUpdateUser";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+//Components
+import Button from "@/components/Button"
+import Input from "@/components/Input"
+import Label from "@/components/Label"
+import Error from "@/components/Error"
+import ReturnArrow from "@/components/ReturnArrow"
+
+//React
+import toast from "react-hot-toast"
+
+//Next
+import Image from "next/image"
+import { useRouter } from "next/navigation"
 
 // Matches the field names the backend expects on PATCH /users/update
-interface EditFormData {
+type EditFormData = {
     email: string;
     phone: string;
     primary_location: string;
@@ -23,7 +30,7 @@ interface EditFormData {
 export default function EditProfileInformation() {
     const { data: user } = useUser();
     const { data } = useLocations();
-    const { updateUser, isPending, error } = useUpdateUser();
+    const { updateUser, error } = useUpdateUser();
     const router = useRouter();
 
     const {
@@ -45,7 +52,7 @@ export default function EditProfileInformation() {
     }, [user, reset]);
 
     // Don't render the form until we have the user data to fill it with
-    if (!user) return null;
+    if (!user) return null
 
     const onSubmit = async (data: EditFormData) => {
         try {
@@ -54,16 +61,13 @@ export default function EditProfileInformation() {
             // Go back to the profile page after a successful save
             router.push("/profile");
         } catch {
-            // The error is shown below the form via the error field from useUpdateUser
+            toast.error("Ændringer kunne ikke gemmes");
         }
     };
 
     return (
         <div className="mx-2xs mt-xl pb-4xl flex flex-col gap-ml">
-            {/* Go back arrow */}
-            <button onClick={() => router.back()} className="w-fit">
-                <Image src="/icons/arrow_left_icon.svg" alt="Arrow left icon" height={20} width={20} />
-            </button>
+            <ReturnArrow/>
 
             {/* Dine oplysninger */}
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-s">
@@ -124,8 +128,8 @@ export default function EditProfileInformation() {
                 {error && <Error>{error.message}</Error>}
 
                 {/* Disabled until the user changes at least one field */}
-                <Button type="submit" disabled={!isDirty || isPending}>
-                    {isPending ? "Gemmer..." : "Gem ændringer"}
+                <Button type="submit" disabled={!isDirty}>
+                    Gem ændringer
                 </Button>
             </form>
         </div>

@@ -1,9 +1,8 @@
 "use client"
 
-import React from 'react';
-import { useState } from 'react';
-import { MembershipCardProps } from '@/types/membershipCard';
-import Image from 'next/image';
+import { useState } from 'react'
+import { MembershipCardProps } from '@/types/membershipCard'
+import Image from 'next/image'
 
 const MembershipBadge = () => (
     <div className='bg-splash px-3xs py-4xs text-white font-extrabold text-sm w-fit absolute right-xs top-xs'>
@@ -11,6 +10,7 @@ const MembershipBadge = () => (
     </div>
 )
 
+//washFeatures = et array af objekter
 const washFeatures: { name: string; memberships: string[] }[] = [
     { name: 'Skumforvask', memberships: ['Guld', 'Premium', 'Brilliant'] },
     { name: 'Aktiv Shampoo', memberships: ['Guld', 'Premium', 'Brilliant'] },

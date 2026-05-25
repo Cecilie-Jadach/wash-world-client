@@ -8,7 +8,7 @@ export default function ReturnArrow() {
 
 return (
     <button onClick={() => router.back()}>
-        <Image src="/icons/arrow_left_icon.svg" alt="left arrow icon" height={16} width={16}/>
+        <Image src="/icons/arrow_left_icon.svg" alt="return to previous page" height={16} width={16}/>
     </button>
 )
 }

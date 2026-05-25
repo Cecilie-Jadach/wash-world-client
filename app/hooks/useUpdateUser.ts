@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-interface UpdateUserPayload {
+type UpdateUserInfo = {
   email: string;
   phone: string;
   primary_location: string;
@@ -15,7 +15,7 @@ export function useUpdateUser() {
     isPending,
     error,
   } = useMutation({
-    mutationFn: async (payload: UpdateUserPayload) => {
+    mutationFn: async (UpdateUserInfo: UpdateUserInfo) => {
       const token = localStorage.getItem("token") ?? "";
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api-update-user`,
@@ -25,7 +25,7 @@ export function useUpdateUser() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(payload),
+          body: JSON.stringify(UpdateUserInfo),
         },
       );
       // Throw so useMutation catches it and exposes it via the error field

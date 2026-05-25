@@ -1,17 +1,19 @@
-"use client";
+"use client"
 
 import { APIProvider, Map, AdvancedMarker } from "@vis.gl/react-google-maps"
+
+//Next
 import Image from 'next/image'
 
-//components
+//Components
 import Button from "@/components/Button"
 import BusynessLabel from "@/components/BusynessLabel"
 import MapZoom from "./MapZoom"
 
-//type
+//Types
 import { Location } from "@/types/location"
 
-//hooks
+//Hooks
 import { useLocations } from "@/app/hooks/useLocations"
 import { useFilterLocations } from "@/app/hooks/useFilterLocations"
 import { useState } from "react"

@@ -1,12 +1,19 @@
 "use client"
+//Hook
+import { useAuth } from "@/app/hooks/useAuth"
 
-import React from "react";
-import Link from "next/link";
-import Button from "@/components/Button";
-import { useState } from "react";
-import { usePathname } from 'next/navigation';
+//Next
+import Link from "next/link"
+import { usePathname } from 'next/navigation'
+
+//React
+import { useState } from "react"
+
+//Components
+import Button from "@/components/Button"
 
 export default function Navbar() {
+    const {handleLogout} = useAuth();
     const pathname = usePathname();
     const [activeMenu, setActiveMenu] = useState(false);
     const [activeSupport, setActiveSupport] = useState(false);
@@ -18,7 +25,7 @@ export default function Navbar() {
     }
     const isActive = (path: string) => pathname === path ? 'text-black' : 'text-grey-60'
 
-    if (["/signup", "/login", "/", "/forgot-password"].includes(pathname) || pathname.startsWith("/verify") || pathname.startsWith("/reset-password")) return null
+    if (["/signup", "/login", "/", "/forgot-password", "/session-expired"].includes(pathname) || pathname.startsWith("/verify") || pathname.startsWith("/reset-password")) return null
 
     return (
         <>
@@ -41,7 +48,7 @@ export default function Navbar() {
                         </div>
                     </div>
                 </div>
-                <Link href="/">Log ud</Link>
+                <Button onClick={handleLogout} variant="dark" icon={false}>Log ud</Button>
             </div>
 
             {/* NAVBAR */}
