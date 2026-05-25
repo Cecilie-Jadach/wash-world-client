@@ -337,8 +337,8 @@ export default function Signup() {
                         <div className="flex flex-col gap-3xs">
                             <Label htmlFor="payment" required>Vælg betalingsmetode</Label>
                             <div className="flex gap-xs">
-                                <PaymentCard image="mobilepay" selectedCard={selectedPayment === 'Mobilepay'} onSelect={setSelectedPayment} />
-                                <PaymentCard image="applepay" selectedCard={selectedPayment === 'Applepay'} onSelect={setSelectedPayment} />
+                                <PaymentCard image="Mobilepay" selectedCard={selectedPayment === 'Mobilepay'} onSelect={setSelectedPayment} />
+                                <PaymentCard image="Applepay" selectedCard={selectedPayment === 'Applepay'} onSelect={setSelectedPayment} />
                             </div>
                         </div>
                     </div>

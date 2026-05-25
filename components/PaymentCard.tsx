@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 type PaymentCardProps = {
-    image: 'mobilepay' | 'applepay'
+    image: 'Mobilepay' | 'Applepay'
     selectedCard: boolean
     onSelect: (image: string) => void
 }
@@ -13,7 +13,7 @@ export default function PaymentCard({ image, selectedCard, onSelect }: PaymentCa
             className={`border p-3xs w-fit h-xl cursor-pointer ${selectedCard ? 'border-green-white-background' : 'border-black'}`}
         >
             <Image
-                className={`w-xl ${image === 'applepay' ? 'translate-y-[50%]' : ''}`}
+                className={`w-xl ${image === 'Applepay' ? 'translate-y-[50%]' : ''}`}
                 src={`/images/${image}.png`}
                 alt={image}
                 width={100}
