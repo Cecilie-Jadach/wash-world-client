@@ -58,10 +58,8 @@ export default function ResetPassword() {
             body: data
         })
 
-        const json = await response.json()
-
         if (!response.ok) {
-            setError('root', { message: json.error })
+            setError("root", {type:"server", message:"Adgangskoder er ikke ens"})
             return
         }
         setSuccess(true)

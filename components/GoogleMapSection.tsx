@@ -9,6 +9,7 @@ import Image from 'next/image'
 import Button from "@/components/Button"
 import BusynessLabel from "@/components/BusynessLabel"
 import MapZoom from "./MapZoom"
+import IfNotUser from "./IfNotUser"
 
 //Types
 import { Location } from "@/types/location"
@@ -50,7 +51,7 @@ function GoogleMapSection() {
     //start position for the map
     const position = { lat: 56.2639, lng: 9.5018 }
 
-    if (!user) return <p>Dit session er udløbet. Login igen.</p>
+    if (!user) return <IfNotUser/>
 
     return (
         <div className="relative">

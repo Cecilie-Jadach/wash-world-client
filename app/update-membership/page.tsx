@@ -10,6 +10,7 @@ import { useUser } from "@/app/hooks/useUser"
 import ReturnArrow from "@/components/ReturnArrow"
 import MembershipCard from "@/components/MembershipCard"
 import Button from "@/components/Button"
+import IfNotUser from "@/components/IfNotUser"
 
 // React
 import toast from 'react-hot-toast'
@@ -21,7 +22,7 @@ export default function UpdateMembership() {
     const { data: user } = useUser();
     const router = useRouter()
 
-    if (!user) return <p>Dit session er udløbet. Login igen.</p>
+    if (!user) return <IfNotUser/>
 
     const handleUpdate = async () => {
         try {
