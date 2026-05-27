@@ -6,7 +6,11 @@ export const useSignUp = () => {
   // mutateAsync is the function we call to trigger the request — we rename it to signUp.
   // isPending is true while the request is in progress — we rename it to isLoading.
   // error holds any error that was thrown during the request.
-  const { mutateAsync: signUp, isPending: isLoading, error } = useMutation({
+  const {
+    mutateAsync: signUp,
+    isPending,
+    error,
+  } = useMutation({
     // mutationFn is the function that runs when we call signUp()
     mutationFn: async (formData: FormData) => {
       const response = await fetch(
@@ -21,5 +25,5 @@ export const useSignUp = () => {
     },
   });
 
-  return { signUp, isLoading, error };
+  return { signUp, isPending, error };
 };

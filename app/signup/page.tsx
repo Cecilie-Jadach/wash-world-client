@@ -46,7 +46,7 @@ const getStageIndex = (step: number) => {
 }
 
 export default function Signup() {
-    const { signUp, isLoading, error } = useSignUp();
+    const { signUp, error, isPending } = useSignUp();
     const [selectedMembership, setSelectedMembership] = useState("");
     const [selectedPayment, setSelectedPayment] = useState("");
     const [step, setStep] = useState(1);
@@ -367,7 +367,7 @@ export default function Signup() {
                     {step < TOTAL_STEPS ? (
                         <Button onClick={handleNext} disabled={!canProceed()}>Næste</Button>
                     ) : step === TOTAL_STEPS ? (
-                        <Button type="submit" disabled={isLoading || !canProceed()}>Start nu</Button>
+                        <Button type="submit" disabled={isPending || !canProceed()}>{isPending ? "Behandler..." : "Start nu"}</Button>
                     ) : null}
                 </div>
             </form>
