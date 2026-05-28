@@ -40,9 +40,9 @@ export default function UpdateMembership() {
                 <div className="grid gap-sm">
                     <ReturnArrow />
                     <div className="grid gap-3xs">
-                        <h1 className="font-extrabold text-3xl">Skift medlemsskab</h1>
+                        <h1 className="font-extrabold text-3xl">Skift medlemskab</h1>
                         <div className="bg-grey-10 border-l-4 border-l-green-white-background p-3xs">
-                            <h2 className="text-sm">Nuværende medlemsskab</h2>
+                            <h2 className="text-sm">Nuværende medlemskab</h2>
                             <div className="flex justify-between">
                                 <p className="font-extrabold text-lg">{user.user_membership}</p>
                                 {user.user_membership === 'Guld' ? <p className="text-lg">139 kr./md.</p> : ''}
@@ -65,7 +65,7 @@ export default function UpdateMembership() {
 
             {activeDialogBox && (
                 <DialogModal
-                    dialogMessage="Er du sikker på, at du vil skifte medlemsskab?"
+                    dialogMessage="Er du sikker på, at du vil skifte medlemskab?"
                     buttonText="Skift medlemskab"
                     onCancel={() => setActiveDialogBox(false)}
                     onConfirm={() => handleUpdate()}
