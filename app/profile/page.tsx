@@ -67,7 +67,7 @@ export default function Profile() {
                     <div className="grid gap-xs">
                         <h2 className="text-xl font-extrabold">Dit medlemskab</h2>
                         <MembershipStatusCard user={user} membershipStatus={membershipStatus} />
-                        <Button href="/membership?from=profile">Rediger medlemskab</Button>
+                        <Button href="/membership">Rediger medlemskab</Button>
                     </div>
 
                     {/* Dine biler */}
