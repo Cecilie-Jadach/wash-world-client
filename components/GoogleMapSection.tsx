@@ -51,7 +51,7 @@ function GoogleMapSection() {
     //start position for the map
     const position = { lat: 56.2639, lng: 9.5018 }
 
-    if (!user) return <IfNotUser/>
+    if (!user) return <IfNotUser />
 
     return (
         <div className="relative">
@@ -212,8 +212,8 @@ function GoogleMapSection() {
                         <div className="grid gap-4xs border-t border-grey-10 p-2xs">
                             <p className="text-sm">Driftstatus</p>
                             {selectedLocation.location_operation_status > 0
-                                ? <div className="flex gap-4xs"><div className="flex gap-4xs items-center"> <Image src="/icons/alert_icon.svg" alt="alert icon" width={20} height={20} /></div><p className="font-extrabold">{selectedLocation.location_operation_status_message}</p></div>
-                                : <div className="flex gap-4xs"><div className="flex gap-4xs items-center"> <Image src="/icons/check_green_icon.svg" alt="green check icon" width={20} height={20} /></div><p className="font-extrabold">Alt er som det skal være.</p></div>
+                                ? <div className="flex gap-3xs"><div className="flex gap-4xs items-center"> <Image src="/icons/alert_icon.svg" alt="alert icon" width={20} height={20} className="min-w-s" /></div><p className="font-extrabold">{selectedLocation.location_operation_status_message}</p></div>
+                                : <div className="flex gap-3xs"><div className="flex gap-4xs items-center"> <Image src="/icons/check_green_icon.svg" alt="green check icon" width={20} height={20} className="min-w-s" /></div><p className="font-extrabold">Alt er som det skal være.</p></div>
                             }
                         </div>
                         <div className="flex w-full justify-between items-end border-t border-grey-10">
