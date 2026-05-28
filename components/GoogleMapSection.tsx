@@ -134,7 +134,7 @@ function GoogleMapSection() {
 
             {/* Filter toggle knap */}
             <button data-cy="filter-button"
-                className="pointer-events-auto absolute top-3xl right-[0.7rem] z-999 bg-white shadow-md p-3xs w-[36px] h-[36px] flex items-center justify-center"
+                className="pointer-events-auto absolute top-2xl right-xs z-999 bg-white shadow-md p-3xs w-[36px] h-[36px] flex items-center justify-center"
                 onClick={() => setShowFilter(!showFilter)}>
                 {showFilter ?
                     <Image src="/icons/cross_icon.svg" alt="close filter" width={12} height={12} /> :
@@ -143,7 +143,7 @@ function GoogleMapSection() {
 
             {/* Show filter */}
             {showFilter && (
-                <div className="pointer-events-auto absolute top-[8.5rem] right-2xs z-999 bg-white shadow-md flex overflow-hidden">
+                <div className="pointer-events-auto absolute top-5xl right-xs z-999 bg-white shadow-md flex overflow-hidden">
                     <button
                         onClick={() => setFilterSelfWash(false)}
                         style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)', marginRight: '-8px' }}

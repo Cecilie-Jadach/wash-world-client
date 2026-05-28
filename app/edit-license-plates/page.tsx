@@ -64,43 +64,48 @@ export default function EditCars() {
 
     return (
         <>
-            <div className="mx-2xs mt-xl pb-4xl flex flex-col gap-ml">
-                <ReturnArrow />
+            <div className="mt-xl mx-xs pb-4xl">
+                <div className="grid gap-ml">
+                    <ReturnArrow />
+                    <div className="grid gap-lg">
+                        {/* Dine biler */}
+                        <div className="grid gap-xs">
+                            <h2 className="text-xl font-extrabold">Dine biler</h2>
+                            <div className="grid gap-xs">
+                                <LicensePlates showTrashIcon onDelete={setPlateToDelete} />
+                                {(licensePlates ?? []).length <= 1 && (
+                                    <InfoLabel message="Tilføj en nummerplade, før du kan slette denne." />
+                                )}
+                            </div>
+                        </div>
 
-                {/* Dine biler */}
-                <div className="flex flex-col gap-s">
-                    <h2 className="text-xl font-extrabold">Dine biler</h2>
-                    <div className="flex flex-col gap-xs">
-                        <LicensePlates showTrashIcon onDelete={setPlateToDelete} />
-                        {(licensePlates ?? []).length <= 1 && (
-                            <InfoLabel message="Tilføj en nummerplade, før du kan slette denne." />
-                        )}
+                        {/* Tilføj bil */}
+                        <form onSubmit={handleSubmit(onAdd)} className="grid gap-sm">
+                            <div className="grid gap-xs">
+                                <h2 className="text-xl font-extrabold">Tilføj bil</h2>
+                                <div className="grid gap-s bg-grey-5 border-b border-b-grey-10 p-s">
+                                    <Input
+                                        id="license_plate"
+                                        label="Nummerplade"
+                                        placeholder="AB12345"
+                                        type="text"
+                                        showLicensePlate
+                                        bgWhite
+                                        error={errors.license_plate?.message}
+                                        {...register("license_plate", {
+                                            pattern: { value: /^[A-Za-z]{2}[0-9]{5}$/, message: "Nummerplade skal være 2 bogstaver og 5 tal (fx AB12345)" },
+                                            onChange: (e) => { e.target.value = e.target.value.toUpperCase() }
+                                        })}
+                                    />
+                                </div>
+                            </div>
+                            {error && <Error>{error.message}</Error>}
+                            <Button type="submit" icon={false} variant="dark" disabled={!isDirty}>
+                                Tilføj bil
+                            </Button>
+                        </form>
                     </div>
                 </div>
-
-                {/* Tilføj bil */}
-                <form onSubmit={handleSubmit(onAdd)} className="flex flex-col gap-s">
-                    <h2 className="text-xl font-extrabold">Tilføj bil</h2>
-                    <div className="flex flex-col gap-s bg-grey-5 border-b border-b-grey-10 p-s">
-                        <Input
-                            id="license_plate"
-                            label="Nummerplade"
-                            placeholder="AB12345"
-                            type="text"
-                            showLicensePlate
-                            bgWhite
-                            error={errors.license_plate?.message}
-                            {...register("license_plate", {
-                                pattern: { value: /^[A-Za-z]{2}[0-9]{5}$/, message: "Nummerplade skal være 2 bogstaver og 5 tal (fx AB12345)" },
-                                onChange: (e) => { e.target.value = e.target.value.toUpperCase() }
-                            })}
-                        />
-                    </div>
-                    {error && <Error>{error.message}</Error>}
-                    <Button type="submit" icon={false} variant="dark" disabled={!isDirty}>
-                        Tilføj bil
-                    </Button>
-                </form>
             </div>
 
             {plateToDelete && (
