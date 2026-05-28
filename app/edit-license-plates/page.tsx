@@ -30,7 +30,7 @@ export default function EditCars() {
     const { addLicensePlate, isPending, error } = useAddLicensePlate();
     const { deleteLicensePlate } = useDeleteLicensePlate();
     const { data: licensePlates } = useLicensePlates();
-    const [activeDialogBox, setActiveDialogBox] = useState(false)
+    const [plateToDelete, setPlateToDelete] = useState<string | null>(null)
 
     //React Hook form 
     const {
@@ -71,7 +71,7 @@ export default function EditCars() {
                 <div className="flex flex-col gap-s">
                     <h2 className="text-xl font-extrabold">Dine biler</h2>
                     <div className="flex flex-col gap-xs">
-                        <LicensePlates showTrashIcon onDelete={setActiveDialogBox} />
+                        <LicensePlates showTrashIcon onDelete={setPlateToDelete} />
                         {(licensePlates ?? []).length <= 1 && (
                             <InfoLabel message="Tilføj en nummerplade, før du kan slette denne." />
                         )}
@@ -103,15 +103,15 @@ export default function EditCars() {
                 </form>
             </div>
 
-            {activeDialogBox && (
+            {plateToDelete && (
                 <DialogModal
-                    dialogMessage={`Er du sikker på, at du vil slette nummerpladen ${activeDialogBox}?`}
+                    dialogMessage={`Er du sikker på, at du vil slette nummerpladen ${plateToDelete}?`}
                     buttonText="Slet nummerplade"
                     onConfirm={() => {
-                        handleDelete(activeDialogBox);
-                        setActiveDialogBox(null);
+                        handleDelete(plateToDelete);
+                        setPlateToDelete(null);
                     }}
-                    onCancel={() => setActiveDialogBox(null)}
+                    onCancel={() => setPlateToDelete(null)}
                 />
             )}
         </>
