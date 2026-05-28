@@ -16,7 +16,7 @@ export default function DialogModal({ dialogMessage, buttonText, onConfirm, onCa
                 <div className="bg-white flex flex-col gap-s p-sm border border-black items-center w-full max-w-[40ch] z-9999">
                     <p className="">{dialogMessage}</p>
                     <div className="flex gap-xs justify-between w-full">
-                        <Button variant="secondary" icon={false} onClick={onCancel}>Annuller</Button>
+                        <Button className="grow" variant="secondary" icon={false} onClick={onCancel}>Annuller</Button>
                         <Button className="grow" variant="dark" icon={false} onClick={onConfirm}>{buttonText}</Button>
                     </div>
                 </div>

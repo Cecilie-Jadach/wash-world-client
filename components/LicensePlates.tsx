@@ -1,10 +1,6 @@
 "use client"
 //Hooks
-import { useState } from "react"
 import { useLicensePlates } from "../app/hooks/useLicensePlates"
-
-//Components
-import DeleteModal from "@/components/DialogModal"
 
 //Next
 import Image from "next/image"
@@ -16,7 +12,6 @@ type LicensePlatesProps = {
 
 export default function LicensePlates({ showTrashIcon, onDelete }: LicensePlatesProps) {
     const { data } = useLicensePlates()
-    const [plateToDelete, setPlateToDelete] = useState<string | null>(null);
 
     const canDelete = (data ?? []).length > 1;
 
@@ -37,7 +32,7 @@ export default function LicensePlates({ showTrashIcon, onDelete }: LicensePlates
                         </div>
                         {showTrashIcon && (
                             <button
-                                onClick={() => canDelete && setPlateToDelete(licenseplate.user_license_plate)}
+                                onClick={() => canDelete && onDelete?.(licenseplate.user_license_plate)}
                                 disabled={!canDelete}
                                 className={!canDelete ? "opacity-30 cursor-not-allowed" : ""}
                             >
@@ -47,21 +42,6 @@ export default function LicensePlates({ showTrashIcon, onDelete }: LicensePlates
                     </div>
                 </div>
             ))}
-
-            {/* Backdrop */}
-            <div className={`fixed inset-0 bg-black top-[0] left-[0] w-full h-full transition-opacity duration-500 ${plateToDelete ? 'opacity-30' : 'opacity-0 pointer-events-none'}`} />
-
-            {plateToDelete && (
-                <DeleteModal
-                    deleteMessage={`Er du sikker på, at du vil slette denne nummerplade ${plateToDelete}?`}
-                    buttonText="Slet nummerplade"
-                    onConfirm={() => {
-                        onDelete?.(plateToDelete);
-                        setPlateToDelete(null);
-                    }}
-                    onCancel={() => setPlateToDelete(null)}
-                />
-            )}
         </div>
     )
 }
