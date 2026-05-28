@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useLicensePlates } from "../app/hooks/useLicensePlates"
 
 //Components
-import DeleteModal from "@/components/DeleteModal"
+import DeleteModal from "@/components/DialogModal"
 
 //Next
 import Image from "next/image"
