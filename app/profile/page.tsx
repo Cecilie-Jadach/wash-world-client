@@ -9,16 +9,16 @@ import { useMembership } from "@/app/hooks/useMembership"
 // Components
 import Button from "@/components/Button"
 import Input from "@/components/Input"
-import DeleteModal from "@/components/DeleteModal"
+import DialogModal from "@/components/DialogModal"
 import LicensePlates from "@/components/LicensePlates"
 import MembershipStatusCard from "@/components/MembershipStatusCard"
 import IfNotUser from "@/components/IfNotUser"
 
 export default function Profile() {
-    const { data: user } = useUser();
+    const { data: user } = useUser()
     const { reactivateMutation } = useMembership()
-    const { handleLogout, deleteUserMutation } = useAuth();
-    const [activeDeleteBox, setActiveDeleteBox] = useState(false);
+    const { handleLogout, deleteUserMutation } = useAuth()
+    const [activeDialogBox, setActiveDialogBox] = useState(false)
 
     if (!user) return <IfNotUser />
 
@@ -81,19 +81,16 @@ export default function Profile() {
                 {/* Log ud og slet profil */}
                 <div className="flex flex-col gap-sm">
                     <Button variant="dark" icon={false} onClick={handleLogout}>Log ud</Button>
-                    <p onClick={() => setActiveDeleteBox(true)} className="text-error-red font-extrabold cursor-pointer">Slet profil</p>
+                    <p onClick={() => setActiveDialogBox(true)} className="text-error-red font-extrabold cursor-pointer">Slet profil</p>
                 </div>
 
             </div>
-            {/* Confirm delete box */}
-            {/* Backdrop */}
-            <div className={`fixed inset-0 bg-black top-[0] left-[0] w-full h-full transition-opacity duration-500 ${activeDeleteBox ? 'opacity-30' : 'opacity-0 pointer-events-none'}`} />
 
-            {activeDeleteBox && (
-                <DeleteModal
-                    deleteMessage="Er du sikker på, at du vil slette din profil?"
+            {activeDialogBox && (
+                <DialogModal
+                    dialogMessage="Er du sikker på, at du vil slette din profil?"
                     buttonText="Slet profil"
-                    onCancel={() => setActiveDeleteBox(false)}
+                    onCancel={() => setActiveDialogBox(false)}
                     onConfirm={() => deleteUserMutation.mutate()}
                 />
             )}
