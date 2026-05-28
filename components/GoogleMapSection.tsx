@@ -10,6 +10,7 @@ import Button from "@/components/Button"
 import BusynessLabel from "@/components/BusynessLabel"
 import MapZoom from "./MapZoom"
 import IfNotUser from "./IfNotUser"
+import LoadingSpinner from "./LoadingSpinner"
 
 //Types
 import { Location } from "@/types/location"
@@ -21,7 +22,7 @@ import { useState } from "react"
 import { useUser } from "@/app/hooks/useUser"
 
 function GoogleMapSection() {
-    const { data: user } = useUser();
+    const { data: user, isPending } = useUser();
     const { data } = useLocations();
     //react state variabel. selectedLocation = the chosen location, setSelectedLocation = the function we call when the value in selectedLocation change
     //<Location | null> = typescript type that says that it is either a location object or null
@@ -50,6 +51,10 @@ function GoogleMapSection() {
 
     //start position for the map
     const position = { lat: 56.2639, lng: 9.5018 }
+
+    if (isPending) return (
+        <LoadingSpinner />
+    )
 
     if (!user) return <IfNotUser />
 

@@ -34,7 +34,7 @@ export default function MembershipFeatures({ user, membership }: MembershipFeatu
     return (
         <div className='flex flex-col gap-2xs'>
             <p className='font-extrabold'>{membership === 'Enkeltvask' ? 'Enkeltvask priser' : `Inkluderet i ${user.user_membership}`}</p>
-            <div className="bg-grey-5 p-s">
+            <div className="bg-grey-5 p-s border-b border-b-grey-10">
                 {membership === 'Enkeltvask' ? (
                     <>
                         <div className='grid grid-flow-col gap-2xs grid-cols-3'>

@@ -12,15 +12,20 @@ import MembershipFeatures from "@/components/MembershipFeatures"
 import InfoLabel from "@/components/InfoLabel"
 import LicensePlates from "@/components/LicensePlates"
 import IfNotUser from '@/components/IfNotUser'
+import LoadingSpinner from "@/components/LoadingSpinner"
 
 // React
 import toast from 'react-hot-toast'
 
 export default function MembershipPage() {
-    const { data: user } = useUser()
+    const { data: user, isPending } = useUser()
     const { reactivateMutation } = useMembership()
 
-    if(!user) return <IfNotUser/>
+    if (isPending) return (
+        <LoadingSpinner />
+    )
+
+    if (!user) return <IfNotUser />
 
     const membershipStatus = user.membership_paused_at > 0 ? 'paused' : 'active'
 
@@ -35,11 +40,12 @@ export default function MembershipPage() {
 
     return (
         <main className="mt-xl mx-xs pb-3xl">
-            <ReturnArrow />
             <div className="grid gap-lg">
                 <div className="grid gap-s">
+                    <ReturnArrow />
+                    <h1 className="font-extrabold text-3xl">Medlemskab</h1>
                     <div className="grid gap-xs">
-                        <h1 className="font-extrabold text-xl">Dit medlemskab</h1>
+                        <h2 className="font-extrabold text-xl">Dit medlemskab</h2>
                         <MembershipStatusCard user={user} membershipStatus={membershipStatus} />
                     </div>
                     <MembershipFeatures user={user} membership={user.user_membership} />

@@ -6,9 +6,9 @@ import Image from 'next/image'
 export default function ReturnArrow() {
     const router = useRouter()
 
-return (
-    <button onClick={() => router.back()}>
-        <Image src="/icons/arrow_left_icon.svg" alt="return to previous page" height={16} width={16}/>
-    </button>
-)
+    return (
+        <button onClick={() => router.back()}>
+            <Image src="/icons/arrow_left_icon.svg" alt="return to previous page" height={18} width={18} />
+        </button>
+    )
 }
