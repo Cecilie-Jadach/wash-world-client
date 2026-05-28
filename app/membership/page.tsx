@@ -42,7 +42,7 @@ export default function MembershipPage() {
                         <h1 className="font-extrabold text-xl">Dit medlemskab</h1>
                         <MembershipStatusCard user={user} membershipStatus={membershipStatus} />
                     </div>
-                    <MembershipFeatures user={user} />
+                    <MembershipFeatures user={user} membership={user.user_membership} />
                 </div>
                 <div className="grid gap-xs">
                     <h2 className="font-extrabold text-xl">Handlinger</h2>
