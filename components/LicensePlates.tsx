@@ -16,7 +16,7 @@ export default function LicensePlates({ showTrashIcon, onDelete }: LicensePlates
     const canDelete = (data ?? []).length > 1;
 
     return (
-        <div className="flex flex-col gap-s">
+        <div className="flex flex-col gap-xs">
             {(data ?? []).map((licenseplate, index) => (
                 <div key={index} className="grid gap-3xs bg-grey-5 p-s border-b border-b-grey-10">
                     <p className="font-extrabold">Nummerplade</p>
