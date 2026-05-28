@@ -53,7 +53,7 @@ export default function MembershipPage() {
                 <div className="grid gap-xs">
                     <h2 className="font-extrabold text-xl">Handlinger</h2>
                     <div className="grid gap-2xs">
-                        <Button className="justify-center" href="/update-membership">Skift medlemsskab</Button>
+                        <Button className="justify-center" href="/update-membership">Skift medlemskab</Button>
                         {membershipStatus === 'active' ? (
                             <Button className="justify-center" variant="secondary" icon={false} href="/pause-membership">Sæt på pause</Button>
                         ) : (
