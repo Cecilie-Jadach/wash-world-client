@@ -39,7 +39,7 @@ export default function MembershipPage() {
     }
 
     return (
-        <main className="mt-xl mx-xs pb-3xl">
+        <main className="mt-xl mx-xs pb-4xl">
             <div className="grid gap-lg">
                 <div className="grid gap-s">
                     <ReturnArrow />

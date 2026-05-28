@@ -50,10 +50,10 @@ export default function LoginPage() {
         // Hvis Flask returnerer en fejl (fx forkert adgangskode)
         // sættes fejlen på 'root' så den vises under password feltet
         if (!response.ok) {
-            if(json.error === "Please verify your email before logging in") {
-                setError("root", {type: "server", message: "Bekræft venligst din email, inden du logger ind. Tjek din mail."})
+            if (json.error === "Please verify your email before logging in") {
+                setError("root", { type: "server", message: "Bekræft venligst din email, inden du logger ind. Tjek din mail." })
             } else {
-                setError("root", {type:"server", message:"Forkert email eller adgangskode"})
+                setError("root", { type: "server", message: "Forkert email eller adgangskode" })
             }
             return
         }
@@ -65,9 +65,9 @@ export default function LoginPage() {
     }
 
     return (
-        <main className="mx-xs my-lg flex flex-col gap-s">
+        <main className="mx-xs my-lg flex flex-col gap-s min-h-[calc(100svh-var(--spacing-lg)*2)]">
             <h1 className="font-extrabold text-3xl">Login</h1>
-            <form className="flex flex-col h-[80vh] justify-between" onSubmit={handleSubmit(onSubmit)}>
+            <form className="flex flex-col grow" onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-s">
                     <Input
                         id="email"
@@ -101,7 +101,7 @@ export default function LoginPage() {
                         <Link className="font-extrabold text-green-white-background text-sm self-end" href="/forgot-password">Glemt adgangskode?</Link>
                     </div>
                 </div>
-                <div className="flex gap-s">
+                <div className="flex gap-s mt-auto">
                     <Button href="/" variant="secondary" icon={false}>Tilbage</Button>
                     <Button className="grow" type="submit" disabled={!watchEmail || !watchPassword}>
                         Log ind

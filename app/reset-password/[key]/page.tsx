@@ -59,7 +59,7 @@ export default function ResetPassword() {
         })
 
         if (!response.ok) {
-            setError("root", {type:"server", message:"Adgangskoder er ikke ens"})
+            setError("root", { type: "server", message: "Adgangskoder er ikke ens" })
             return
         }
         setSuccess(true)
@@ -71,18 +71,18 @@ export default function ResetPassword() {
         <main className="mx-xs py-lg flex flex-col gap-s h-screen justify-between">
             <div></div>
             <div className="flex flex-col gap-xs">
-                <Image className="self-center" src="/icons/check_large.svg" alt="large check icon" width={150} height={150} />
-                <p className="text-center">Din adgangskode er ændret.</p>
-                <p className="text-center">Du kan nu logge ind.</p>
+                <Image className="self-center" src="/icons/check_large.svg" alt="large check icon" width={151} height={151} />
+                <p className="text-xl text-center">Din adgangskode er ændret.</p>
+                <p className="text-xl text-center">Du kan nu logge ind.</p>
             </div>
             <Button href="/login">Klik her for at logge ind</Button>
         </main>
     )
 
     return (
-        <main className="mx-xs my-lg flex flex-col gap-s">
+        <main className="mx-xs my-lg flex flex-col gap-s min-h-[calc(100svh-var(--spacing-lg)*2)]">
             <h1 className="font-extrabold text-3xl">Opret ny adgangskode</h1>
-            <form className="flex flex-col h-[70vh] justify-between" onSubmit={handleSubmit(onSubmit)}>
+            <form className="flex flex-col grow" onSubmit={handleSubmit(onSubmit)}>
                 <legend className="flex flex-col gap-s">
                     <Input
                         id="password"
@@ -111,7 +111,7 @@ export default function ResetPassword() {
                     />
                 </legend>
                 {errors.root && <p>{errors.root.message}</p>}
-                <Button type="submit" disabled={!watchPassword || !watchConfirmPassword}>Gem ny adgangskode</Button>
+                <Button className="mt-auto" type="submit" disabled={!watchPassword || !watchConfirmPassword}>Gem ny adgangskode</Button>
             </form>
         </main>
     )
