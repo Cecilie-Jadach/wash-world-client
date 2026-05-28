@@ -9,7 +9,7 @@ type MembershipStatusCardProps = {
 
 export default function MembershipStatusCard({ user, membershipStatus }: MembershipStatusCardProps) {
     return (
-        <div className="bg-grey-5 p-s grid gap-s border-b border-b-grey-10">
+        <div className="bg-grey-5 border-b border-b-grey-10 p-s grid gap-s">
             <div>
                 <div className="flex justify-between">
                     <p className="text-xl">{user.user_membership}</p>

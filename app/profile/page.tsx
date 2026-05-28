@@ -13,6 +13,7 @@ import DialogModal from "@/components/DialogModal"
 import LicensePlates from "@/components/LicensePlates"
 import MembershipStatusCard from "@/components/MembershipStatusCard"
 import IfNotUser from "@/components/IfNotUser"
+import ToggleNotification from "@/components/ToggleNotification"
 
 export default function Profile() {
     const { data: user } = useUser()
@@ -75,6 +76,15 @@ export default function Profile() {
                     <div className="flex flex-col gap-2xs">
                         <p>Dine kortoplysninger er tilknyttet {user.user_payment_method}.</p>
                         <p>Ønsker du at ændre dine oplysninger, skal dette gøres direkte i {user.user_payment_method}.</p>
+                    </div>
+                </div>
+
+                {/* Toggle Notifikationer */}
+                <div className="flex flex-col gap-s">
+                    <h2 className="text-xl font-extrabold">App-instillinger</h2>
+                    <div className="flex justify-between gap-3xs bg-grey-5 p-s border-b border-b-grey-10">
+                        <p className="font-extrabold">Notifikationer</p>
+                        <ToggleNotification/>
                     </div>
                 </div>
 
