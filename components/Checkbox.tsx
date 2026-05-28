@@ -4,7 +4,7 @@ import Image from "next/image"
 
 export default function Checkbox({ label, id, showRequired, error, ...props }: CheckboxProps) {
     return (
-        <div className="flex flex-col gap-3xs">
+        <div className="grid gap-3xs">
             <div className="flex items-center gap-2xs relative">
                 <input
                     type="checkbox"

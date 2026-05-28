@@ -13,7 +13,7 @@ export default function DialogModal({ dialogMessage, buttonText, onConfirm, onCa
             {/* Backdrop */}
             <div className="fixed inset-0 top-[0] w-full h-full bg-black/30 z-9998 flex items-center justify-center" onClick={onCancel}>
                 {/* Dialog modal */}
-                <div className="bg-white grid gap-s p-sm border border-black items-center w-full max-w-[40ch] z-9999">
+                <div className="bg-white grid gap-s p-sm border border-black items-center w-full max-w-[40ch] z-9999 m-xs">
                     <p className="">{dialogMessage}</p>
                     <div className="flex gap-xs justify-between w-full">
                         <Button className="grow" variant="secondary" icon={false} onClick={onCancel}>Annuller</Button>

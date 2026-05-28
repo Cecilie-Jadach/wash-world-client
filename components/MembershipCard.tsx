@@ -39,9 +39,9 @@ export default function MembershipCard({ membership, price, description, selecte
 
     return (
         <div onClick={() => onSelect(membership)}
-            className={`relative flex flex-col gap-sm p-s bg-grey-5 drop-shadow-xs drop-shadow-grey-10 cursor-pointer ${selectedCard ? 'border border-green-white-background' : 'border border-transparent'}`}
+            className={`relative grid gap-sm p-s bg-grey-5 drop-shadow-xs drop-shadow-grey-10 cursor-pointer ${selectedCard ? 'border border-green-white-background' : 'border border-transparent'}`}
         >
-            <div className='flex flex-col gap-3xs'>
+            <div className='grid gap-3xs'>
                 {showMembershipBadge && <MembershipBadge />}
                 <div>
                     <p className='text-lg font-extrabold'>{membership}</p>

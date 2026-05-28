@@ -23,8 +23,8 @@ export default function Profile() {
     const [activeDialogBox, setActiveDialogBox] = useState(false)
 
     if (isPending) return (
-            <LoadingSpinner />
-        )
+        <LoadingSpinner />
+    )
 
     if (!user) return <IfNotUser />
 
@@ -32,71 +32,74 @@ export default function Profile() {
 
     return (
         <>
-            <div className="mx-2xs mt-xl pb-4xl flex flex-col gap-lg">
+            <div className="mt-xl mx-xs pb-4xl">
 
-                {/* Dine oplysninger */}
-                <div className="flex flex-col gap-s">
-                    <h2 className="text-xl font-extrabold">Dine oplysninger</h2>
-                    <div className="flex flex-col gap-s bg-grey-5 border-b border-b-grey-10 p-s">
-                        <Input
-                            id="email"
-                            label="E-mail"
-                            placeholder={user.user_email}
-                            readOnly
-                        />
-                        <Input
-                            id="phone"
-                            label="Mobilnummer"
-                            phoneLabel="+45"
-                            placeholder={user.user_phone}
-                            readOnly
-                        />
-                        <Input
-                            id="primary_location"
-                            label="Primær vaskehal"
-                            placeholder={user.user_primary_location}
-                            readOnly
-                        />
+                <div className="grid gap-lg">
+                    {/* Dine oplysninger */}
+                    <div className="grid gap-xs">
+                        <h1 className="font-extrabold text-3xl">Profil</h1>
+                        <h2 className="text-xl font-extrabold">Dine oplysninger</h2>
+                        <div className="grid gap-s bg-grey-5 border-b border-b-grey-10 p-s">
+                            <Input
+                                id="email"
+                                label="E-mail"
+                                placeholder={user.user_email}
+                                readOnly
+                            />
+                            <Input
+                                id="phone"
+                                label="Mobilnummer"
+                                phoneLabel="+45"
+                                placeholder={user.user_phone}
+                                readOnly
+                            />
+                            <Input
+                                id="primary_location"
+                                label="Primær vaskehal"
+                                placeholder={user.user_primary_location}
+                                readOnly
+                            />
+                        </div>
+                        <Button href="/edit-profile-information">Rediger dine oplysninger</Button>
                     </div>
-                    <Button href="/edit-profile-information">Rediger dine oplysninger</Button>
-                </div>
 
-                {/* Dit medlemskab */}
-                <div className="flex flex-col gap-s">
-                    <h2 className="text-xl font-extrabold">Dit medlemskab</h2>
-                    <MembershipStatusCard user={user} membershipStatus={membershipStatus} />
-                    <Button href="/membership">Rediger medlemskab</Button>
-                </div>
-
-                {/* Dine biler */}
-                <div className="flex flex-col gap-s">
-                    <h2 className="text-xl font-extrabold">Dine biler</h2>
-                    <LicensePlates />
-                    <Button href="/edit-license-plates">Rediger biler</Button>
-                </div>
-
-                {/* Betalingsoplysninger */}
-                <div className="flex flex-col gap-s">
-                    <h2 className="text-xl font-extrabold">Betalingsoplysninger</h2>
-                    <div className="flex flex-col gap-2xs">
-                        <p>Dine kortoplysninger er tilknyttet {user.user_payment_method}.</p>
-                        <p>Ønsker du at ændre dine oplysninger, skal dette gøres direkte i {user.user_payment_method}.</p>
+                    {/* Dit medlemskab */}
+                    <div className="grid gap-xs">
+                        <h2 className="text-xl font-extrabold">Dit medlemskab</h2>
+                        <MembershipStatusCard user={user} membershipStatus={membershipStatus} />
+                        <Button href="/membership?from=profile">Rediger medlemskab</Button>
                     </div>
-                </div>
 
-                {/* Toggle Notifikationer */}
-                <div className="flex flex-col gap-s">
-                    <h2 className="text-xl font-extrabold">App-instillinger</h2>
-                    <div className="flex justify-between gap-3xs bg-grey-5 p-s border-b border-b-grey-10">
-                        <p className="font-extrabold">Notifikationer</p>
-                        <ToggleNotification/>
+                    {/* Dine biler */}
+                    <div className="grid gap-xs">
+                        <h2 className="text-xl font-extrabold">Dine biler</h2>
+                        <LicensePlates />
+                        <Button href="/edit-license-plates">Rediger biler</Button>
                     </div>
-                </div>
 
-                {/* Log ud og slet profil */}
-                <div className="flex flex-col gap-sm">
-                    <Button variant="dark" icon={false} onClick={handleLogout}>Log ud</Button>
-                    <p onClick={() => setActiveDialogBox(true)} className="text-error-red font-extrabold cursor-pointer">Slet profil</p>
+                    {/* Betalingsoplysninger */}
+                    <div className="grid gap-xs">
+                        <h2 className="text-xl font-extrabold">Betalingsoplysninger</h2>
+                        <div className="grid gap-2xs">
+                            <p>Dine kortoplysninger er tilknyttet {user.user_payment_method}.</p>
+                            <p>Ønsker du at ændre dine oplysninger, skal dette gøres direkte i {user.user_payment_method}.</p>
+                        </div>
+                    </div>
+
+                    {/* Toggle Notifikationer */}
+                    <div className="grid gap-xs">
+                        <h2 className="text-xl font-extrabold">App-instillinger</h2>
+                        <div className="flex justify-between gap-3xs bg-grey-5 p-s border-b border-b-grey-10">
+                            <p className="font-extrabold">Notifikationer</p>
+                            <ToggleNotification />
+                        </div>
+                    </div>
+
+                    {/* Log ud og slet profil */}
+                    <div className="grid gap-sm">
+                        <Button variant="dark" icon={false} onClick={handleLogout}>Log ud</Button>
+                        <p onClick={() => setActiveDialogBox(true)} className="text-error-red font-extrabold cursor-pointer">Slet profil</p>
+                    </div>
                 </div>
 
             </div>

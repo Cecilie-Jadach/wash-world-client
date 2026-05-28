@@ -373,20 +373,20 @@ export default function Signup() {
                 )}
 
                 {/* Button navigation */}
-                <div className="flex gap-xs mt-auto w-full mb-sm">
+                <div className={`flex gap-xs mt-auto w-full ${step === 1 ? "mb-sm" : ""}`}>
                     {step > 1 && step < 9 && (
                         <Button variant="secondary" icon={false} onClick={() => setStep(s => s - 1)}>Tilbage</Button>
                     )}
                     {step < TOTAL_STEPS ? (
                         <Button className="grow" onClick={handleNext} disabled={!canProceed()}>Næste</Button>
                     ) : step === TOTAL_STEPS ? (
-                        <Button type="submit" disabled={isPending || !canProceed()}>{isPending ? "Behandler..." : "Start nu"}</Button>
+                        <Button className="grow" type="submit" disabled={isPending || !canProceed()}>{isPending ? "Behandler..." : "Start nu"}</Button>
                     ) : null}
                 </div>
             </form>
 
             {/* Only show backend errors that are not duplicate errors — those are shown as field errors instead */}
             {error && !error.message.includes("already exist") && <Error>{error.message}</Error>}
-        </main>
+        </main >
     )
 }

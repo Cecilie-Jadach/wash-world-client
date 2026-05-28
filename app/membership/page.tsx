@@ -3,6 +3,7 @@
 // Hooks
 import { useUser } from '../hooks/useUser'
 import { useMembership } from "../hooks/useMembership"
+import { useSearchParams } from 'next/navigation'
 
 // Components
 import MembershipStatusCard from "@/components/MembershipStatusCard"
@@ -20,6 +21,7 @@ import toast from 'react-hot-toast'
 export default function MembershipPage() {
     const { data: user, isPending } = useUser()
     const { reactivateMutation } = useMembership()
+    const fromProfile = useSearchParams().get('from') === 'profile'
 
     if (isPending) return (
         <LoadingSpinner />
@@ -42,7 +44,7 @@ export default function MembershipPage() {
         <main className="mt-xl mx-xs pb-4xl">
             <div className="grid gap-lg">
                 <div className="grid gap-s">
-                    <ReturnArrow />
+                    {fromProfile && <ReturnArrow />}
                     <h1 className="font-extrabold text-3xl">Medlemskab</h1>
                     <div className="grid gap-xs">
                         <h2 className="font-extrabold text-xl">Dit medlemskab</h2>
