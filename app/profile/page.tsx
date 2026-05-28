@@ -12,6 +12,7 @@ import Input from "@/components/Input"
 import DeleteModal from "@/components/DeleteModal"
 import LicensePlates from "@/components/LicensePlates"
 import MembershipStatusCard from "@/components/MembershipStatusCard"
+import IfNotUser from "@/components/IfNotUser"
 
 export default function Profile() {
     const { data: user } = useUser();
@@ -19,7 +20,7 @@ export default function Profile() {
     const { handleLogout, deleteUserMutation } = useAuth();
     const [activeDeleteBox, setActiveDeleteBox] = useState(false);
 
-    if (!user) return <p>Dit session er udløbet. Login igen.</p>
+    if (!user) return <IfNotUser/>
 
     const membershipStatus = user.membership_paused_at > 0 ? 'paused' : 'active'
 

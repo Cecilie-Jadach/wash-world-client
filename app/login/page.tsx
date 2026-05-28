@@ -50,7 +50,7 @@ export default function LoginPage() {
         // Hvis Flask returnerer en fejl (fx forkert adgangskode)
         // sættes fejlen på 'root' så den vises under password feltet
         if (!response.ok) {
-            setError('root', { message: json.error })
+            setError("root", {type:"server", message:"Forkert email eller adgangskode"})
             return
         }
 

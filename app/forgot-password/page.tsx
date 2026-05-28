@@ -45,12 +45,10 @@ export default function ForgotPassword() {
             body: data
         })
 
-        const json = await response.json()
-
         // Hvis Flask returnerer en fejl (fx email ikke fundet)
         // sættes fejlen på 'root' så den vises under inputfeltet
         if (!response.ok) {
-            setError('root', { message: json.error })
+            setError("root", {type:"server", message:"E-mail eksisterer ikke i vores system"})
             return
         }
         // Sæt success til true så siden skifter til bekræftelsesbesked

@@ -15,6 +15,7 @@ import Input from "@/components/Input"
 import Error from "@/components/Error"
 import LicensePlates from "@/components/LicensePlates"
 import ReturnArrow from "@/components/ReturnArrow"
+import InfoLabel from "@/components/InfoLabel"
 
 //React
 import toast from "react-hot-toast"
@@ -69,10 +70,7 @@ export default function EditCars() {
                     <LicensePlates showTrashIcon onDelete={handleDelete} />
                     {/* ??: Hvis værdien til venstre er null er undefined, så brug værdien til højre */}
                     {(licensePlates ?? []).length <= 1 && (
-                        <div className="flex gap-2xs">
-                            <Image src="/icons/information_icon.svg" alt="Grey information icon" height={16} width={16} />
-                            <p className="text-sm">Tilføj en nummerplade, før du kan slette denne.</p>
-                        </div>
+                        <InfoLabel message="Tilføj en nummerplade, før du kan slette denne."/>
                     )}
                 </div>
             </div>

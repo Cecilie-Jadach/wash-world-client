@@ -46,7 +46,7 @@ const getStageIndex = (step: number) => {
 }
 
 export default function Signup() {
-    const { signUp, isLoading, error } = useSignUp();
+    const { signUp, error, isPending } = useSignUp();
     const [selectedMembership, setSelectedMembership] = useState("");
     const [selectedPayment, setSelectedPayment] = useState("");
     const [step, setStep] = useState(1);
@@ -57,6 +57,7 @@ export default function Signup() {
         handleSubmit,
         trigger,
         watch,
+        setError,
         formState: { errors }
     } = useForm<SignupFormData>({ mode: "onTouched" })
 
@@ -110,8 +111,20 @@ export default function Signup() {
         try {
             await signUp(formData)
             setStep(9)
-        } catch {
-            // error state handled by useMutation
+            // If the error message contains "already exist", it means the backend has rejected the submission due to a duplicate email, phone, or license plate. 
+            // We catch this and set the appropriate field error and navigate back to the relevant step.
+        } catch (error) {
+            const message = (error as Error).message
+            if (message === "E-mail already exist") {
+                setStep(2)
+                setError("email", { type: "server", message: "E-mail er allerede i brug" })
+            } else if (message === "Phonenumber already exist") {
+                setStep(4)
+                setError("phone", { type: "server", message: "Mobilnummer er allerede i brug" })
+            } else if (message === "License plate already exist") {
+                setStep(5)
+                setError("license_plate", { type: "server", message: "Nummerplade er allerede i brug" })
+            }
         }
     }
 
@@ -367,12 +380,13 @@ export default function Signup() {
                     {step < TOTAL_STEPS ? (
                         <Button onClick={handleNext} disabled={!canProceed()}>Næste</Button>
                     ) : step === TOTAL_STEPS ? (
-                        <Button type="submit" disabled={isLoading || !canProceed()}>Start nu</Button>
+                        <Button type="submit" disabled={isPending || !canProceed()}>{isPending ? "Behandler..." : "Start nu"}</Button>
                     ) : null}
                 </div>
             </form>
 
-            {error && <Error>{error.message}</Error>}
+            {/* Only show backend errors that are not duplicate errors — those are shown as field errors instead */}
+            {error && !error.message.includes("already exist") && <Error>{error.message}</Error>}
         </main>
     )
 }

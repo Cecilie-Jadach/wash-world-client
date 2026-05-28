@@ -4,6 +4,7 @@ import { Location } from "@/types/location";
 const fetchLocations = async (): Promise<Location[]> => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/locations`);
   const data = await response.json();
+  if (!response.ok) throw new Error((await response.json()).error);
   return data.locations;
 };
 

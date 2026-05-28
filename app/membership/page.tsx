@@ -11,6 +11,7 @@ import ReturnArrow from '@/components/ReturnArrow'
 import MembershipFeatures from "@/components/MembershipFeatures"
 import InfoLabel from "@/components/InfoLabel"
 import LicensePlates from "@/components/LicensePlates"
+import IfNotUser from '@/components/IfNotUser'
 
 // React
 import toast from 'react-hot-toast'
@@ -19,7 +20,7 @@ export default function MembershipPage() {
     const { data: user } = useUser()
     const { reactivateMutation } = useMembership()
 
-    if(!user) return <main><h1>Session udløbet.</h1><Button href="/login">Gå til log ind</Button></main>
+    if(!user) return <IfNotUser/>
 
     const membershipStatus = user.membership_paused_at > 0 ? 'paused' : 'active'
 
