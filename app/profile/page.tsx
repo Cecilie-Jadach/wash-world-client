@@ -14,12 +14,17 @@ import LicensePlates from "@/components/LicensePlates"
 import MembershipStatusCard from "@/components/MembershipStatusCard"
 import IfNotUser from "@/components/IfNotUser"
 import ToggleNotification from "@/components/ToggleNotification"
+import LoadingSpinner from "@/components/LoadingSpinner"
 
 export default function Profile() {
-    const { data: user } = useUser()
+    const { data: user, isPending } = useUser()
     const { reactivateMutation } = useMembership()
     const { handleLogout, deleteUserMutation } = useAuth()
     const [activeDialogBox, setActiveDialogBox] = useState(false)
+
+    if (isPending) return (
+            <LoadingSpinner />
+        )
 
     if (!user) return <IfNotUser />
 
