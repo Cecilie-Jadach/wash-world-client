@@ -14,7 +14,7 @@ export default function Input({ label, id, showLicensePlate, phoneLabel, error, 
     const bg = bgWhite ? 'bg-white' : 'bg-grey-5'
 
     return (
-        <div className="flex flex-col gap-3xs text-md">
+        <div className="grid gap-3xs text-md">
             <Label htmlFor={id} required={showRequired}>{label}</Label>
             <div className={`flex items-stretch ${error ? 'border border-error-red' : ''}`}>
                 {showLicensePlate && <LicensePlate />}

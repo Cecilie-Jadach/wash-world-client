@@ -17,5 +17,6 @@ export function useUser() {
       return fetchUser(token);
     },
     enabled: typeof window !== "undefined",
+    retry: false, // Vis straks "session udløbet" i stedet for at prøve igen og loade i lang tid ved udløbet session
   });
 }

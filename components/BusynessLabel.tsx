@@ -7,7 +7,7 @@ type BusynessLabelProps = {
 }
 
 const label = cva(
-    ' px-xs py-3xs border',
+    ' px-3xs py-4xs border text-xs',
     {
         variants: {
             status: {
@@ -21,7 +21,7 @@ const label = cva(
 
 export default function BusynessLabel({ status }: BusynessLabelProps) {
     return (
-        <div className="flex gap-3xs items-center pt-s">
+        <div className="flex gap-3xs items-center">
             <div className={label({ status })}>
             {status}
             </div>

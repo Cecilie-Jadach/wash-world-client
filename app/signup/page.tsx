@@ -129,7 +129,7 @@ export default function Signup() {
     }
 
     return (
-        <main className="m-2xs pb-xl">
+        <main className="mx-xs my-lg min-h-[calc(100svh-var(--spacing-lg)*2)] flex flex-col">
             {/* Progress indicator */}
             <div className="flex items-baseline gap-2xs mb-s">
                 {progressStages.map((label, i) => (
@@ -145,11 +145,11 @@ export default function Signup() {
             </div>
 
             {/* Signup form */}
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-xs">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col grow">
 
                 {/* Step 1: Membership */}
                 {step === 1 && (
-                    <div>
+                    <div className="mb-sm">
                         <h2 className="font-extrabold text-3xl mb-s">Medlemskaber</h2>
                         <div className="flex flex-col gap-s">
                             <MembershipCard membership="Guld" price={139} description="God og effektiv" selectedCard={selectedMembership === "Guld"} onSelect={setSelectedMembership} />
@@ -373,20 +373,20 @@ export default function Signup() {
                 )}
 
                 {/* Button navigation */}
-                <div className="flex gap-xs mt-s">
+                <div className={`flex gap-xs mt-auto w-full ${step === 1 ? "mb-sm" : ""}`}>
                     {step > 1 && step < 9 && (
                         <Button variant="secondary" icon={false} onClick={() => setStep(s => s - 1)}>Tilbage</Button>
                     )}
                     {step < TOTAL_STEPS ? (
-                        <Button onClick={handleNext} disabled={!canProceed()}>Næste</Button>
+                        <Button className="grow" onClick={handleNext} disabled={!canProceed()}>Næste</Button>
                     ) : step === TOTAL_STEPS ? (
-                        <Button type="submit" disabled={isPending || !canProceed()}>{isPending ? "Behandler..." : "Start nu"}</Button>
+                        <Button className="grow" type="submit" disabled={isPending || !canProceed()}>{isPending ? "Behandler..." : "Start nu"}</Button>
                     ) : null}
                 </div>
             </form>
 
             {/* Only show backend errors that are not duplicate errors — those are shown as field errors instead */}
             {error && !error.message.includes("already exist") && <Error>{error.message}</Error>}
-        </main>
+        </main >
     )
 }

@@ -26,7 +26,7 @@ export default function ForgotPassword() {
         handleSubmit,
         watch,
         setError,
-        formState: { errors }
+        formState: { errors, isSubmitting }
     } = useForm<ForgotPasswordFormData>({ mode: "onTouched" })
 
     // watch lytter på email i realtid
@@ -48,12 +48,12 @@ export default function ForgotPassword() {
         // Hvis Flask returnerer en fejl (fx email ikke fundet)
         // sættes fejlen på 'root' så den vises under inputfeltet
         if (!response.ok) {
-            setError("root", {type:"server", message:"E-mail eksisterer ikke i vores system"})
+            setError("root", { type: "server", message: "E-mail eksisterer ikke i vores system" })
             return
         }
         // Sæt success til true så siden skifter til bekræftelsesbesked
         setSuccess(true)
-    } 
+    }
 
     // Hvis emailen er sendt succesfuldt vises en bekræftelsesbesked
     // i stedet for formen — dette er bedre UX end at redirecte
@@ -61,15 +61,15 @@ export default function ForgotPassword() {
         <main className="mx-xs my-lg">
             <p>Tjek din e-mail — vi har sendt dig et link til at nulstille din adgangskode.</p>
         </main>
-        )
+    )
 
     return (
-        <main className="mx-xs my-lg flex flex-col gap-s">
+        <main className="mx-xs my-lg flex flex-col gap-s min-h-[calc(100svh-var(--spacing-lg)*2)]">
             <div className="flex flex-col gap-2xs">
                 <h1 className="font-extrabold text-3xl">Glemt adgangskode</h1>
                 <p>Indtast din e-mail, så sender vi dig en e-mail til at nulstille din adgangskode.</p>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col grow">
                 <Input
                     id="email"
                     label="E-mail"
@@ -83,9 +83,15 @@ export default function ForgotPassword() {
                     })}
                 />
                 <div className="py-3xs">
-                {errors.root && <Error>{errors.root.message}</Error>}
+                    {errors.root && <Error>{errors.root.message}</Error>}
                 </div>
-                <Button type="submit" disabled={!watchEmail}>Send</Button>
+                {/* <Button type="submit" disabled={!watchEmail}>Send</Button> */}
+                <div className="flex gap-s mt-auto">
+                    <Button href="/login" variant="secondary" icon={false}>Tilbage</Button>
+                    <Button className="grow" type="submit" disabled={!watchEmail || isSubmitting}>
+                        {isSubmitting ? "Sender..." : "Send"}
+                    </Button>
+                </div>
             </form>
         </main>
     )

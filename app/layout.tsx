@@ -22,42 +22,42 @@ export default function RootLayout({
 }>) {
   return (
     <html
-    lang="da"
-    className="h-full antialiased"
+      lang="da"
+      className="h-full antialiased"
     >
-      <body className="h-full">
-      <QueryProvider>
-        <ScrollToTop />
-        {children}
-        <Navbar />
-        <Toaster 
-    position="top-center"
-    toastOptions={{
-        success: {
-          icon: <Image src="/icons/check_green_icon.svg" alt="green check icon" width={20} height={20}/>,
-            style: {
-                background: '#E6F9F0',
-                color: '#000000',
-                fontWeight: '400',
-                borderWidth: '1px',
-                borderColor: '#198b47',
-                borderRadius: '0px'
-            }
-        },
-        error: {
-          icon: <Image src="/icons/error_icon.svg" alt="error icon" width={16} height={16}/>,
-            style: {
-                background: '#FAECEC',
-                color: '#000000',
-                fontWeight: '400',
-                borderWidth: '1px',
-                borderColor: "#d14343",
-                borderRadius: '0px',
-            }
-        }
-    }}
-/>
-    </QueryProvider>
+      <body>
+        <QueryProvider>
+          <ScrollToTop />
+          {children}
+          <Navbar />
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              success: {
+                icon: <Image src="/icons/check_green_icon.svg" alt="green check icon" width={20} height={20} />,
+                style: {
+                  background: '#E6F9F0',
+                  color: '#000000',
+                  fontWeight: '400',
+                  borderWidth: '1px',
+                  borderColor: '#198b47',
+                  borderRadius: '0px'
+                }
+              },
+              error: {
+                icon: <Image src="/icons/error_icon.svg" alt="error icon" width={16} height={16} />,
+                style: {
+                  background: '#FAECEC',
+                  color: '#000000',
+                  fontWeight: '400',
+                  borderWidth: '1px',
+                  borderColor: "#d14343",
+                  borderRadius: '0px',
+                }
+              }
+            }}
+          />
+        </QueryProvider>
       </body>
     </html>
   );

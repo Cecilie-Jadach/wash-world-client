@@ -1,5 +1,5 @@
-import { useRouter } from "next/navigation"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useAuth() {
   const router = useRouter();
@@ -8,7 +8,8 @@ export function useAuth() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     queryClient.clear();
-    router.push("/");
+    // replace instead of push so the user can't navigate back to the previous page
+    router.replace("/");
   };
 
   const deleteUserMutation = useMutation({
@@ -24,7 +25,8 @@ export function useAuth() {
       if (!res.ok) throw new Error((await res.json()).error);
       return res.json();
     },
-    onSuccess: handleLogout,
+    // replace instead of push so the user can't navigate back to the profile page after deletion
+    onSuccess: () => router.replace("/account-deleted"),
   });
 
   return { handleLogout, deleteUserMutation };

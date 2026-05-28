@@ -10,6 +10,8 @@ import Button from "@/components/Button"
 import BusynessLabel from "@/components/BusynessLabel"
 import MapZoom from "./MapZoom"
 import IfNotUser from "./IfNotUser"
+import LoadingSpinner from "./LoadingSpinner"
+import LocationFacilitiesInfo from "./LocationFacilitiesInfo"
 
 //Types
 import { Location } from "@/types/location"
@@ -21,7 +23,7 @@ import { useState } from "react"
 import { useUser } from "@/app/hooks/useUser"
 
 function GoogleMapSection() {
-    const { data: user } = useUser();
+    const { data: user, isPending } = useUser();
     const { data } = useLocations();
     //react state variabel. selectedLocation = the chosen location, setSelectedLocation = the function we call when the value in selectedLocation change
     //<Location | null> = typescript type that says that it is either a location object or null
@@ -51,7 +53,11 @@ function GoogleMapSection() {
     //start position for the map
     const position = { lat: 56.2639, lng: 9.5018 }
 
-    if (!user) return <IfNotUser/>
+    if (isPending) return (
+        <LoadingSpinner />
+    )
+
+    if (!user) return <IfNotUser />
 
     return (
         <div className="relative">
@@ -129,7 +135,7 @@ function GoogleMapSection() {
 
             {/* Filter toggle knap */}
             <button data-cy="filter-button"
-                className="pointer-events-auto absolute top-3xl right-[0.7rem] z-999 bg-white shadow-md p-3xs w-[36px] h-[36px] flex items-center justify-center"
+                className="pointer-events-auto absolute top-2xl right-xs z-999 bg-white shadow-md p-3xs w-[36px] h-[36px] flex items-center justify-center"
                 onClick={() => setShowFilter(!showFilter)}>
                 {showFilter ?
                     <Image src="/icons/cross_icon.svg" alt="close filter" width={12} height={12} /> :
@@ -138,7 +144,7 @@ function GoogleMapSection() {
 
             {/* Show filter */}
             {showFilter && (
-                <div className="pointer-events-auto absolute top-[8.5rem] right-2xs z-999 bg-white shadow-md flex overflow-hidden">
+                <div className="pointer-events-auto absolute top-5xl right-xs z-999 bg-white shadow-md flex overflow-hidden">
                     <button
                         onClick={() => setFilterSelfWash(false)}
                         style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)', marginRight: '-8px' }}
@@ -169,63 +175,39 @@ function GoogleMapSection() {
                     <div
                         //onClick={(e) => e.stopPropagation()} = to stop event bubbling
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white w-[97%] p-3xs grid gap-s border border-grey-10 shadow-md"
+                        className="bg-white w-[97%] p-xs grid gap-2xs border border-grey-10 shadow-md"
                     >
-                        <div className="grid gap-xs">
+                        <div className="grid gap-3xs">
                             <div className="grid gap-4xs">
                                 <button className="justify-self-end" onClick={() => setSelectedLocation(null)}>
                                     <Image src="/icons/cross_icon.svg" alt="cross icon" width={12} height={12} />
                                 </button>
-                                <h2 className="font-extrabold text-lg">{selectedLocation.location_name}</h2>
-                                <p>{selectedLocation.location_address} {selectedLocation.location_address_number}, {selectedLocation.location_postal_code} {selectedLocation.location_city}</p>
+                                <h2 className="font-extrabold">{selectedLocation.location_name}</h2>
+                                <p className="font-light text-sm">{selectedLocation.location_address} {selectedLocation.location_address_number}, {selectedLocation.location_postal_code} {selectedLocation.location_city}</p>
                             </div>
-                        </div>
-
-                        <div className="flex gap-xs">
-                            <div className="flex flex-col bg-grey-10 p-3xs">
-                                <p className="text-sm">Åbningstider</p>
-                                <div className="flex gap-3xs items-center">
-                                    <Image src="/icons/clock_icon.svg" alt="clock icon" width={18} height={18} />
-                                    <p className="text-sm font-extrabold">7-22</p>
-                                </div>
-                            </div>
-                            <div className="flex flex-col bg-grey-10 p-3xs">
-                                <p className="text-sm">Faciliteter</p>
-                                <div className="flex gap-4xs">
-                                    <div className="flex gap-4xs grow">
-                                        <p className="font-extrabold text-sm">{selectedLocation.location_washrooms}</p>
-                                        <p className="text-sm">vaskehaller</p>
-                                    </div>
-                                    <div>
-                                        {selectedLocation.location_self_washing > 0 && (
-                                            <div className="flex gap-4xs">
-                                                <span>&#x2022;</span>
-                                                <p className="font-extrabold text-sm">{selectedLocation.location_self_washing}</p>
-                                                <p className="text-sm">vask selv</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="grid gap-4xs border-t border-grey-10 p-2xs">
-                            <p className="text-sm">Driftstatus</p>
-                            {selectedLocation.location_operation_status > 0
-                                ? <div className="flex gap-4xs"><div className="flex gap-4xs items-center"> <Image src="/icons/alert_icon.svg" alt="alert icon" width={20} height={20} /></div><p className="font-extrabold">{selectedLocation.location_operation_status_message}</p></div>
-                                : <div className="flex gap-4xs"><div className="flex gap-4xs items-center"> <Image src="/icons/check_green_icon.svg" alt="green check icon" width={20} height={20} /></div><p className="font-extrabold">Alt er som det skal være.</p></div>
-                            }
-                        </div>
-                        <div className="flex w-full justify-between items-end border-t border-grey-10">
                             <BusynessLabel status={selectedLocation.busyness_status} />
-                            <div>
-                                <a href={`https://www.google.com/maps/dir/?api=1&destination=${selectedLocation.location_address}+${selectedLocation.location_address_number},+${selectedLocation.location_postal_code}+${selectedLocation.location_city}`}
+                        </div>
+
+                        <div className="grid">
+                            <LocationFacilitiesInfo data="7-22" icon="/icons/clock_icon.svg" facility="Åbningstid"/>
+                            <LocationFacilitiesInfo data={selectedLocation.location_washrooms} icon="/icons/carwash.svg" facility="Vaskehaller"/>
+                            {selectedLocation.location_self_washing > 0 && (
+                                <LocationFacilitiesInfo data={selectedLocation.location_self_washing} icon="/icons/water.svg" facility="Vask selv"/>
+                            )}
+                        </div>
+
+                
+                            {selectedLocation.location_operation_status > 0
+                                ? <div className="flex gap-3xs"><div className="flex gap-4xs items-center"> <Image src="/icons/alert_icon.svg" alt="alert icon" width={20} height={20} className="min-w-s" /></div><p className="font-extrabold text-sm">{selectedLocation.location_operation_status_message}</p></div>
+                                : <div className="flex gap-3xs"><div className="flex gap-4xs items-center"> <Image src="/icons/check_green_icon.svg" alt="green check icon" width={20} height={20} className="min-w-s" /></div><p className="font-extrabold text-sm">Alt er som det skal være.</p></div>
+                            }
+                            <div className="grid">
+                                <a className="justify-self-end" href={`https://www.google.com/maps/dir/?api=1&destination=${selectedLocation.location_address}+${selectedLocation.location_address_number},+${selectedLocation.location_postal_code}+${selectedLocation.location_city}`}
                                 // target="_blank"
                                 >
                                     <Button icon={false}>Rute</Button>
                                 </a>
                             </div>
-                        </div>
                     </div>
                 </div>
             )}
