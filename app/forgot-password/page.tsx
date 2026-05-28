@@ -26,7 +26,7 @@ export default function ForgotPassword() {
         handleSubmit,
         watch,
         setError,
-        formState: { errors }
+        formState: { errors, isSubmitting }
     } = useForm<ForgotPasswordFormData>({ mode: "onTouched" })
 
     // watch lytter på email i realtid
@@ -88,8 +88,8 @@ export default function ForgotPassword() {
                 {/* <Button type="submit" disabled={!watchEmail}>Send</Button> */}
                 <div className="flex gap-s mt-auto">
                     <Button href="/login" variant="secondary" icon={false}>Tilbage</Button>
-                    <Button className="grow" type="submit" disabled={!watchEmail}>
-                        Send
+                    <Button className="grow" type="submit" disabled={!watchEmail || isSubmitting}>
+                        {isSubmitting ? "Sender..." : "Send"}
                     </Button>
                 </div>
             </form>
