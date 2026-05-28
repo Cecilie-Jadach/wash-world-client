@@ -59,7 +59,7 @@ export default function ResetPassword() {
         })
 
         if (!response.ok) {
-            setError("root", {type:"server", message:"Adgangskoder er ikke ens"})
+            setError("root", { type: "server", message: "Adgangskoder er ikke ens" })
             return
         }
         setSuccess(true)
