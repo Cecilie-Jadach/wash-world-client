@@ -20,7 +20,7 @@ export default function Profile() {
     const { handleLogout, deleteUserMutation } = useAuth();
     const [activeDeleteBox, setActiveDeleteBox] = useState(false);
 
-    if (!user) return <IfNotUser/>
+    if (!user) return <IfNotUser />
 
     const membershipStatus = user.membership_paused_at > 0 ? 'paused' : 'active'
 
@@ -78,6 +78,7 @@ export default function Profile() {
                     </div>
                 </div>
 
+                {/* Log ud og slet profil */}
                 <div className="flex flex-col gap-sm">
                     <Button variant="dark" icon={false} onClick={handleLogout}>Log ud</Button>
                     <p onClick={() => setActiveDeleteBox(true)} className="text-error-red font-extrabold cursor-pointer">Slet profil</p>
