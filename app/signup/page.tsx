@@ -347,7 +347,7 @@ export default function Signup() {
                             />
                             <Checkbox
                                 id="offers_accepted"
-                                label={<span>Jeg accepterer, at Wash World må sende mig tilbud.</span>}
+                                label={<span>Jeg accepterer, at Wash World må sende mig notifikationer.</span>}
                                 {...register("offers_accepted", {
                                     onChange: () => trigger("terms_accepted")
                                 })}
