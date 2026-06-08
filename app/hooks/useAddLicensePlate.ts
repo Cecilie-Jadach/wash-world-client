@@ -36,7 +36,7 @@ export function useAddLicensePlate() {
 
 
 //React Query cacher data for at undgå unødvendige kald til serveren. 
-// Det betyder at når du tilføjer en ny nummerplade, sidder den gamle liste stadig i cachen — React Query ved ikke at noget har ændret sig.
+//Det betyder at når du tilføjer en ny nummerplade, sidder den gamle liste stadig i cachen — React Query ved ikke at noget har ændret sig.
 //Uden invalidateQueries ville brugeren altså stadig se den gamle liste, selvom nummerpladen er gemt på serveren. 
-// Først ved næste page refresh ville den nye liste dukke op.
+//Først ved næste page refresh ville den nye liste dukke op.
 //Med invalidateQueries siger du: "den her cache er forældet" — og React Query henter automatisk en ny liste, så UI'et opdaterer sig med det samme.

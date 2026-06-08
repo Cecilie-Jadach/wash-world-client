@@ -104,6 +104,7 @@ function GoogleMapSection() {
                         <div className="flex gap-2xs grow">
                             <Image src="/icons/search_icon.svg" alt="search icon" height={20} width={20} />
                             <input
+                                type="search"
                                 className="grow focus:outline-0"
                                 placeholder="Søg på by eller postnummer..."
                                 value={search}
@@ -136,6 +137,7 @@ function GoogleMapSection() {
             {/* Filter toggle knap */}
             <button data-cy="filter-button"
                 className="pointer-events-auto absolute top-2xl right-xs z-999 bg-white shadow-md p-3xs w-[36px] h-[36px] flex items-center justify-center"
+                //setShowFilter(!showFilter) sætter ikke bare til true – den vender værdien om
                 onClick={() => setShowFilter(!showFilter)}>
                 {showFilter ?
                     <Image src="/icons/cross_icon.svg" alt="close filter" width={12} height={12} /> :
@@ -202,9 +204,7 @@ function GoogleMapSection() {
                             : <div className="flex gap-3xs"><div className="flex gap-4xs items-center"> <Image src="/icons/check_green_icon.svg" alt="green check icon" width={20} height={20} className="min-w-s" /></div><p className="font-extrabold text-sm">Alt er som det skal være.</p></div>
                         }
                         <div className="grid">
-                            <a className="justify-self-end" href={`https://www.google.com/maps/dir/?api=1&destination=${selectedLocation.location_address}+${selectedLocation.location_address_number},+${selectedLocation.location_postal_code}+${selectedLocation.location_city}`}
-                            // target="_blank"
-                            >
+                            <a className="justify-self-end" href={`https://www.google.com/maps/dir/?api=1&destination=${selectedLocation.location_address}+${selectedLocation.location_address_number},+${selectedLocation.location_postal_code}+${selectedLocation.location_city}`}>
                                 <Button icon={false}>Rute</Button>
                             </a>
                         </div>

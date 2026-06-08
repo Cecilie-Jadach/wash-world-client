@@ -12,6 +12,7 @@ import MembershipCard from "@/components/MembershipCard"
 import Button from "@/components/Button"
 import IfNotUser from "@/components/IfNotUser"
 import DialogModal from "@/components/DialogModal"
+import LoadingSpinner from "@/components/LoadingSpinner"
 
 // React
 import toast from 'react-hot-toast'
@@ -20,8 +21,12 @@ export default function UpdateMembership() {
     const [selectedMembership, setSelectedMembership] = useState("")
     const { updateMutation } = useMembership()
     const [activeDialogBox, setActiveDialogBox] = useState(false)
-    const { data: user } = useUser()
+    const { data: user, isPending } = useUser()
     const router = useRouter()
+
+    if (isPending) return (
+            <LoadingSpinner />
+        )
 
     if (!user) return <IfNotUser />
 

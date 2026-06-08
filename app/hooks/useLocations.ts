@@ -10,6 +10,7 @@ const fetchLocations = async (): Promise<Location[]> => {
 
 //useQuery hook that returns {data}
 export function useLocations() {
+  //er en TypeScript generisk type der fortæller TanStack Query at den forventede data er et array af Location-objekter, så du får TypeScript-autofuldførelse og typetjek når du bruger data i dine komponenter
   return useQuery<Location[]>({
     //queryKey that needs to be uniqe
     queryKey: ["locations"],
@@ -17,3 +18,11 @@ export function useLocations() {
     queryFn: fetchLocations,
   });
 }
+
+// TanStack Query giver dig automatisk:
+
+// Caching – hvis du har hentet locations før, bruger den den gemte data i stedet for at hente igen
+// Loading og error state – isLoading, isError er klar til brug
+// Refetching – henter automatisk frisk data når du f.eks. skifter fane og kommer tilbage
+// Retry – prøver automatisk igen hvis et request fejler
+// Deling på tværs af komponenter – to komponenter der bruger samme queryKey deler automatisk data uden at lave to requests
