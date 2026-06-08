@@ -37,6 +37,7 @@ export default function EditProfileInformation() {
         register,
         handleSubmit,
         reset,
+        setError,
         formState: { errors, isDirty }
     } = useForm<EditFormData>({ mode: "onTouched" });
 
@@ -60,8 +61,15 @@ export default function EditProfileInformation() {
             toast.success("Ændringer gemt");
             // Go back to the profile page after a successful save
             router.push("/profile");
-        } catch {
-            toast.error("Ændringer kunne ikke gemmes");
+        } catch (error) {
+            const message = (error as Error).message
+            if (message === "E-mail already exists") {
+                setError("email", { type: "server", message: "E-mail er allerede i brug" })
+            } else if (message === "Phonenumber already exists") {
+                setError("phone", { type: "server", message: "Mobilnummer er allerede i brug" })
+            } else {
+                toast.error("Ændringer kunne ikke gemmes");
+            }
         }
     };
 
@@ -127,7 +135,7 @@ export default function EditProfileInformation() {
                         </div>
                     </div>
 
-                    {error && <Error>{error.message}</Error>}
+                    {error && !error.message.includes("already exist") && <Error>{error.message}</Error>}
 
                     {/* Disabled until the user changes at least one field */}
                     <Button type="submit" disabled={!isDirty}>
