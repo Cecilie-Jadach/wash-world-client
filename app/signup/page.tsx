@@ -388,6 +388,9 @@ export default function Signup() {
 
                 {/* Button navigation */}
                 <div className={`flex gap-xs mt-auto w-full ${step === 1 ? "mb-sm" : ""}`}>
+                    {step === 1 && (
+                        <Button href="/" variant="secondary" icon={false}>Tilbage</Button>
+                    )}
                     {step > 1 && step < 9 && (
                         <Button variant="secondary" icon={false} onClick={() => setStep(s => s - 1)}>Tilbage</Button>
                     )}
