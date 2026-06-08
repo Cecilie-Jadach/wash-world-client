@@ -1,20 +1,19 @@
 import { useToggleOffers } from "@/app/hooks/useToggleOffers";
 
+// React
+import toast from 'react-hot-toast'
+
 
 export default function ToggleNotification() {
-    const { toggleMutation, offersData } = useToggleOffers();
+    const { toggleMutation, isToggled } = useToggleOffers();
 
-    const isToggled = offersData?.offers_accepted === 1;
-
-    const handleToggle = () => {
-        toggleMutation.mutate(undefined, {
-            onError: () => {
-                // React Query genindlæser automatisk via invalidateQueries
-            }
-        });
+const handleToggle = async () => {
+    try {
+        await toggleMutation.mutateAsync(undefined);
+    } catch {
+        toast.error("Noget gik galt. Prøv igen.");
     }
-
-    console.log("offersData:", offersData)
+}
 
     return (
         <label htmlFor="notification-toggle" className={`flex cursor-pointer relative w-lg h-sm rounded-full ${isToggled ? `bg-green-white-background` : `bg-grey-60`} ` }>

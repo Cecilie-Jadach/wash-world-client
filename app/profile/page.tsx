@@ -18,7 +18,6 @@ import LoadingSpinner from "@/components/LoadingSpinner"
 
 export default function Profile() {
     const { data: user, isPending } = useUser()
-    const { reactivateMutation } = useMembership()
     const { handleLogout, deleteUserMutation } = useAuth()
     const [activeDialogBox, setActiveDialogBox] = useState(false)
 
