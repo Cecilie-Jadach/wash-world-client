@@ -25,8 +25,8 @@ export default function UpdateMembership() {
     const router = useRouter()
 
     if (isPending) return (
-            <LoadingSpinner />
-        )
+        <LoadingSpinner />
+    )
 
     if (!user) return <IfNotUser />
 
@@ -72,7 +72,7 @@ export default function UpdateMembership() {
 
             {activeDialogBox && (
                 <DialogModal
-                    dialogMessage="Er du sikker på, at du vil skifte medlemskab?"
+                    dialogMessage={`Er du sikker på, at du vil skifte dit medlemskab fra ${user.user_membership} til ${selectedMembership}?`}
                     buttonText="Skift medlemskab"
                     onCancel={() => setActiveDialogBox(false)}
                     onConfirm={() => handleUpdate()}
