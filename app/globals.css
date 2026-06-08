@@ -114,3 +114,7 @@ body {
   color: var(--text);
   font-family: "Gilroy", sans-serif;
 }
+
+input[type="search"]::-webkit-search-cancel-button {
+    display: none;
+}

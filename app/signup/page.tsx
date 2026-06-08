@@ -24,7 +24,8 @@ import MembershipIndicator from "@/components/MembershipIndicatior"
 
 const TOTAL_STEPS = 8;
 
-// Fields to validate on each step before allowing the user to proceed
+//Fields to validate on each step before allowing the user to proceed
+//stepFields er et objekt der mapper stepnumre til hvilke formfelter der skal valideres på det pågældende trin.
 const stepFields: Partial<Record<number, (keyof SignupFormData)[]>> = {
     2: ["email", "confirm_email"],
     3: ["password", "confirm_password"],
@@ -37,7 +38,9 @@ const stepFields: Partial<Record<number, (keyof SignupFormData)[]>> = {
 // The 4 visual stages shown in the progress indicator
 const progressStages = ["Medlemskab", "Oplysninger", "Betaling", "Bekræftelse"]
 
-// Converts the current step (1-8) to a stage index (0-3) for the progress indicator
+//Converts the current step (1-8) to a stage index (0-3) for the progress indicator
+//Konverterer det interne stepnummer (1-8) til et stage-indeks (0-3). 
+//Step 1 viser "Medlemskab", step 2-6 viser "Oplysninger", step 7-8 viser "Betaling", og step 9 viser "Bekræftelse".
 const getStageIndex = (step: number) => {
     if (step <= 1) return 0
     if (step <= 6) return 1
@@ -52,6 +55,8 @@ export default function Signup() {
     const [step, setStep] = useState(1);
     const { data } = useLocations();
 
+    //Initialiserer react-hook-form med din SignupFormData-type. 
+    //mode: "onTouched" betyder at validering kører når brugeren har været inde i et felt og forladt det igen.
     const {
         register,
         handleSubmit,
@@ -62,6 +67,7 @@ export default function Signup() {
     } = useForm<SignupFormData>({ mode: "onTouched" })
 
     // Watch field values in real time to enable/disable the next button
+    //Overvåger feltværdierne i realtid. Hver gang brugeren skriver noget opdateres disse variable – de bruges til at bestemme om "næste"-knappen skal være aktiv.
     const [watchEmail, watchConfirmEmail, watchPassword, watchConfirmPassword, watchPhone, watchLicensePlate, watchLocation, watchTerms] =
         watch(["email", "confirm_email", "password", "confirm_password", "phone", "license_plate", "primary_location", "terms_accepted"])
 
@@ -84,6 +90,9 @@ export default function Signup() {
     }
 
     // Validates the current step's fields before moving to the next step
+    //Kører når brugeren klikker "næste". Henter de felter der skal valideres på det nuværende step fra stepFields. 
+    //Promise.all kører valideringen på alle felter samtidig og venter på at de alle er færdige. 
+    //results.some(r => !r) tjekker om nogen af valideringerne fejlede – hvis ja, stoppes flowet og brugeren kommer ikke videre.
     const handleNext = async () => {
         const fields = stepFields[step]
         if (fields) {
@@ -94,6 +103,8 @@ export default function Signup() {
     }
 
     // Builds the form data and sends it to the backend on final submission
+    //Bygger en FormData og tilføjer alle felter. 
+    //Checkboxes konverteres til "1" eller "0" som din Python-backend forventer.
     const onSubmit = async (data: SignupFormData) => {
         const formData = new FormData()
         formData.append("membership", selectedMembership)
@@ -108,6 +119,9 @@ export default function Signup() {
         formData.append("terms_accepted", data.terms_accepted ? "1" : "0")
         formData.append("access_to_all_washes", data.access_to_all_washes ? "1" : "0")
         formData.append("offers_accepted", data.offers_accepted ? "1" : "0")
+
+        //Sender formdata til backend. Hvis det lykkes sættes step til 9 (bekræftelsessiden). 
+        //Hvis backend returnerer en fejl om duplikeret data, navigeres brugeren tilbage til det relevante step og der vises en fejlbesked på det pågældende felt
         try {
             await signUp(formData)
             setStep(9)

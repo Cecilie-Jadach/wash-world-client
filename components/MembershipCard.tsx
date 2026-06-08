@@ -59,48 +59,50 @@ export default function MembershipCard({ membership, price, description, selecte
                 <Image src="/icons/chevron_green_icon.svg" alt="Green chevron" height={11} width={11} className={activeReadMore ? 'rotate-180' : ''} />
             </div>
 
-            <div className={`${activeReadMore ? "block" : "hidden"} grid gap-xs`}>
-                {membership === 'Enkeltvask' ? (
-                    <>
-                        <p className='font-extrabold'>Enkeltvask priser</p>
-                        <div className='grid grid-flow-col gap-2xs grid-cols-3'>
-                            <div className='flex flex-col items-baseline'>
-                                <p className='font-extrabold'>Guld</p>
-                                <div className='flex gap-4xs items-baseline'>
-                                    <p className='text-lg font-extrabold'>59</p>
-                                    <p className='text-xs font-extrabold'>kr.</p>
+            {activeReadMore && (
+                <div className="grid gap-xs">
+                    {membership === 'Enkeltvask' ? (
+                        <>
+                            <p className='font-extrabold'>Enkeltvask priser</p>
+                            <div className='grid grid-flow-col gap-2xs grid-cols-3'>
+                                <div className='flex flex-col items-baseline'>
+                                    <p className='font-extrabold'>Guld</p>
+                                    <div className='flex gap-4xs items-baseline'>
+                                        <p className='text-lg font-extrabold'>59</p>
+                                        <p className='text-xs font-extrabold'>kr.</p>
+                                    </div>
+                                </div>
+                                <div className='flex flex-col items-baseline'>
+                                    <p className='font-extrabold'>Premium</p>
+                                    <div className='flex gap-4xs items-baseline'>
+                                        <p className='text-lg font-extrabold'>89</p>
+                                        <p className='text-xs font-extrabold'>kr.</p>
+                                    </div>
+                                </div>
+                                <div className='flex flex-col items-baseline'>
+                                    <p className='font-extrabold'>Brilliant</p>
+                                    <div className='flex gap-4xs items-baseline'>
+                                        <p className='text-lg font-extrabold'>119</p>
+                                        <p className='text-xs font-extrabold'>kr.</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div className='flex flex-col items-baseline'>
-                                <p className='font-extrabold'>Premium</p>
-                                <div className='flex gap-4xs items-baseline'>
-                                    <p className='text-lg font-extrabold'>89</p>
-                                    <p className='text-xs font-extrabold'>kr.</p>
-                                </div>
+                        </>
+                    ) : (
+                        <>
+                            <p className='font-extrabold'>Inkluderet i {membership}</p>
+                            <div className='grid grid-flow-col gap-2xs grid-rows-6'>
+                                {washFeatures.map((washFeature) => (
+                                    <div key={washFeature.name} className='flex gap-2xs items-center'>
+                                        {washFeature.memberships.includes(membership) ? <IncludedIcon /> : <NotIncludedIcon />}
+                                        <p>{washFeature.name}</p>
+                                    </div>
+                                ))}
                             </div>
-                            <div className='flex flex-col items-baseline'>
-                                <p className='font-extrabold'>Brilliant</p>
-                                <div className='flex gap-4xs items-baseline'>
-                                    <p className='text-lg font-extrabold'>119</p>
-                                    <p className='text-xs font-extrabold'>kr.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <p className='font-extrabold'>Inkluderet i {membership}</p>
-                        <div className='grid grid-flow-col gap-2xs grid-rows-6'>
-                            {washFeatures.map((washFeature) => (
-                                <div key={washFeature.name} className='flex gap-2xs items-center'>
-                                    {washFeature.memberships.includes(membership) ? <IncludedIcon /> : <NotIncludedIcon />}
-                                    <p>{washFeature.name}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </>
-                )}
-            </div>
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     )
 }

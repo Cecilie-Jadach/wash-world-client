@@ -13,6 +13,7 @@ type LicensePlatesProps = {
 export default function LicensePlates({ showTrashIcon, onDelete }: LicensePlatesProps) {
     const { data } = useLicensePlates()
 
+    // canDelete = true, hvis der er mere end 1 element i arrayet
     const canDelete = (data ?? []).length > 1;
 
     return (

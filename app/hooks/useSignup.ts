@@ -4,7 +4,7 @@ export const useSignUp = () => {
   // useMutation is used for actions that change data (like POST requests).
   // It automatically tracks loading and error state, so we don't have to use useState for those.
   // mutateAsync is the function we call to trigger the request — we rename it to signUp.
-  // isPending is true while the request is in progress — we rename it to isLoading.
+  // isPending is true while the request is in progress
   // error holds any error that was thrown during the request.
   const {
     mutateAsync: signUp,
