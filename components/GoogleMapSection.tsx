@@ -105,6 +105,7 @@ function GoogleMapSection() {
                             <Image src="/icons/search_icon.svg" alt="search icon" height={20} width={20} />
                             <input
                                 type="search"
+                                name="search"
                                 className="grow focus:outline-0"
                                 placeholder="Søg på by eller postnummer..."
                                 value={search}
