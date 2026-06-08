@@ -3,7 +3,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 export function useDeleteLicensePlate() {
   const queryClient = useQueryClient();
 
-  const { mutateAsync: deleteLicensePlate, isPending, error } = useMutation({
+  const {
+    mutateAsync: deleteLicensePlate,
+    isPending,
+    error,
+  } = useMutation({
     mutationFn: async (plate: string) => {
       const token = localStorage.getItem("token") ?? "";
       const res = await fetch(
@@ -11,7 +15,7 @@ export function useDeleteLicensePlate() {
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       if (!res.ok) throw new Error((await res.json()).error);
       return res.json();
