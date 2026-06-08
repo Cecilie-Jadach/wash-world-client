@@ -79,7 +79,7 @@ export default function ForgotPassword() {
                     error={errors.email?.message}
                     {...register("email", {
                         required: "E-mail er påkrævet",
-                        pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Ugyldig e-mail" }
+                        pattern: { value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, message: "Ugyldig e-mail" }
                     })}
                 />
                 <div className="py-3xs">

@@ -78,7 +78,7 @@ export default function Signup() {
     const canProceed = (): boolean => {
         switch (step) {
             case 1: return !!selectedMembership
-            case 2: return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(watchEmail ?? "") && watchConfirmEmail === watchEmail
+            case 2: return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(watchEmail ?? "") && watchConfirmEmail === watchEmail
             case 3: return (watchPassword?.length ?? 0) >= 8 && watchConfirmPassword === watchPassword
             case 4: return (watchPhone?.length ?? 0) === 8 && /^[0-9]*$/.test(watchPhone ?? "")
             case 5: return /^[A-Z]{2}\d{5}$/.test(watchLicensePlate ?? "")
@@ -189,7 +189,7 @@ export default function Signup() {
                                 error={errors.email?.message}
                                 {...register("email", {
                                     required: "E-mail er påkrævet",
-                                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Ugyldig e-mail" }
+                                    pattern: { value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, message: "Ugyldig e-mail" }
                                 })}
                             />
                             <Input
