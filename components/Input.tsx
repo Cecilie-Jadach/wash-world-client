@@ -9,7 +9,7 @@ const LicensePlate = () => (
     </div>
 )
 
-export default function Input({ label, id, showLicensePlate, phoneLabel, error, showRequired, bgWhite, className, readOnly, ...props }: InputProps) {
+export default function Input({ label, id, showLicensePlate, phoneLabel, error, showRequired, bgWhite, readOnly, ...props }: InputProps) {
     const isReadOnly = readOnly
     const bg = bgWhite ? 'bg-white' : 'bg-grey-5'
 
